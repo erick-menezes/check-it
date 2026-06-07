@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "skills": {
+    "create-github-commit": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/create-github-commit/SKILL.md",
+      "computedHash": "91217b2535685efcc667c7ea0f110aa5f11a6a3b5beffec4c86b3bf58264f525"
+    },
+    "create-github-pull-request": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/create-github-pull-request/SKILL.md",
+      "computedHash": "14a7ff45128babeab322d50b55f31f7314d6f6f08d0047ba51170a7bd5b6cd35"
+    },
+    "create-prd": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/create-prd/SKILL.md",
+      "computedHash": "0dee49d10aec4d92ffd6c74d229ba5f0c198762d50fcad4ee34525441fea251f"
+    },
+    "create-spechtech": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/create-spechtech/SKILL.md",
+      "computedHash": "f99e2b528cc3c95bd0f3084cd57db5ea7b0334edd257334130f34decd41ebdcb"
+    },
+    "create-tasks": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/create-tasks/SKILL.md",
+      "computedHash": "6d1ead07aa1952e6300bc769f93e510e6442319c8f08cc72e7051289c48a0b95"
+    },
+    "design-md": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/design-md/SKILL.md",
+      "computedHash": "44af3e6e89a42a765d9cebf943f1e2ff3cdf43d1958341eb43fb7b74116f6691"
+    },
+    "execute-bugfix": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/execute-bugfix/SKILL.md",
+      "computedHash": "7a14d077d468d08be908102ffe750469c47628df62fd872a5915e2333a959cbc"
+    },
+    "execute-qa": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/execute-qa/SKILL.md",
+      "computedHash": "fc99f27953fd74e121bdd546df8d09ae13dc617a1f1b6babdfd127c54d52beec"
+    },
+    "execute-review": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/execute-review/SKILL.md",
+      "computedHash": "ff6b25e1abadebe1f1ae93506142b2919cf9db8bb9f72b4e462cf4aa53e9e339"
+    },
+    "execute-task": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/execute-task/SKILL.md",
+      "computedHash": "a251d9fcd08d11ee0103773698765383be9f667c386e7ff95f289e8c74aeb70e"
+    },
+    "init-claude-md": {
+      "source": "erick-menezes/code-agent-kit",
+      "sourceType": "github",
+      "skillPath": "skills/init-claude-md/SKILL.md",
+      "computedHash": "396acd40cc504f78244e58b5c02354c8de291aa79580ec7aeed77e2194f89591"
+    }
+  }
+}

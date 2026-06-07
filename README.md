@@ -1,56 +1,127 @@
-# Welcome to your Expo app 👋
+# Check.it
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App de **checklist de compras** em React Native / Expo. Este repositório está no
+estágio de **bootstrap**: todas as bibliotecas de base estão instaladas e
+configuradas, sem nenhuma feature/tela ainda — elas serão construídas em tarefas
+seguintes.
 
-## Get started
+## Stack
 
-1. Install dependencies
+| Área | Escolha | Versão |
+| --- | --- | --- |
+| Base | Expo (managed + dev client) · Expo Router | SDK 56 |
+| UI | NativeWind (Tailwind p/ RN) + react-native-reusables | NativeWind 4.2.x · Tailwind **3.4.x** |
+| Animações | Reanimated + Gesture Handler | 4.3.x · 2.31.x |
+| Estado | Zustand + AsyncStorage | 5.x · 2.2.x |
+| Lint/Format | Biome | 2.4.x |
+| Testes (unidade/integração) | jest-expo + Testing Library | jest **29** · RNTL 13 |
+| Testes (E2E) | Detox + @config-plugins/detox | 20.51.x · 11.x |
 
-   ```bash
-   npm install
-   ```
+### Pins importantes (compatibilidade)
 
-2. Start the app
+- **Tailwind fica na v3** (`3.4.19`): NativeWind 4 ainda não suporta Tailwind v4.
+- **Jest fica na v29**: o `jest-expo@56` é construído para o ecossistema jest 29.
+- Dependências nativas seguem a versão escolhida pelo `expo install` (alinhada ao
+  SDK 56), não necessariamente a "latest" do npm.
 
-   ```bash
-   npx expo start
-   ```
+## Pré-requisitos
 
-In the output, you'll find options to open the app in a
+- **Node 20+** (ideal 22 LTS). O Expo SDK 56 não roda em Node 18.
+  ```bash
+  nvm use 22   # ou: nvm install 22
+  ```
+- **pnpm** (este projeto usa `node-linker=hoisted`, ver `.npmrc`).
+- Para builds nativos / E2E: Xcode (iOS) e/ou Android SDK.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Setup
 
 ```bash
-npm run reset-project
+pnpm install
+pnpm start            # Metro / dev server
+pnpm ios              # build + roda no simulador iOS (dev client)
+pnpm android          # build + roda no emulador Android (dev client)
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> O app usa Reanimated/Gesture Handler e um dev client, então **não roda no Expo
+> Go** — use `pnpm ios` / `pnpm android` (ou um build EAS).
 
-### Other setup steps
+## Scripts
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+| Script | O que faz |
+| --- | --- |
+| `pnpm start` | Inicia o Metro |
+| `pnpm ios` / `pnpm android` | Builda e roda o dev client |
+| `pnpm lint` / `pnpm lint:fix` | Biome (check / autofix) |
+| `pnpm format` | Biome formatter |
+| `pnpm typecheck` | `tsc --noEmit` |
+| `pnpm test` / `pnpm test:watch` | Testes de unidade + integração (jest) |
+| `pnpm e2e:prebuild` | Gera os projetos nativos (`expo prebuild`) |
+| `pnpm e2e:build` / `pnpm e2e:test` | Detox no iOS (`ios.sim.debug`) |
+| `pnpm e2e:build:android` / `pnpm e2e:test:android` | Detox no Android |
 
-## Learn more
+## Estrutura
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+src/
+  app/            # rotas (Expo Router) — _layout.tsx + index.tsx (placeholder)
+  lib/
+    utils.ts      # cn() (clsx + tailwind-merge)
+    theme.ts      # tokens de tema + NAV_THEME
+  global.css      # diretivas Tailwind + CSS vars do tema
+__tests__/        # testes de integração (fora de app/ p/ o router ignorar)
+e2e/              # specs Detox + jest.config.js do E2E
+components.json   # registry do react-native-reusables (CLI `add`)
+tailwind.config.js · metro.config.js · babel.config.js · biome.json · .detoxrc.js
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## UI: adicionando componentes (react-native-reusables)
 
-## Join the community
+O projeto já está configurado como um registry shadcn-style. Para adicionar um
+componente (ele cai em `src/components/ui/`):
 
-Join our community of developers creating universal apps.
+```bash
+npx @react-native-reusables/cli@latest add button
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Estilização via classes Tailwind (NativeWind) direto nos componentes RN:
+`<View className="flex-1 items-center bg-background" />`.
+
+## Estado + persistência (Zustand + AsyncStorage)
+
+Padrão recomendado para stores persistidas (a ser usado nas features):
+
+```ts
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
+export const useStore = create(
+  persist((set) => ({ /* ... */ }), {
+    name: 'checkit-store',
+    storage: createJSONStorage(() => AsyncStorage),
+  }),
+);
+```
+
+## Animações
+
+Reanimated + Gesture Handler já estão instalados e o `GestureHandlerRootView`
+envolve o app em `src/app/_layout.tsx`. O `babel-preset-expo` (SDK 56) configura
+o plugin de worklets automaticamente — **não** adicione `react-native-worklets/plugin`
+manualmente ao Babel.
+
+## E2E (Detox)
+
+Detox precisa de um build nativo (não roda no Expo Go). Fluxo no iOS:
+
+```bash
+# pré-requisito (uma vez): brew tap wix/brew && brew install applesimutils
+pnpm e2e:prebuild          # gera ios/ (e roda pod install)
+pnpm e2e:build             # detox build (ios.sim.debug)
+pnpm e2e:test              # detox test (ios.sim.debug)
+```
+
+Ajuste o device em `.detoxrc.js` (`devices.simulator.device.type`) para um
+simulador instalado (`xcrun simctl list devices`) e o `avdName` para um AVD
+existente. Os diretórios `ios/` e `android/` são gerados sob demanda e estão no
+`.gitignore` (workflow managed / CNG).
