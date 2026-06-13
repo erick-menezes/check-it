@@ -1,0 +1,1 @@
+Faça a implementação da tela de criação da lista (antes da lista em si) do projeto. A referência visual pode ser encontrada em @design-handoff e em @DESIGN.md, siga ambos ao implementar o visual das telas. Ignore o dark mode, vou descartar essa feature por completo. Já há um stub para a tela de criar lista, substituir pela tela real que será desenvolvida agora.

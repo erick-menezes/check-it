@@ -60,7 +60,7 @@ Risks/Challenges: [Identified risks or challenges]
 
 <critical>DO NOT SKIP ANY STEP</critical>
 
-### 5. Review
+### 5. Review (if applicable)
 
 1. Run the review agent @task-reviewer
 2. Fix the reported issues

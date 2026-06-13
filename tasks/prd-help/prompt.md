@@ -1,0 +1,1 @@
+Faça a implementação da tela de ajuda do projeto. A referência visual pode ser encontrada em https://api.anthropic.com/v1/design/h/4hjQwuvRqupwrdPD7Ep0Lw?open_file=index.html e em @DESIGN.md, siga ambos ao implementar o visual das telas. Ignore o dark mode, vou descartar essa feature por completo.
