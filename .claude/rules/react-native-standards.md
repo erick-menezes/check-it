@@ -57,6 +57,24 @@ export function UserCard({ name, email, avatar }: UserCardProps) {
 }
 ```
 
+## React Type Imports
+
+Never reference React types or APIs through the `React` namespace (e.g.
+`React.JSX.Element`, `React.useEffect`, `React.ReactNode`, `React.FC`). Always
+import the symbol directly from `react`.
+
+**Example:**
+```typescript
+// 🚫 Avoid
+export function Screen(): React.JSX.Element {}
+
+// ✅ Prefer
+import type { JSX } from 'react';
+import { useEffect } from 'react';
+
+export function Screen(): JSX.Element {}
+```
+
 ## Core Components
 
 Never use web DOM elements (`div`, `span`, `p`, `img`, `button`). Always use React Native core components or platform equivalents.
@@ -244,6 +262,17 @@ export function useAuth() {
 
 Use NativeWind (`className`) for styling components. Do not use inline `StyleSheet` objects for styles that NativeWind can express, and never use web-only utilities (`hover:`, `cursor-*`, etc.). Compose conditional classes with the `cn` helper from `@/lib/utils`. Reach for `StyleSheet.create` only for dynamic values that cannot be expressed as utility classes.
 
+Avoid the `style` prop. Refactor anything expressible as a utility class —
+including custom components and third-party ones that accept `className` (e.g.
+`SafeAreaView`, `Animated.View`). Only fall back to `style` when it is the
+**single** remaining option: a runtime/dynamic value no class can express, or a
+third-party component that does not accept `className`.
+
+When `style` is unavoidable, write the values **inline inside the style object**.
+Do not extract them into module-level constants like
+`const BRAND_PRIMARY = '#58AB6A'`. The only exception is values that come from a
+React Native runtime resource, e.g. `Dimensions.get('window')`.
+
 **Example:**
 ```typescript
 import { Pressable, Text } from 'react-native';
@@ -261,6 +290,17 @@ function Button({ variant = 'primary', children, ...rest }: ButtonProps) {
     </Pressable>
   );
 }
+
+// 🚫 Avoid – module-level style constant + style prop
+const BRAND_PRIMARY = '#58AB6A';
+<SafeAreaView style={{ flex: 1, backgroundColor: BRAND_PRIMARY }} />
+
+// ✅ Prefer – className
+<SafeAreaView className="flex-1 bg-checkit-primary" />
+
+// ✅ Acceptable – dynamic value from a RN resource, inlined
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+<View className="px-7" style={{ width: SCREEN_WIDTH }} />
 ```
 
 ## Component Granularity
@@ -301,6 +341,17 @@ function UserCard({ name, email }: UserCardProps) {
 ## Lists
 
 Render large or dynamic collections with `FlatList`/`SectionList` instead of mapping arrays inside a `ScrollView`. They virtualize rows, recycle views, and keep memory bounded. Always provide a stable `keyExtractor`.
+
+Never use the array index as the `key` (or in `keyExtractor`) — it is flagged by
+`lint/suspicious/noArrayIndexKey`. Always key off a stable id from the data.
+
+```typescript
+// 🚫 Avoid
+items.map((item, index) => <Row key={index} />)
+
+// ✅ Prefer
+items.map((item) => <Row key={item.id} />)
+```
 
 **Example:**
 ```typescript
