@@ -29,32 +29,20 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-  }
 
-  .dark:root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 70.9% 59.4%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 300 0% 45%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Check.it brand tokens */
+    --checkit-primary: #58ab6a;
+    --checkit-primary-dark: #479a59;
+    --checkit-accent: #f2b807;
+    --checkit-danger: #e13e3e;
+    --checkit-info: #5180f9;
+    --checkit-warm-oat: #eceae3;
+    --checkit-linen-cream: #f7f6f2;
+    --checkit-fog-gray: #ebebeb;
+    --checkit-mist-border: #e3e3e3;
+    --checkit-charcoal-ink: #1b1b1b;
+    --checkit-slate-ink: #3d3d4d;
+    --checkit-pebble-gray: #8a8a8a;
+    --checkit-lavender-stone: #bab7c5;
   }
 }

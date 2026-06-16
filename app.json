@@ -19,7 +19,11 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.checkit"
+      "package": "com.anonymous.checkit",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "output": "static",
@@ -28,6 +32,12 @@
     "plugins": [
       "expo-router",
       "@config-plugins/detox",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "O Check.it usa a câmera para escanear o cupom fiscal e preencher os itens da lista."
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -42,6 +52,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3b6aa90b-c11f-4412-9f4c-1fadbd22b821"
+      }
     }
   }
 }
