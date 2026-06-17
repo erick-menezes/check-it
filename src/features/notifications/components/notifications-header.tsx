@@ -1,19 +1,17 @@
-import { router } from 'expo-router';
-import { X } from 'lucide-react-native';
-import type { JSX } from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNotificationsStore } from '../notifications-store';
-import { useUnreadNotifications } from '../use-unread-notifications';
-
-const HOME_ROUTE = '/(tabs)/home';
+import { router } from "expo-router";
+import { X } from "lucide-react-native";
+import type { JSX } from "react";
+import { Pressable, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNotificationsStore } from "../notifications-store";
+import { useUnreadNotifications } from "../use-unread-notifications";
 
 function handleClose(): void {
   if (router.canGoBack()) {
     router.back();
     return;
   }
-  router.replace(HOME_ROUTE);
+  router.replace("/(tabs)/home");
 }
 
 export function NotificationsHeader(): JSX.Element {
