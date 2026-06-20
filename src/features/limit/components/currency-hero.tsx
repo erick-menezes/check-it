@@ -1,8 +1,8 @@
-import { Pencil } from 'lucide-react-native';
-import { type JSX, useRef } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
-import { formatBRL, formatBRLAmount } from '@/lib/currency';
-import { cn } from '@/lib/utils';
+import { formatBRL, formatBRLAmount } from "@/lib/currency";
+import { cn } from "@/lib/utils";
+import { Pencil } from "lucide-react-native";
+import { type JSX, useRef } from "react";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 const MAX_LIMIT_DIGITS = 9;
 
@@ -19,9 +19,11 @@ export function CurrencyHero({
 }: CurrencyHeroProps): JSX.Element {
   const inputRef = useRef<TextInput>(null);
   const isFilled = cents > 0;
+
   function focusInput(): void {
     inputRef.current?.focus();
   }
+
   return (
     <Pressable
       onPress={focusInput}
@@ -32,16 +34,16 @@ export function CurrencyHero({
       <View className="flex-row items-baseline gap-2.5">
         <Text
           className={cn(
-            'text-[28px] font-bold text-white',
-            isFilled ? 'opacity-90' : 'opacity-55',
+            "text-[28px] font-bold text-white",
+            isFilled ? "opacity-90" : "opacity-55",
           )}
         >
           R$
         </Text>
         <Text
           className={cn(
-            'text-[56px] font-extrabold tabular-nums leading-[56px] tracking-[-2.24px]',
-            isFilled ? 'text-white' : 'text-white/45',
+            "text-[56px] font-extrabold tabular-nums leading-[56px] tracking-[-2.24px]",
+            isFilled ? "text-white" : "text-white/45",
           )}
         >
           {formatBRLAmount(cents)}

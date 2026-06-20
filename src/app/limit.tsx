@@ -1,3 +1,10 @@
+import { Button } from '@/components/ui/button';
+import { createActiveList } from '@/features/home/active-list';
+import { useActiveListStore } from '@/features/home/active-list-store';
+import { CurrencyHero } from '@/features/limit/components/currency-hero';
+import { PresetPills } from '@/features/limit/components/preset-pills';
+import { useLimitInput } from '@/features/limit/use-limit-input';
+import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 import { router, Stack } from 'expo-router';
 import { X } from 'lucide-react-native';
 import type { JSX } from 'react';
@@ -7,16 +14,8 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { Button } from '@/components/ui/button';
-import { createActiveList } from '@/features/home/active-list';
-import { useActiveListStore } from '@/features/home/active-list-store';
-import { CurrencyHero } from '@/features/limit/components/currency-hero';
-import { PresetPills } from '@/features/limit/components/preset-pills';
-import { useLimitInput } from '@/features/limit/use-limit-input';
-import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 
 const SCREEN_ANIMATION_DURATION = 320;
-const CLOSE_ICON_SIZE = 24;
 
 export default function LimitScreen(): JSX.Element {
   const input = useLimitInput();
@@ -28,13 +27,16 @@ export default function LimitScreen(): JSX.Element {
     ],
   }));
   const setActiveList = useActiveListStore((state) => state.setActiveList);
+
   function handleClose(): void {
     router.back();
   }
+
   function handleConfirm(): void {
     setActiveList(createActiveList(input.cents));
     router.replace('/shop');
   }
+
   return (
     <View testID="limit-screen" className="flex-1 bg-checkit-primary">
       <Stack.Screen
@@ -52,7 +54,7 @@ export default function LimitScreen(): JSX.Element {
             testID="limit-close"
             className="-ml-1 h-11 w-11 items-center justify-center rounded-full"
           >
-            <X size={CLOSE_ICON_SIZE} color="#ffffff" strokeWidth={2} />
+            <X size={24} color="#ffffff" strokeWidth={2} />
           </Pressable>
           <Text className="mt-[18px] text-xs font-bold uppercase tracking-[0.16em] text-white/80">
             Passo 1 de 2
