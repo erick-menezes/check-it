@@ -1,4 +1,4 @@
-import { ArrowDownUp, Camera, ChevronDown } from 'lucide-react-native';
+import { ArrowDownUp, ChevronDown } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 import {
   getSortLabel,
@@ -8,10 +8,9 @@ import {
 interface ActionRowProps {
   sort: SortOption;
   onOpenSort: () => void;
-  onOpenReceipt: () => void;
 }
 
-export function ActionRow({ sort, onOpenSort, onOpenReceipt }: ActionRowProps) {
+export function ActionRow({ sort, onOpenSort }: ActionRowProps) {
   const label = getSortLabel(sort);
   return (
     <View className="mt-3.5 flex-row gap-2">
@@ -30,15 +29,6 @@ export function ActionRow({ sort, onOpenSort, onOpenReceipt }: ActionRowProps) {
           {label}
         </Text>
         <ChevronDown size={14} color="#8A8A8A" strokeWidth={2} />
-      </Pressable>
-      <Pressable
-        onPress={onOpenReceipt}
-        accessibilityRole="button"
-        accessibilityLabel="Escanear cupom fiscal"
-        testID="shop-camera-shortcut"
-        className="h-[38px] w-[38px] items-center justify-center rounded-[10px] bg-checkit-fog-gray"
-      >
-        <Camera size={18} color="#1B1B1B" strokeWidth={2} />
       </Pressable>
     </View>
   );

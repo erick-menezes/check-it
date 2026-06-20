@@ -9,7 +9,6 @@ import { EditItemSheet } from '@/features/shop/components/edit-item-sheet';
 import { EmptyState } from '@/features/shop/components/empty-state';
 import { ItemRow } from '@/features/shop/components/item-row';
 import { MarkAllRow } from '@/features/shop/components/mark-all-row';
-import { ReceiptSheet } from '@/features/shop/components/receipt-sheet';
 import { SearchField } from '@/features/shop/components/search-field';
 import { ShopHeader } from '@/features/shop/components/shop-header';
 import { SortSheet } from '@/features/shop/components/sort-sheet';
@@ -27,7 +26,6 @@ export default function ShopScreen() {
   const {
     activeList,
     addItem,
-    addItems,
     toggleItem,
     setAllChecked,
     updateItem,
@@ -35,7 +33,6 @@ export default function ShopScreen() {
     renameList,
     deleteList,
   } = useActiveListStore((state) => state);
-  const [receiptVisible, setReceiptVisible] = useState(false);
   const [editingItem, setEditingItem] = useState<ListItem | null>(null);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortOption>(DEFAULT_SORT);
@@ -84,7 +81,6 @@ export default function ShopScreen() {
               <ActionRow
                 sort={sort}
                 onOpenSort={() => setSortVisible(true)}
-                onOpenReceipt={() => setReceiptVisible(true)}
               />
               <SearchField value={search} onChange={setSearch} />
             </>
@@ -115,7 +111,7 @@ export default function ShopScreen() {
               </Text>
             </View>
           ) : (
-            <EmptyState onScanReceipt={() => setReceiptVisible(true)} />
+            <EmptyState />
           )
         }
         ListFooterComponent={
@@ -148,11 +144,6 @@ export default function ShopScreen() {
         onClose={() => setEditingItem(null)}
         onSave={updateItem}
         onRemove={removeItem}
-      />
-      <ReceiptSheet
-        visible={receiptVisible}
-        onClose={() => setReceiptVisible(false)}
-        onAddItems={addItems}
       />
     </View>
   );

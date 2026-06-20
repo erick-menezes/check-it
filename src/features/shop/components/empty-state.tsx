@@ -1,11 +1,7 @@
-import { Camera, PlusCircle } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { PlusCircle } from 'lucide-react-native';
+import { Text, View } from 'react-native';
 
-interface EmptyStateProps {
-  onScanReceipt: () => void;
-}
-
-export function EmptyState({ onScanReceipt }: EmptyStateProps) {
+export function EmptyState() {
   return (
     <View
       testID="shop-empty-state"
@@ -18,20 +14,8 @@ export function EmptyState({ onScanReceipt }: EmptyStateProps) {
         Sua lista está vazia
       </Text>
       <Text className="max-w-[220px] text-center text-sm leading-5 text-checkit-pebble-gray">
-        Adicione um produto acima ou tire foto do seu cupom fiscal.
+        Adicione um produto acima para começar.
       </Text>
-      <Pressable
-        onPress={onScanReceipt}
-        accessibilityRole="button"
-        accessibilityLabel="Escanear cupom"
-        testID="shop-scan-receipt"
-        className="mt-5 h-[34px] flex-row items-center justify-center gap-2 rounded-xl border-hairline border-checkit-mist-border px-4"
-      >
-        <Camera size={16} color="#1B1B1B" strokeWidth={2} />
-        <Text className="text-xs font-bold text-checkit-charcoal-ink">
-          Escanear cupom
-        </Text>
-      </Pressable>
     </View>
   );
 }

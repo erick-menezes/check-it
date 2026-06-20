@@ -33,13 +33,7 @@ async function addProductByInput(name) {
 
 describe('Check.it Shop list (full loop)', () => {
   beforeAll(async () => {
-    // Deny the camera so the receipt sheet deterministically shows the
-    // permission-denied messaging instead of a live camera preview.
-    await device.launchApp({
-      newInstance: true,
-      delete: true,
-      permissions: { camera: 'NO' },
-    });
+    await device.launchApp({ newInstance: true, delete: true });
     await skipOnboarding();
     await createListWithLimit('5000');
   });
@@ -48,25 +42,6 @@ describe('Check.it Shop list (full loop)', () => {
     await expect(element(by.id('shop-screen'))).toBeVisible();
     await expect(element(by.id('shop-budget-chip'))).toBeVisible();
     await expect(element(by.id('shop-empty-state'))).toBeVisible();
-  });
-
-  it('opens the receipt sheet from the empty state and dismisses it via backdrop', async () => {
-    await element(by.id('shop-scan-receipt')).tap();
-    await waitFor(element(by.id('shop-receipt-sheet')))
-      .toBeVisible()
-      .withTimeout(VISIBLE_TIMEOUT);
-    await expect(element(by.id('receipt-permission-denied'))).toBeVisible();
-    await expect(
-      element(
-        by.text(
-          'Precisamos da câmera para fotografar o cupom fiscal e ler os itens.',
-        ),
-      ),
-    ).toBeVisible();
-    await element(by.id('shop-receipt-sheet-backdrop')).tap();
-    await waitFor(element(by.id('shop-receipt-sheet')))
-      .not.toBeVisible()
-      .withTimeout(VISIBLE_TIMEOUT);
   });
 
   it('adds a product through the input', async () => {
@@ -84,18 +59,6 @@ describe('Check.it Shop list (full loop)', () => {
       .withTimeout(VISIBLE_TIMEOUT);
     await element(by.label('Adicionar Feijão preto')).tap();
     await expect(element(by.label('Marcar Feijão preto'))).toBeVisible();
-  });
-
-  it('opens the receipt sheet from the action row shortcut and dismisses it', async () => {
-    await element(by.id('shop-camera-shortcut')).tap();
-    await waitFor(element(by.id('shop-receipt-sheet')))
-      .toBeVisible()
-      .withTimeout(VISIBLE_TIMEOUT);
-    await expect(element(by.id('receipt-permission-denied'))).toBeVisible();
-    await element(by.id('shop-receipt-sheet-backdrop')).tap();
-    await waitFor(element(by.id('shop-receipt-sheet')))
-      .not.toBeVisible()
-      .withTimeout(VISIBLE_TIMEOUT);
   });
 
   it('edits price, quantity and category through the edit sheet', async () => {

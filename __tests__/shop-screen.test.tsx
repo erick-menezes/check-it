@@ -77,13 +77,6 @@ describe('Shop screen', () => {
     expect(screen.getByText('No carrinho')).toBeOnTheScreen();
   });
 
-  it('opens the receipt sheet shell from the empty state CTA', () => {
-    seedList();
-    render(<ShopScreen />);
-    fireEvent.press(screen.getByTestId('shop-scan-receipt'));
-    expect(screen.getByText('Escanear cupom fiscal')).toBeOnTheScreen();
-  });
-
   it('closes back to the previous screen from the header', () => {
     seedList();
     render(<ShopScreen />);
