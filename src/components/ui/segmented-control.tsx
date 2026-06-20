@@ -64,22 +64,12 @@ function Segment<T extends string>({
       accessibilityLabel={option.label}
       testID={testID}
       hitSlop={SEGMENT_HIT_SLOP}
+      android_ripple={null}
       className="flex-1"
     >
       <Animated.View
         className="h-[34px] items-center justify-center rounded-[9px]"
-        style={[
-          surfaceStyle,
-          selected
-            ? {
-                shadowColor: '#000000',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.06,
-                shadowRadius: 14,
-                elevation: 2,
-              }
-            : null,
-        ]}
+        style={surfaceStyle}
       >
         <Animated.Text className="text-xs font-bold" style={labelStyle}>
           {option.label}
