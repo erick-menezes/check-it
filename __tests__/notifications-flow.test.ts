@@ -45,7 +45,6 @@ afterEach(() => {
 
 describe('notifications flow', () => {
   it('raises an unread alert when the active list crosses 85% and clears it on mark-all', () => {
-    // The Home badge dot renders exactly when this selector is true.
     const { result } = renderHook(() => useUnreadNotifications());
     act(() => {
       setActiveList(makeList({ totalInCents: 30000 }));

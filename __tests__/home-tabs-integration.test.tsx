@@ -11,9 +11,6 @@ jest.mock('react-native-safe-area-context', () =>
   require('../test-utils/mocks').createSafeAreaContextMock(),
 );
 
-// In-memory stand-in for the headless `expo-router/ui` tabs: `TabSlot` renders
-// the real focused route component and `TabTrigger` switches the focused tab,
-// so the integration exercises the real `(tabs)/_layout` + screens + store.
 jest.mock('expo-router/ui', () => {
   const React = require('react');
   const ROUTES: Record<string, () => React.ComponentType> = {
