@@ -24,7 +24,6 @@ describe('Check.it anonymous Home', () => {
     await expect(element(by.id('home-empty-state'))).toBeVisible();
     await expect(element(by.id('tab-home'))).toBeVisible();
     await expect(element(by.id('tab-settings'))).toBeVisible();
-    // Account-gated tabs are hidden while logged out (FR 5.2).
     await expect(element(by.id('tab-lists'))).not.toBeVisible();
     await expect(element(by.id('tab-summary'))).not.toBeVisible();
   });

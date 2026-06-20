@@ -24,7 +24,6 @@ describe('Check.it Notifications screen', () => {
     await waitFor(element(by.id('notifications-screen')))
       .toBeVisible()
       .withTimeout(VISIBLE_TIMEOUT);
-    // A fresh install has no notifications yet (FR18).
     await expect(element(by.id('notifications-empty-state'))).toBeVisible();
     await expect(element(by.text('Tudo em dia'))).toBeVisible();
   });
@@ -34,7 +33,6 @@ describe('Check.it Notifications screen', () => {
     await waitFor(element(by.id('home-screen')))
       .toBeVisible()
       .withTimeout(VISIBLE_TIMEOUT);
-    // The badge dot is hidden while nothing is unread (FR17).
     await expect(element(by.id('notifications-dot'))).not.toBeVisible();
   });
 });

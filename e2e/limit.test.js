@@ -58,7 +58,7 @@ describe("Check.it Limit screen (create list, step 1 of 2)", () => {
     });
   });
 
-  describe("closing without creating a list (FR 16)", () => {
+  describe("closing without creating a list", () => {
     it("returns to Home with the empty state untouched", async () => {
       await element(by.id("limit-close")).tap();
       await waitFor(element(by.id("home-screen")))
@@ -69,7 +69,7 @@ describe("Check.it Limit screen (create list, step 1 of 2)", () => {
     });
   });
 
-  describe("persisting the created list across restarts (FR 15)", () => {
+  describe("persisting the created list across restarts", () => {
     it("shows the active-list card on Home after relaunching the app", async () => {
       await element(by.id("limit-preset-200")).tap();
       await element(by.id("limit-confirm")).tap();
