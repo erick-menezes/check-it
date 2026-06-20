@@ -5,25 +5,10 @@ import {
   getPendingSummary,
 } from '@/features/home/active-list';
 import { formatBRL } from '@/lib/currency';
+import { PreviewRow } from './components/preview-row';
 
 interface SummaryPreviewCardProps {
   list: ActiveList;
-}
-
-interface PreviewRowProps {
-  label: string;
-  value: string;
-}
-
-function PreviewRow({ label, value }: PreviewRowProps) {
-  return (
-    <View className="flex-row items-center justify-between">
-      <Text className="text-xs text-checkit-pebble-gray">{label}</Text>
-      <Text className="text-xs font-semibold tabular-nums text-checkit-charcoal-ink">
-        {value}
-      </Text>
-    </View>
-  );
 }
 
 export function SummaryPreviewCard({ list }: SummaryPreviewCardProps) {

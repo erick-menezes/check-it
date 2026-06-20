@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   Easing,
   interpolateColor,
@@ -7,24 +7,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import type { SegmentOption } from '..';
 
 const ANIMATION_DURATION = 200;
 const SEGMENT_HEIGHT = 34;
 const MIN_TOUCH_SIZE = 44;
 const SEGMENT_HIT_SLOP = (MIN_TOUCH_SIZE - SEGMENT_HEIGHT) / 2;
 const TRANSITION_EASING = Easing.bezier(0.4, 0, 0.2, 1);
-
-export interface SegmentOption<T extends string> {
-  readonly id: T;
-  readonly label: string;
-}
-
-export interface SegmentedControlProps<T extends string> {
-  options: readonly SegmentOption<T>[];
-  selectedId: T;
-  onChange: (id: T) => void;
-  testID?: string;
-}
 
 interface SegmentProps<T extends string> {
   option: SegmentOption<T>;
@@ -33,7 +22,7 @@ interface SegmentProps<T extends string> {
   testID?: string;
 }
 
-function Segment<T extends string>({
+export function Segment<T extends string>({
   option,
   selected,
   onPress,
@@ -76,29 +65,5 @@ function Segment<T extends string>({
         </Animated.Text>
       </Animated.View>
     </Pressable>
-  );
-}
-
-export function SegmentedControl<T extends string>({
-  options,
-  selectedId,
-  onChange,
-  testID,
-}: SegmentedControlProps<T>) {
-  return (
-    <View
-      testID={testID}
-      className="flex-row rounded-xl bg-checkit-linen-cream p-1"
-    >
-      {options.map((option) => (
-        <Segment
-          key={option.id}
-          option={option}
-          selected={option.id === selectedId}
-          onPress={() => onChange(option.id)}
-          testID={testID ? `${testID}-segment-${option.id}` : undefined}
-        />
-      ))}
-    </View>
   );
 }

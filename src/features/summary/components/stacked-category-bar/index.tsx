@@ -6,21 +6,11 @@ import {
 } from '@/features/shop/list-item';
 import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
-
-const PERCENT = 100;
+import { getPercent, getSegmentKey } from './helpers';
 
 interface StackedCategoryBarProps {
   entries: readonly CategoryBreakdownEntry[];
   totalInCents: number;
-}
-
-function getSegmentKey(entry: CategoryBreakdownEntry): string {
-  return entry.category ?? 'uncategorized';
-}
-
-function getPercent(amountInCents: number, totalInCents: number): number {
-  if (totalInCents <= 0) return 0;
-  return (amountInCents / totalInCents) * PERCENT;
 }
 
 export function StackedCategoryBar({

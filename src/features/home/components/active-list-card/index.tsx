@@ -1,30 +1,9 @@
 import { Pressable, Text, View } from 'react-native';
 import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
-import { type ActiveList, getBudgetStatus } from '../active-list';
-import { BudgetProgressBar } from './budget-progress-bar';
-
-function formatItemCount(count: number): string {
-  const unit = count === 1 ? 'item' : 'itens';
-  return `${count} ${unit}`;
-}
-
-function isSameDay(date: Date, reference: Date): boolean {
-  return (
-    date.getFullYear() === reference.getFullYear() &&
-    date.getMonth() === reference.getMonth() &&
-    date.getDate() === reference.getDate()
-  );
-}
-
-function formatDateLabel(iso: string): string {
-  const date = new Date(iso);
-  if (isSameDay(date, new Date())) return 'Iniciada hoje';
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: 'numeric',
-    month: 'short',
-  }).format(date);
-}
+import { type ActiveList, getBudgetStatus } from '../../active-list';
+import { BudgetProgressBar } from '../budget-progress-bar';
+import { formatDateLabel, formatItemCount } from './helpers';
 
 interface ActiveListCardProps {
   list: ActiveList;

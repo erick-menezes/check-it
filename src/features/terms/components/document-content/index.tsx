@@ -2,48 +2,17 @@ import { Clock } from 'lucide-react-native';
 import { Text, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { ContactFooter } from '@/features/terms/components/contact-footer';
-import { DocumentSection } from '@/features/terms/components/document-section';
 import {
   LAST_UPDATED_LABEL,
-  PRIVACY_SECTIONS,
   PRIVACY_SUMMARY,
-  TERMS_SECTIONS,
   TERMS_SUMMARY,
   type TermsTabId,
 } from '@/features/terms/terms-content';
+import { PrivacySectionList } from './components/privacy-section-list';
+import { TermsSectionList } from './components/terms-section-list';
 
 interface DocumentContentProps {
   tab: TermsTabId;
-}
-
-function TermsSectionList() {
-  return (
-    <View>
-      {TERMS_SECTIONS.map((section, index) => (
-        <DocumentSection
-          key={section.title}
-          number={index + 1}
-          title={section.title}
-          body={section.body}
-        />
-      ))}
-    </View>
-  );
-}
-
-function PrivacySectionList() {
-  return (
-    <View>
-      {PRIVACY_SECTIONS.map((section) => (
-        <DocumentSection
-          key={section.title}
-          Icon={section.Icon}
-          title={section.title}
-          body={section.body}
-        />
-      ))}
-    </View>
-  );
 }
 
 export function DocumentContent({ tab }: DocumentContentProps) {

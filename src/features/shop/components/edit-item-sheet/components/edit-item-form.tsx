@@ -1,7 +1,6 @@
 import { Minus, Plus, Trash2, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
-import { BottomSheet } from '@/components/ui/bottom-sheet';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import {
   CATEGORIES,
@@ -16,13 +15,6 @@ import { usePriceInput } from '@/features/shop/use-price-input';
 import { formatBRL, formatBRLAmount } from '@/lib/currency';
 import { cn } from '@/lib/utils';
 
-interface EditItemSheetProps {
-  item: ListItem | null;
-  onClose: () => void;
-  onSave: (itemId: string, changes: UpdateItemChanges) => void;
-  onRemove: (itemId: string) => void;
-}
-
 interface EditItemFormProps {
   item: ListItem;
   onClose: () => void;
@@ -30,7 +22,12 @@ interface EditItemFormProps {
   onRemove: (itemId: string) => void;
 }
 
-function EditItemForm({ item, onClose, onSave, onRemove }: EditItemFormProps) {
+export function EditItemForm({
+  item,
+  onClose,
+  onSave,
+  onRemove,
+}: EditItemFormProps) {
   const [name, setName] = useState(item.name);
   const [quantity, setQuantity] = useState(item.quantity);
   const [category, setCategory] = useState<Category | null>(item.category);
@@ -228,31 +225,5 @@ function EditItemForm({ item, onClose, onSave, onRemove }: EditItemFormProps) {
         testID="edit-remove-dialog"
       />
     </View>
-  );
-}
-
-export function EditItemSheet({
-  item,
-  onClose,
-  onSave,
-  onRemove,
-}: EditItemSheetProps) {
-  return (
-    <BottomSheet
-      visible={item !== null}
-      onClose={onClose}
-      testID="edit-item-sheet"
-      accessibilityLabel="Editar item"
-    >
-      {item && (
-        <EditItemForm
-          key={item.id}
-          item={item}
-          onClose={onClose}
-          onSave={onSave}
-          onRemove={onRemove}
-        />
-      )}
-    </BottomSheet>
   );
 }

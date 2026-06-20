@@ -18,11 +18,10 @@ import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import {
   getCategoryTile,
   getCategoryTintClass,
-  getLineTotalInCents,
   type ListItem,
 } from '@/features/shop/list-item';
-import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
+import { formatLineTotal, formatSubtitle } from './helpers';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const DELETE_THRESHOLD = SCREEN_WIDTH * 0.45;
@@ -37,16 +36,6 @@ interface ItemRowProps {
   onToggle: (itemId: string) => void;
   onEdit: (item: ListItem) => void;
   onRemove: (itemId: string) => void;
-}
-
-function formatSubtitle(item: ListItem): string {
-  if (item.unitPriceInCents === null) return `${item.quantity}× sem preço`;
-  return `${item.quantity}× ${formatBRL(item.unitPriceInCents)}`;
-}
-
-function formatLineTotal(item: ListItem): string {
-  if (item.unitPriceInCents === null) return '—';
-  return formatBRL(getLineTotalInCents(item));
 }
 
 function ItemRowComponent({ item, onToggle, onEdit, onRemove }: ItemRowProps) {

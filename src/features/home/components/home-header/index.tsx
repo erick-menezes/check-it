@@ -1,34 +1,11 @@
 import { router } from 'expo-router';
-import { Bell, CircleHelp, type LucideIcon } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Bell, CircleHelp } from 'lucide-react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUnreadNotifications } from '@/features/notifications/use-unread-notifications';
-import { useGreeting } from '../use-greeting';
-import { CreateListCta } from './create-list-cta';
-
-interface HeaderActionProps {
-  Icon: LucideIcon;
-  label: string;
-  testID: string;
-  onPress: () => void;
-}
-
-function HeaderAction({ Icon, label, testID, onPress }: HeaderActionProps) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      testID={testID}
-      style={({ pressed }) => ({
-        transform: [{ scale: pressed ? 0.97 : 1 }],
-      })}
-      className="h-10 w-10 items-center justify-center rounded-full bg-white/[0.16]"
-    >
-      <Icon size={22} color="#ffffff" strokeWidth={2} />
-    </Pressable>
-  );
-}
+import { useGreeting } from '../../use-greeting';
+import { CreateListCta } from '../create-list-cta';
+import { HeaderAction } from './components/header-action';
 
 export function HomeHeader() {
   const insets = useSafeAreaInsets();

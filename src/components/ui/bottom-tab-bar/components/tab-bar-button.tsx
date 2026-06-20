@@ -1,35 +1,8 @@
-import type { Href } from 'expo-router';
-import { TabTrigger, type TabTriggerSlotProps } from 'expo-router/ui';
-import { Home, type LucideIcon, Settings } from 'lucide-react-native';
+import type { TabTriggerSlotProps } from 'expo-router/ui';
+import type { LucideIcon } from 'lucide-react-native';
 import { useRef } from 'react';
-import { Animated, Pressable, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Animated, Pressable, Text } from 'react-native';
 import { cn } from '@/lib/utils';
-
-interface TabDefinition {
-  readonly name: string;
-  readonly href: Href;
-  readonly label: string;
-  readonly icon: LucideIcon;
-  readonly testID: string;
-}
-
-export const VISIBLE_TABS: readonly TabDefinition[] = [
-  {
-    name: 'home',
-    href: '/home',
-    label: 'Início',
-    icon: Home,
-    testID: 'tab-home',
-  },
-  {
-    name: 'settings',
-    href: '/settings',
-    label: 'Ajustes',
-    icon: Settings,
-    testID: 'tab-settings',
-  },
-];
 
 interface TabBarButtonProps extends TabTriggerSlotProps {
   icon: LucideIcon;
@@ -37,7 +10,7 @@ interface TabBarButtonProps extends TabTriggerSlotProps {
   testID: string;
 }
 
-function TabBarButton({
+export function TabBarButton({
   icon: Icon,
   label,
   testID,
@@ -79,21 +52,5 @@ function TabBarButton({
         </Text>
       </Animated.View>
     </Pressable>
-  );
-}
-
-export function BottomTabBar() {
-  const insets = useSafeAreaInsets();
-  return (
-    <View
-      style={{ paddingBottom: insets.bottom }}
-      className="flex-row border-t-hairline border-t-checkit-mist-border bg-white"
-    >
-      {VISIBLE_TABS.map((tab) => (
-        <TabTrigger key={tab.name} name={tab.name} asChild>
-          <TabBarButton icon={tab.icon} label={tab.label} testID={tab.testID} />
-        </TabTrigger>
-      ))}
-    </View>
   );
 }
