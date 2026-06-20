@@ -21,13 +21,13 @@ jest.mock('@/features/onboarding/onboarding-store', () => ({
 
 import Index from '@/app/index';
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  mockStoreState.hasSeenOnboarding = false;
-  mockStoreState.hasHydrated = false;
-});
-
 describe('Index decider', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockStoreState.hasSeenOnboarding = false;
+    mockStoreState.hasHydrated = false;
+  });
+
   it('redirects to /onboarding when not hydrated', () => {
     mockStoreState.hasHydrated = false;
     render(<Index />);

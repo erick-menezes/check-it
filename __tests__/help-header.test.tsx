@@ -11,11 +11,11 @@ jest.mock('react-native-safe-area-context', () =>
 import { router } from 'expo-router';
 import { HelpHeader } from '@/features/help/components/help-header';
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('HelpHeader', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders the title and the subtitle', () => {
     render(<HelpHeader />);
     expect(screen.getByText('Sobre o que você quer saber?')).toBeOnTheScreen();

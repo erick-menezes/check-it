@@ -16,15 +16,15 @@ const LISTAS = HELP_SECTIONS[0];
 const LIMITES = HELP_SECTIONS[1];
 const GASTOS = HELP_SECTIONS[2];
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  jest
-    .spyOn(Linking, 'canOpenURL')
-    .mockImplementation(() => Promise.resolve(true));
-  jest.spyOn(Linking, 'openURL').mockImplementation(() => Promise.resolve());
-});
-
 describe('HelpScreen integration', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest
+      .spyOn(Linking, 'canOpenURL')
+      .mockImplementation(() => Promise.resolve(true));
+    jest.spyOn(Linking, 'openURL').mockImplementation(() => Promise.resolve());
+  });
+
   it('renders the three accordion section headers in order', () => {
     render(<HelpScreen />);
     expect(screen.getByTestId(`faq-section-${LISTAS.id}`)).toBeOnTheScreen();

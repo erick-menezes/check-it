@@ -16,21 +16,21 @@ function getHandler(needle: string): Handler {
   throw new Error(`No keyboard listener registered for "${needle}"`);
 }
 
-beforeEach(() => {
-  handlers.clear();
-  jest
-    .spyOn(Keyboard, 'addListener')
-    .mockImplementation((event: string, handler: Handler) => {
-      handlers.set(event, handler);
-      return { remove: jest.fn() } as unknown as EmitterSubscription;
-    });
-});
-
-afterEach(() => {
-  jest.restoreAllMocks();
-});
-
 describe('useKeyboardHeight', () => {
+  beforeEach(() => {
+    handlers.clear();
+    jest
+      .spyOn(Keyboard, 'addListener')
+      .mockImplementation((event: string, handler: Handler) => {
+        handlers.set(event, handler);
+        return { remove: jest.fn() } as unknown as EmitterSubscription;
+      });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('starts at zero', () => {
     const { result } = renderHook(() => useKeyboardHeight());
     expect(result.current.value).toBe(0);

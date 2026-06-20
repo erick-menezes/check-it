@@ -12,16 +12,16 @@ const SAMPLE_INPUT: AddNotificationInput = {
   body: 'Você gastou R$ 210,00 e o limite era R$ 200,00.',
 };
 
-beforeEach(async () => {
-  await AsyncStorage.clear();
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-});
-
 describe('notifications-store', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+  });
+
   it('starts with no notifications and an empty latch', () => {
     const { result } = renderHook(() => useNotificationsStore());
     expect(result.current.notifications).toEqual([]);

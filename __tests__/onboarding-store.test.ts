@@ -2,15 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { act, renderHook } from '@testing-library/react-native';
 import { useOnboardingStore } from '@/features/onboarding/onboarding-store';
 
-beforeEach(async () => {
-  await AsyncStorage.clear();
-  useOnboardingStore.setState({
-    hasSeenOnboarding: false,
-    hasHydrated: false,
-  });
-});
-
 describe('onboarding-store', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useOnboardingStore.setState({
+      hasSeenOnboarding: false,
+      hasHydrated: false,
+    });
+  });
+
   it('starts with hasSeenOnboarding false', () => {
     const { result } = renderHook(() => useOnboardingStore());
     expect(result.current.hasSeenOnboarding).toBe(false);

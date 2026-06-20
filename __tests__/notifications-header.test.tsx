@@ -30,16 +30,16 @@ function seedUnread(): void {
   });
 }
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-});
-
 describe('NotificationsHeader', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+  });
+
   it('renders the title', () => {
     render(<NotificationsHeader />);
     expect(screen.getByText('Notificações')).toBeOnTheScreen();

@@ -31,25 +31,25 @@ function getNotifications() {
   return useNotificationsStore.getState().notifications;
 }
 
-let stopTracking: () => void = () => {};
-
-beforeEach(async () => {
-  await AsyncStorage.clear();
-  useActiveListStore.setState({ activeList: null, hasHydrated: false });
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-  useSettingsStore.setState({ budgetAlertsEnabled: true, hasHydrated: false });
-  stopTracking = startBudgetAlertTracking();
-});
-
-afterEach(() => {
-  stopTracking();
-});
-
 describe('budget-alerts engine', () => {
+  let stopTracking: () => void = () => {};
+
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useActiveListStore.setState({ activeList: null, hasHydrated: false });
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+    useSettingsStore.setState({ budgetAlertsEnabled: true, hasHydrated: false });
+    stopTracking = startBudgetAlertTracking();
+  });
+
+  afterEach(() => {
+    stopTracking();
+  });
+
   it('fires one warning when crossing into the warning band', () => {
     setActiveList(WARNING_LIST);
     const notifications = getNotifications();

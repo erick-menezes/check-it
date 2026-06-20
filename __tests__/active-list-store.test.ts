@@ -13,12 +13,12 @@ const SAMPLE_LIST: ActiveList = {
   items: [],
 };
 
-beforeEach(async () => {
-  await AsyncStorage.clear();
-  useActiveListStore.setState({ activeList: null, hasHydrated: false });
-});
-
 describe('active-list-store', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useActiveListStore.setState({ activeList: null, hasHydrated: false });
+  });
+
   it('starts with no active list', () => {
     const { result } = renderHook(() => useActiveListStore());
     expect(result.current.activeList).toBeNull();
@@ -101,6 +101,11 @@ function getItems() {
 }
 
 describe('active-list-store item actions', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useActiveListStore.setState({ activeList: null, hasHydrated: false });
+  });
+
   it('addItem appends a priceless unchecked item', () => {
     seedActiveList();
     act(() => {
@@ -227,6 +232,11 @@ describe('active-list-store item actions', () => {
 });
 
 describe('active-list-store migration', () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useActiveListStore.setState({ activeList: null, hasHydrated: false });
+  });
+
   it('adds an empty items array to a stored v0 list', async () => {
     const v0List = {
       id: 'legacy-1',

@@ -9,15 +9,15 @@ import { SupportBlock } from '@/features/help/components/support-block';
 
 const SUPPORT_MAILTO = 'mailto:suporte@checkit.com';
 
-beforeEach(() => {
-  jest.restoreAllMocks();
-  jest
-    .spyOn(Linking, 'canOpenURL')
-    .mockImplementation(() => Promise.resolve(true));
-  jest.spyOn(Linking, 'openURL').mockImplementation(() => Promise.resolve());
-});
-
 describe('SupportBlock', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    jest
+      .spyOn(Linking, 'canOpenURL')
+      .mockImplementation(() => Promise.resolve(true));
+    jest.spyOn(Linking, 'openURL').mockImplementation(() => Promise.resolve());
+  });
+
   it('renders the title, caption, and support button', () => {
     render(<SupportBlock />);
     expect(screen.getByText('Não achou sua dúvida?')).toBeOnTheScreen();

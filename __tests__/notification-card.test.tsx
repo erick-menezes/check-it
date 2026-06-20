@@ -22,15 +22,15 @@ function buildNotification(
   };
 }
 
-beforeEach(() => {
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-});
-
 describe('NotificationCard', () => {
+  beforeEach(() => {
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+  });
+
   it('renders the title, body and relative time', () => {
     const notification = buildNotification();
     render(<NotificationCard notification={notification} now={NOW} />);

@@ -25,25 +25,25 @@ function setActiveList(list: ActiveList | null): void {
   useActiveListStore.getState().setActiveList(list);
 }
 
-let stopTracking: () => void = () => {};
-
-beforeEach(async () => {
-  await AsyncStorage.clear();
-  useActiveListStore.setState({ activeList: null, hasHydrated: false });
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-  useSettingsStore.setState({ budgetAlertsEnabled: true, hasHydrated: false });
-  stopTracking = startBudgetAlertTracking();
-});
-
-afterEach(() => {
-  stopTracking();
-});
-
 describe('notifications flow', () => {
+  let stopTracking: () => void = () => {};
+
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+    useActiveListStore.setState({ activeList: null, hasHydrated: false });
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+    useSettingsStore.setState({ budgetAlertsEnabled: true, hasHydrated: false });
+    stopTracking = startBudgetAlertTracking();
+  });
+
+  afterEach(() => {
+    stopTracking();
+  });
+
   it('raises an unread alert when the active list crosses 85% and clears it on mark-all', () => {
     const { result } = renderHook(() => useUnreadNotifications());
     act(() => {

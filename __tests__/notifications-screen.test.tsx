@@ -46,15 +46,15 @@ function seed(notifications: AppNotification[]): void {
   });
 }
 
-beforeEach(() => {
-  useNotificationsStore.setState({
-    notifications: [],
-    budgetThresholdLatch: {},
-    hasHydrated: false,
-  });
-});
-
 describe('Notifications screen', () => {
+  beforeEach(() => {
+    useNotificationsStore.setState({
+      notifications: [],
+      budgetThresholdLatch: {},
+      hasHydrated: false,
+    });
+  });
+
   it('renders the empty state when there are no notifications', () => {
     render(<NotificationsScreen />);
     expect(screen.getByTestId('notifications-empty-state')).toBeOnTheScreen();

@@ -34,20 +34,20 @@ function ScanHarness() {
   return <ReceiptSheet visible onClose={jest.fn()} onAddItems={addItems} />;
 }
 
-beforeEach(() => {
-  recognizeMock.mockReset();
-  useActiveListStore.setState({
-    activeList: createActiveList(20000),
-    hasHydrated: true,
-  });
-  jest.spyOn(console, 'warn').mockImplementation(() => {});
-});
-
-afterEach(() => {
-  jest.restoreAllMocks();
-});
-
 describe('Receipt scan integration', () => {
+  beforeEach(() => {
+    recognizeMock.mockReset();
+    useActiveListStore.setState({
+      activeList: createActiveList(20000),
+      hasHydrated: true,
+    });
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('appends scanned items to the store and the Home card reflects them', async () => {
     recognizeMock.mockResolvedValueOnce(
       recognizedReceipt([

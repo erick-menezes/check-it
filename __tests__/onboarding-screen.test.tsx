@@ -22,11 +22,11 @@ jest.mock('@/features/onboarding/onboarding-store', () => ({
 import { router } from 'expo-router';
 import OnboardingScreen from '@/app/onboarding';
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('OnboardingScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('shows step 1 content on mount', () => {
     render(<OnboardingScreen />);
     expect(screen.getByText('Suas compras, sob controle.')).toBeOnTheScreen();

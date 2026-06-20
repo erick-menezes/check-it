@@ -28,18 +28,18 @@ function recognizedSingleLine(text: string) {
   };
 }
 
-let warnSpy: jest.SpyInstance;
-
-beforeEach(() => {
-  recognizeMock.mockReset();
-  warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-});
-
-afterEach(() => {
-  warnSpy.mockRestore();
-});
-
 describe('useReceiptScan', () => {
+  let warnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    recognizeMock.mockReset();
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    warnSpy.mockRestore();
+  });
+
   it('parses recognized lines and reports the items-added count on success', async () => {
     const take = jest.fn().mockResolvedValue({ uri: 'file:///receipt.jpg' });
     recognizeMock.mockResolvedValueOnce(
