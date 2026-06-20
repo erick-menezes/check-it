@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { cn } from '@/lib/utils';
 import {
@@ -16,7 +15,7 @@ interface NotificationCardProps {
 export function NotificationCard({
   notification,
   now = new Date(),
-}: NotificationCardProps): JSX.Element {
+}: NotificationCardProps) {
   const markAsRead = useNotificationsStore((state) => state.markAsRead);
   const meta = NOTIFICATION_TYPE_CATALOG[notification.type];
   const relativeTime = formatRelativeTime(notification.createdAt, now);

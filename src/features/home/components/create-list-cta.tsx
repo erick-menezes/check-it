@@ -1,9 +1,8 @@
 import { router } from 'expo-router';
 import { ArrowRight, Plus } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-export function CreateListCta(): JSX.Element {
+export function CreateListCta() {
   return (
     <Pressable
       onPress={() => router.push('/limit')}

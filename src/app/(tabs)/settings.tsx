@@ -1,5 +1,4 @@
 import { router } from 'expo-router';
-import type { JSX } from 'react';
 import { ScrollView, View } from 'react-native';
 import { NavigationRow } from '@/features/settings/components/navigation-row';
 import { NotificationRow } from '@/features/settings/components/notification-row';
@@ -8,7 +7,7 @@ import { SettingsSection } from '@/features/settings/components/settings-section
 import { VersionRow } from '@/features/settings/components/version-row';
 import { SETTINGS_ABOUT_ROWS } from '@/features/settings/settings-content';
 
-export default function SettingsScreen(): JSX.Element {
+export default function SettingsScreen() {
   return (
     <View testID="settings-screen" className="flex-1 bg-white">
       <SettingsHeader />

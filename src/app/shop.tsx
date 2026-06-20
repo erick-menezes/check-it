@@ -18,12 +18,12 @@ import {
   useVisibleItems,
 } from "@/features/shop/use-visible-items";
 import { router, Stack } from "expo-router";
-import { type JSX, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FlatList, type ListRenderItem, Text, View } from "react-native";
 
 const SCREEN_ANIMATION_DURATION = 320;
 
-export default function ShopScreen(): JSX.Element | null {
+export default function ShopScreen() {
   const {
     activeList,
     addItem,

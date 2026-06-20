@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
@@ -11,7 +10,7 @@ interface SummaryTotalTileProps {
 export function SummaryTotalTile({
   totalInCents,
   limitInCents,
-}: SummaryTotalTileProps): JSX.Element {
+}: SummaryTotalTileProps) {
   const over = totalInCents > limitInCents;
   const difference = Math.abs(limitInCents - totalInCents);
   return (

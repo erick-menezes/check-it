@@ -8,7 +8,6 @@ import {
   type LucideIcon,
   Tag,
 } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
 import {
@@ -41,7 +40,7 @@ export function SortSheet({
   current,
   onSelect,
   onClose,
-}: SortSheetProps): JSX.Element {
+}: SortSheetProps) {
   return (
     <BottomSheet
       visible={visible}

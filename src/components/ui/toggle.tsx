@@ -1,4 +1,4 @@
-import { type JSX, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Pressable } from 'react-native';
 import Animated, {
   Easing,
@@ -30,7 +30,7 @@ export function Toggle({
   onValueChange,
   accessibilityLabel,
   testID,
-}: ToggleProps): JSX.Element {
+}: ToggleProps) {
   const progress = useSharedValue(value ? 1 : 0);
   useEffect(() => {
     progress.value = withTiming(value ? 1 : 0, {

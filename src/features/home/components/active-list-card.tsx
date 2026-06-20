@@ -35,7 +35,7 @@ interface ActiveListCardProps {
 export function ActiveListCard({
   list,
   onOpen,
-}: ActiveListCardProps): JSX.Element {
+}: ActiveListCardProps) {
   const isOverBudget = getBudgetStatus(list) === "overBudget";
   return (
     <Pressable

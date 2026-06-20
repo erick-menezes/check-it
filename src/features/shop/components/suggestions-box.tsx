@@ -1,4 +1,4 @@
-import { type JSX, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getSuggestions } from '@/features/shop/suggestions';
@@ -9,7 +9,7 @@ interface SuggestionsBoxProps {
   onSelect: (name: string) => void;
 }
 
-export function SuggestionsBox({ onSelect }: SuggestionsBoxProps): JSX.Element {
+export function SuggestionsBox({ onSelect }: SuggestionsBoxProps) {
   const suggestions = useMemo(() => getSuggestions(), []);
   return (
     <Animated.View

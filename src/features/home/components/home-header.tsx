@@ -1,6 +1,5 @@
 import { router } from 'expo-router';
 import { Bell, CircleHelp, type LucideIcon } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUnreadNotifications } from '@/features/notifications/use-unread-notifications';
@@ -19,7 +18,7 @@ function HeaderAction({
   label,
   testID,
   onPress,
-}: HeaderActionProps): JSX.Element {
+}: HeaderActionProps) {
   return (
     <Pressable
       onPress={onPress}
@@ -36,7 +35,7 @@ function HeaderAction({
   );
 }
 
-export function HomeHeader(): JSX.Element {
+export function HomeHeader() {
   const insets = useSafeAreaInsets();
   const { greeting, subtitle } = useGreeting();
   const hasUnread = useUnreadNotifications();

@@ -1,5 +1,4 @@
 import { router } from 'expo-router';
-import type { JSX } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SectionLabel } from '@/components/ui/section-label';
 import { useActiveListStore } from '@/features/home/active-list-store';
@@ -7,7 +6,7 @@ import { ActiveListCard } from '@/features/home/components/active-list-card';
 import { HomeEmptyState } from '@/features/home/components/home-empty-state';
 import { HomeHeader } from '@/features/home/components/home-header';
 
-export default function HomeScreen(): JSX.Element {
+export default function HomeScreen() {
   const activeList = useActiveListStore((state) => state.activeList);
   return (
     <View testID="home-screen" className="flex-1 bg-white">

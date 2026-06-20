@@ -1,5 +1,4 @@
 import { router } from 'expo-router';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import {
   type ActiveList,
@@ -16,7 +15,7 @@ interface PreviewRowProps {
   value: string;
 }
 
-function PreviewRow({ label, value }: PreviewRowProps): JSX.Element {
+function PreviewRow({ label, value }: PreviewRowProps) {
   return (
     <View className="flex-row items-center justify-between">
       <Text className="text-xs text-checkit-pebble-gray">{label}</Text>
@@ -29,7 +28,7 @@ function PreviewRow({ label, value }: PreviewRowProps): JSX.Element {
 
 export function SummaryPreviewCard({
   list,
-}: SummaryPreviewCardProps): JSX.Element {
+}: SummaryPreviewCardProps) {
   const summary = getPendingSummary(list);
   const over = list.totalInCents > list.limitInCents;
   const difference = Math.abs(list.limitInCents - list.totalInCents);

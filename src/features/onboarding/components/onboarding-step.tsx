@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import type { OnboardingStepContent } from '../onboarding-steps';
 import { HaloIcon } from './halo-icon';
@@ -7,7 +6,7 @@ interface OnboardingStepProps {
   step: OnboardingStepContent;
 }
 
-export function OnboardingStep({ step }: OnboardingStepProps): JSX.Element {
+export function OnboardingStep({ step }: OnboardingStepProps) {
   return (
     <View className="flex-1 items-center justify-center">
       <View className="mb-[38px]">

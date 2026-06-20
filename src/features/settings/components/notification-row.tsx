@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 import { useSettingsStore } from "../settings-store";
 import { SettingIconTile } from "./setting-icon-tile";
 
-export function NotificationRow(): JSX.Element {
+export function NotificationRow() {
   const budgetAlertsEnabled = useSettingsStore(
     (state) => state.budgetAlertsEnabled,
   );

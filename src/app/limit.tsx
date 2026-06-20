@@ -7,7 +7,6 @@ import { useLimitInput } from '@/features/limit/use-limit-input';
 import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 import { router, Stack } from 'expo-router';
 import { X } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import {
@@ -17,7 +16,7 @@ import {
 
 const SCREEN_ANIMATION_DURATION = 320;
 
-export default function LimitScreen(): JSX.Element {
+export default function LimitScreen() {
   const input = useLimitInput();
   const insets = useSafeAreaInsets();
   const keyboardHeight = useKeyboardHeight();

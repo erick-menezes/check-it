@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import type { CategoryBreakdownEntry } from '@/features/home/active-list';
 import {
@@ -27,7 +26,7 @@ function getPercent(amountInCents: number, totalInCents: number): number {
 export function StackedCategoryBar({
   entries,
   totalInCents,
-}: StackedCategoryBarProps): JSX.Element {
+}: StackedCategoryBarProps) {
   return (
     <View testID="summary-stacked-bar">
       <View className="h-3 w-full flex-row overflow-hidden rounded-full bg-checkit-fog-gray">

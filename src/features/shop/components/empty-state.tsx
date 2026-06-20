@@ -6,7 +6,7 @@ interface EmptyStateProps {
   onScanReceipt: () => void;
 }
 
-export function EmptyState({ onScanReceipt }: EmptyStateProps): JSX.Element {
+export function EmptyState({ onScanReceipt }: EmptyStateProps) {
   return (
     <View
       testID="shop-empty-state"

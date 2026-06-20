@@ -1,8 +1,7 @@
 import { Bell } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 
-export function NotificationsEmptyState(): JSX.Element {
+export function NotificationsEmptyState() {
   return (
     <View
       testID="notifications-empty-state"

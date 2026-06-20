@@ -1,8 +1,7 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export function SettingsHeader(): JSX.Element {
+export function SettingsHeader() {
   const insets = useSafeAreaInsets();
   return (
     <View

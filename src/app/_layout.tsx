@@ -4,7 +4,6 @@ import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import type { JSX } from 'react';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useActiveListStore } from '@/features/home/active-list-store';
@@ -18,7 +17,7 @@ SplashScreen.preventAutoHideAsync();
 
 export { ErrorBoundary } from 'expo-router';
 
-export default function RootLayout(): JSX.Element | null {
+export default function RootLayout() {
   const { fontsLoaded } = useAppFonts();
   const onboardingHydrated = useOnboardingStore((s) => s.hasHydrated);
   const activeListHydrated = useActiveListStore((s) => s.hasHydrated);

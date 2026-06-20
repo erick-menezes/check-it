@@ -15,7 +15,7 @@ interface SettingsSectionProps {
 export function SettingsSection({
   label,
   children,
-}: SettingsSectionProps): JSX.Element {
+}: SettingsSectionProps) {
   const rows = Children.toArray(children);
   return (
     <View className="mt-[26px]">

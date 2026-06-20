@@ -14,7 +14,7 @@ function handleClose(): void {
   router.replace("/(tabs)/home");
 }
 
-export function NotificationsHeader(): JSX.Element {
+export function NotificationsHeader() {
   const insets = useSafeAreaInsets();
   const hasUnread = useUnreadNotifications();
   const markAllAsRead = useNotificationsStore((state) => state.markAllAsRead);

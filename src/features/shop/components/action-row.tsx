@@ -16,7 +16,7 @@ export function ActionRow({
   sort,
   onOpenSort,
   onOpenReceipt,
-}: ActionRowProps): JSX.Element {
+}: ActionRowProps) {
   const label = getSortLabel(sort);
   return (
     <View className="mt-3.5 flex-row gap-2">

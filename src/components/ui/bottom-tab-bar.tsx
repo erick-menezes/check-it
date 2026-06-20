@@ -1,7 +1,7 @@
 import type { Href } from 'expo-router';
 import { TabTrigger, type TabTriggerSlotProps } from 'expo-router/ui';
 import { Home, type LucideIcon, Settings } from 'lucide-react-native';
-import { type JSX, useRef } from 'react';
+import { useRef } from 'react';
 import { Animated, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { cn } from '@/lib/utils';
@@ -43,7 +43,7 @@ function TabBarButton({
   testID,
   isFocused,
   ...rest
-}: TabBarButtonProps): JSX.Element {
+}: TabBarButtonProps) {
   const color = isFocused ? '#58AB6A' : '#8A8A8A';
   const scale = useRef(new Animated.Value(1)).current;
   const animateScaleTo = (toValue: number, duration: number): void => {
@@ -82,7 +82,7 @@ function TabBarButton({
   );
 }
 
-export function BottomTabBar(): JSX.Element {
+export function BottomTabBar() {
   const insets = useSafeAreaInsets();
   return (
     <View

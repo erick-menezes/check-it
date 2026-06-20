@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router';
-import type { JSX } from 'react';
 import { ScrollView, View } from 'react-native';
 import { FaqSection } from '@/features/help/components/faq-section';
 import { HelpHeader } from '@/features/help/components/help-header';
@@ -9,7 +8,7 @@ import { useHelpAccordion } from '@/features/help/use-help-accordion';
 
 const SCREEN_ANIMATION_DURATION = 240;
 
-export default function HelpScreen(): JSX.Element {
+export default function HelpScreen() {
   const { openSectionId, toggleSection } = useHelpAccordion();
   return (
     <View testID="help-screen" className="flex-1 bg-white">

@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
 import type { OnboardingFlow } from '../use-onboarding-flow';
@@ -12,7 +11,7 @@ interface OnboardingFooterProps {
   >;
 }
 
-export function OnboardingFooter({ flow }: OnboardingFooterProps): JSX.Element {
+export function OnboardingFooter({ flow }: OnboardingFooterProps) {
   const { currentStep, isLastStep, goNext, finish } = flow;
   return (
     <View className="gap-[22px] px-7 pb-[38px]">

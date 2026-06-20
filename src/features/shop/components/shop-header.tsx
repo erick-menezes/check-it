@@ -7,7 +7,7 @@ import {
 import { getLineTotalInCents } from "@/features/shop/list-item";
 import { formatBRL } from "@/lib/currency";
 import { Pencil, X } from "lucide-react-native";
-import { type JSX, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import Animated, {
   interpolateColor,
@@ -46,7 +46,7 @@ function BudgetBarFill({
 }: {
   fillPercent: number;
   status: BudgetStatus;
-}): JSX.Element {
+}) {
   const width = useSharedValue(fillPercent);
   const colorDriver = useSharedValue(STATUS_INDEX[status]);
   useEffect(() => {
@@ -113,7 +113,7 @@ function EditableTitle({
 }: {
   name: string;
   onRename: (name: string) => void;
-}): JSX.Element {
+}) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(name);
   function startEditing(): void {
@@ -164,7 +164,7 @@ export function ShopHeader({
   list,
   onRename,
   onClose,
-}: ShopHeaderProps): JSX.Element {
+}: ShopHeaderProps) {
   const status = getBudgetStatus(list);
   const statusLine = useMemo(
     () => buildStatusLine(list, status),

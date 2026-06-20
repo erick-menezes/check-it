@@ -1,7 +1,7 @@
 import { formatBRL, formatBRLAmount } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import { Pencil } from "lucide-react-native";
-import { type JSX, useRef } from "react";
+import { useRef } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 const MAX_LIMIT_DIGITS = 9;
@@ -16,7 +16,7 @@ export function CurrencyHero({
   cents,
   digits,
   onChangeDigits,
-}: CurrencyHeroProps): JSX.Element {
+}: CurrencyHeroProps) {
   const inputRef = useRef<TextInput>(null);
   const isFilled = cents > 0;
 

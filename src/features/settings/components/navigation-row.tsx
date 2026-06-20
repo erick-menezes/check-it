@@ -1,5 +1,4 @@
 import { ChevronRight, type LucideIcon } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text } from 'react-native';
 import { SettingIconTile } from './setting-icon-tile';
 
@@ -15,7 +14,7 @@ export function NavigationRow({
   label,
   onPress,
   testID,
-}: NavigationRowProps): JSX.Element {
+}: NavigationRowProps) {
   return (
     <Pressable
       onPress={onPress}

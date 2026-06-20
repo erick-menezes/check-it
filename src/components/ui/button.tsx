@@ -1,5 +1,5 @@
 import { ArrowRight, type LucideIcon } from 'lucide-react-native';
-import { type JSX, useRef } from 'react';
+import { useRef } from 'react';
 import {
   Animated,
   Pressable,
@@ -73,7 +73,7 @@ export function Button({
   onPressOut,
   disabled,
   ...rest
-}: ButtonProps): JSX.Element {
+}: ButtonProps) {
   const scale = useRef(new Animated.Value(1)).current;
 
   function handlePressIn() {

@@ -12,7 +12,7 @@ function handleClose(): void {
   router.replace("/(tabs)/home");
 }
 
-export function HelpHeader(): JSX.Element {
+export function HelpHeader() {
   const insets = useSafeAreaInsets();
   return (
     <View

@@ -1,6 +1,5 @@
 import Constants from 'expo-constants';
 import type { LucideIcon } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import { SettingIconTile } from './setting-icon-tile';
 
@@ -11,7 +10,7 @@ interface VersionRowProps {
   label: string;
 }
 
-export function VersionRow({ Icon, label }: VersionRowProps): JSX.Element {
+export function VersionRow({ Icon, label }: VersionRowProps) {
   const version = Constants.expoConfig?.version ?? VERSION_FALLBACK;
   return (
     <View className="min-h-[44px] flex-row items-center gap-3 px-4 py-3">

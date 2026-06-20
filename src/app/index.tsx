@@ -1,8 +1,7 @@
 import { Redirect } from 'expo-router';
-import type { JSX } from 'react';
 import { useOnboardingStore } from '@/features/onboarding/onboarding-store';
 
-export default function Index(): JSX.Element {
+export default function Index() {
   const hasSeenOnboarding = useOnboardingStore((s) => s.hasSeenOnboarding);
   const hasHydrated = useOnboardingStore((s) => s.hasHydrated);
 

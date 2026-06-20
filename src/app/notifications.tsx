@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import { type JSX, useCallback } from 'react';
+import { useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 import { NotificationCard } from '@/features/notifications/components/notification-card';
 import { NotificationsEmptyState } from '@/features/notifications/components/notifications-empty-state';
@@ -9,7 +9,7 @@ import { useNotificationsStore } from '@/features/notifications/notifications-st
 
 const SCREEN_ANIMATION_DURATION = 240;
 
-export default function NotificationsScreen(): JSX.Element {
+export default function NotificationsScreen() {
   const notifications = useNotificationsStore((state) => state.notifications);
   const renderItem = useCallback(
     ({ item }: { item: AppNotification }) => (

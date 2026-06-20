@@ -3,10 +3,10 @@ import { DocumentContent } from "@/features/terms/components/document-content";
 import { TermsHeader } from "@/features/terms/components/terms-header";
 import { TERMS_TABS, type TermsTabId } from "@/features/terms/terms-content";
 import { Stack } from "expo-router";
-import { type JSX, useState } from "react";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 
-export default function TermsScreen(): JSX.Element {
+export default function TermsScreen() {
   const [activeTab, setActiveTab] = useState<TermsTabId>("terms");
   return (
     <View testID="terms-screen" className="flex-1 bg-white">

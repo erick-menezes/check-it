@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const SCREEN_ANIMATION_DURATION = 320;
 
-export default function SummaryScreen(): JSX.Element | null {
+export default function SummaryScreen() {
   const activeList = useActiveListStore((state) => state.activeList);
   if (!activeList) return null;
   const totalInCents = getListTotalInCents(activeList);

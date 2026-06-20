@@ -1,4 +1,4 @@
-import { type JSX, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   Easing,
@@ -38,7 +38,7 @@ function Segment<T extends string>({
   selected,
   onPress,
   testID,
-}: SegmentProps<T>): JSX.Element {
+}: SegmentProps<T>) {
   const progress = useSharedValue(selected ? 1 : 0);
   useEffect(() => {
     progress.value = withTiming(selected ? 1 : 0, {
@@ -94,7 +94,7 @@ export function SegmentedControl<T extends string>({
   selectedId,
   onChange,
   testID,
-}: SegmentedControlProps<T>): JSX.Element {
+}: SegmentedControlProps<T>) {
   return (
     <View
       testID={testID}

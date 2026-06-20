@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import type { FaqItem } from '../help-content';
 
@@ -6,7 +5,7 @@ interface FaqTileProps {
   item: FaqItem;
 }
 
-export function FaqTile({ item }: FaqTileProps): JSX.Element {
+export function FaqTile({ item }: FaqTileProps) {
   return (
     <View className="rounded-[10px] bg-white/[0.16] p-3">
       <Text className="text-[12px] font-bold text-white">{item.question}</Text>

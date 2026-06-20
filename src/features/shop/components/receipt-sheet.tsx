@@ -4,7 +4,7 @@ import {
   useCameraPermissions,
 } from 'expo-camera';
 import { Camera, CheckCircle2, RotateCcw } from 'lucide-react-native';
-import { type JSX, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Linking,
@@ -37,7 +37,7 @@ interface PermissionDeniedProps {
 function PermissionDenied({
   canAskAgain,
   onRequest,
-}: PermissionDeniedProps): JSX.Element {
+}: PermissionDeniedProps) {
   const handlePress = canAskAgain ? onRequest : () => Linking.openSettings();
   const label = canAskAgain ? 'Permitir câmera' : 'Abrir configurações';
   return (
@@ -63,7 +63,7 @@ function ScanOverlay({
   state,
 }: {
   state: ReceiptScanState;
-}): JSX.Element | null {
+}) {
   if (state.status === 'capturing' || state.status === 'processing') {
     return (
       <View
@@ -114,7 +114,7 @@ export function ReceiptSheet({
   visible,
   onClose,
   onAddItems,
-}: ReceiptSheetProps): JSX.Element {
+}: ReceiptSheetProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraViewType | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
@@ -200,7 +200,7 @@ function ReceiptCta({
   onScan,
   onReset,
   onDone,
-}: ReceiptCtaProps): JSX.Element | null {
+}: ReceiptCtaProps) {
   if (!granted) return null;
   if (state.status === 'success') {
     return (

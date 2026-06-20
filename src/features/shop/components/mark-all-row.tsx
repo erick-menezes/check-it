@@ -1,5 +1,4 @@
 import { Check } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 const CHECK_ICON_SIZE = 14;
@@ -15,7 +14,7 @@ export function MarkAllRow({
   checkedCount,
   totalCount,
   onToggle,
-}: MarkAllRowProps): JSX.Element {
+}: MarkAllRowProps) {
   const allChecked = totalCount > 0 && checkedCount === totalCount;
   return (
     <View className="flex-row items-center gap-3 px-[22px] pb-2 pt-5">

@@ -29,7 +29,7 @@ function recognizedReceipt(lines: readonly string[]) {
   };
 }
 
-function ScanHarness(): React.JSX.Element {
+function ScanHarness() {
   const addItems = useActiveListStore((state) => state.addItems);
   return <ReceiptSheet visible onClose={jest.fn()} onAddItems={addItems} />;
 }

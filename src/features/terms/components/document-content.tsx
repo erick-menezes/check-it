@@ -1,5 +1,4 @@
 import { Clock } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { ContactFooter } from '@/features/terms/components/contact-footer';
@@ -17,7 +16,7 @@ interface DocumentContentProps {
   tab: TermsTabId;
 }
 
-function TermsSectionList(): JSX.Element {
+function TermsSectionList() {
   return (
     <View>
       {TERMS_SECTIONS.map((section, index) => (
@@ -32,7 +31,7 @@ function TermsSectionList(): JSX.Element {
   );
 }
 
-function PrivacySectionList(): JSX.Element {
+function PrivacySectionList() {
   return (
     <View>
       {PRIVACY_SECTIONS.map((section) => (
@@ -47,7 +46,7 @@ function PrivacySectionList(): JSX.Element {
   );
 }
 
-export function DocumentContent({ tab }: DocumentContentProps): JSX.Element {
+export function DocumentContent({ tab }: DocumentContentProps) {
   const summary = tab === 'terms' ? TERMS_SUMMARY : PRIVACY_SUMMARY;
   const SummaryIcon = summary.Icon;
   return (

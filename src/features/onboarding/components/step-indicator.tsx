@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { cn } from '@/lib/utils';
 import { ONBOARDING_STEPS, TOTAL_STEPS } from '../onboarding-steps';
@@ -9,7 +8,7 @@ interface StepIndicatorProps {
 
 export function StepIndicator({
   currentStep,
-}: StepIndicatorProps): JSX.Element {
+}: StepIndicatorProps) {
   return (
     <Animated.View
       className="flex-row items-center gap-2"

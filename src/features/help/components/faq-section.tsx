@@ -1,5 +1,4 @@
 import { Minus, Plus } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { cn } from '@/lib/utils';
@@ -16,7 +15,7 @@ export function FaqSection({
   section,
   isOpen,
   onToggle,
-}: FaqSectionProps): JSX.Element {
+}: FaqSectionProps) {
   const contentColor = isOpen ? '#FFFFFF' : '#1B1B1B';
   const Indicator = isOpen ? Minus : Plus;
   const { Icon } = section;

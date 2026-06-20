@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 import {
   getCategoryBackgroundClass,
@@ -12,7 +11,7 @@ interface TopItemsListProps {
   items: readonly ListItem[];
 }
 
-export function TopItemsList({ items }: TopItemsListProps): JSX.Element {
+export function TopItemsList({ items }: TopItemsListProps) {
   return (
     <View testID="summary-top-items" className="gap-2">
       {items.map((item) => (

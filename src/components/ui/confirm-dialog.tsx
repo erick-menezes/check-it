@@ -44,7 +44,7 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
   testID,
-}: ConfirmDialogProps): JSX.Element {
+}: ConfirmDialogProps) {
   return (
     <Modal
       visible={visible}

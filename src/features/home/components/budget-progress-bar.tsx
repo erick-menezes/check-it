@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { View } from 'react-native';
 import { cn } from '@/lib/utils';
 import {
@@ -28,7 +27,7 @@ interface BudgetProgressBarProps {
 
 export function BudgetProgressBar({
   list,
-}: BudgetProgressBarProps): JSX.Element {
+}: BudgetProgressBarProps) {
   const status = getBudgetStatus(list);
   const ratio = getBudgetRatio(list);
   const fillPercent = Math.round(ratio * PERCENT);

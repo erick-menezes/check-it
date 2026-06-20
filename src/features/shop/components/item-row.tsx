@@ -8,7 +8,7 @@ import {
 import { formatBRL } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import { Check, Pencil, Trash2 } from "lucide-react-native";
-import { type JSX, memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import {
   type AccessibilityActionEvent,
   Dimensions,
@@ -54,7 +54,7 @@ function ItemRowComponent({
   onToggle,
   onEdit,
   onRemove,
-}: ItemRowProps): JSX.Element {
+}: ItemRowProps) {
   const tile = getCategoryTile(item.category);
   const TileIcon = tile.icon;
   const isPriceless = item.unitPriceInCents === null;

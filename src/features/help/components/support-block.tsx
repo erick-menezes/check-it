@@ -1,9 +1,8 @@
 import { Mail } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { openSupportEmail, SUPPORT_EMAIL } from '@/lib/open-support-email';
 
-export function SupportBlock(): JSX.Element {
+export function SupportBlock() {
   return (
     <View className="mt-6">
       <Text className="text-[18px] font-bold tracking-tight text-checkit-charcoal-ink">

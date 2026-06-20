@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 const CENTS_PER_UNIT = 100;
@@ -18,7 +17,7 @@ interface PresetPillsProps {
   onSelect: (amountInCents: number) => void;
 }
 
-export function PresetPills({ onSelect }: PresetPillsProps): JSX.Element {
+export function PresetPills({ onSelect }: PresetPillsProps) {
   return (
     <View className="mt-[22px] flex-row flex-wrap gap-2">
       {PRESETS.map((preset) => (

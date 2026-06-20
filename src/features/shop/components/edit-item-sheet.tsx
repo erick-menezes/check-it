@@ -13,7 +13,7 @@ import { usePriceInput } from "@/features/shop/use-price-input";
 import { formatBRL, formatBRLAmount } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import { Minus, Plus, Trash2, X } from "lucide-react-native";
-import { type JSX, useState } from "react";
+import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 interface EditItemSheetProps {
@@ -35,7 +35,7 @@ function EditItemForm({
   onClose,
   onSave,
   onRemove,
-}: EditItemFormProps): JSX.Element {
+}: EditItemFormProps) {
   const [name, setName] = useState(item.name);
   const [quantity, setQuantity] = useState(item.quantity);
   const [category, setCategory] = useState<Category | null>(item.category);
@@ -241,7 +241,7 @@ export function EditItemSheet({
   onClose,
   onSave,
   onRemove,
-}: EditItemSheetProps): JSX.Element {
+}: EditItemSheetProps) {
   return (
     <BottomSheet
       visible={item !== null}

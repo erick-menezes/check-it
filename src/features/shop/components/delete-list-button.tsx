@@ -1,6 +1,6 @@
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Trash2 } from "lucide-react-native";
-import { type JSX, useState } from "react";
+import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 interface DeleteListButtonProps {
@@ -11,7 +11,7 @@ interface DeleteListButtonProps {
 export function DeleteListButton({
   listName,
   onDelete,
-}: DeleteListButtonProps): JSX.Element {
+}: DeleteListButtonProps) {
   const [confirming, setConfirming] = useState(false);
   function confirm(): void {
     setConfirming(false);

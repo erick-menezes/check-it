@@ -7,7 +7,7 @@ interface HaloIconProps {
   Icon: LucideIcon;
 }
 
-export function HaloIcon({ Icon }: HaloIconProps): JSX.Element {
+export function HaloIcon({ Icon }: HaloIconProps) {
   if (isGlassEffectAPIAvailable()) {
     return (
       <GlassView

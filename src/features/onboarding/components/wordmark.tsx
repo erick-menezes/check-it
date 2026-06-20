@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { Text } from 'react-native';
 
 interface WordmarkProps {
@@ -9,7 +8,7 @@ interface WordmarkProps {
 export function Wordmark({
   size = 22,
   color = 'inherit',
-}: WordmarkProps): JSX.Element {
+}: WordmarkProps) {
   return (
     <Text
       testID="wordmark"

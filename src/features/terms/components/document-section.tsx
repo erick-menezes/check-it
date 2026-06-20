@@ -1,5 +1,4 @@
 import type { LucideIcon } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 
 interface NumberedSectionProps {
@@ -18,7 +17,7 @@ interface IconSectionProps {
 
 type DocumentSectionProps = NumberedSectionProps | IconSectionProps;
 
-export function DocumentSection(props: DocumentSectionProps): JSX.Element {
+export function DocumentSection(props: DocumentSectionProps) {
   return (
     <View className="mb-5 flex-row">
       <View className="mr-3 h-7 w-7 items-center justify-center rounded-[8px] border border-checkit-mist-border bg-checkit-linen-cream">

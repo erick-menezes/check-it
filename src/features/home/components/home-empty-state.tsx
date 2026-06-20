@@ -1,8 +1,7 @@
 import { ClipboardList } from 'lucide-react-native';
-import type { JSX } from 'react';
 import { Text, View } from 'react-native';
 
-export function HomeEmptyState(): JSX.Element {
+export function HomeEmptyState() {
   return (
     <View testID="home-empty-state" className="items-center px-6 py-10">
       <View className="h-[80px] w-[80px] items-center justify-center rounded-full bg-checkit-primary/[0.12]">

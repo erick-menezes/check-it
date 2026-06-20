@@ -1,4 +1,4 @@
-import { type JSX, type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import { Modal, Pressable, View } from 'react-native';
 import {
   Gesture,
@@ -35,7 +35,7 @@ export function BottomSheet({
   children,
   testID,
   accessibilityLabel,
-}: BottomSheetProps): JSX.Element {
+}: BottomSheetProps) {
   const translateY = useSharedValue(SHEET_OFFSCREEN);
   useEffect(() => {
     translateY.value = visible

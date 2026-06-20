@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Check, Plus } from "lucide-react-native";
-import { type JSX, useState } from "react";
+import { useState } from "react";
 import { Pressable, TextInput, View } from "react-native";
 import { SuggestionsBox } from "./suggestions-box";
 
@@ -10,7 +10,7 @@ interface AddProductInputProps {
   onAdd: (name: string) => void;
 }
 
-export function AddProductInput({ onAdd }: AddProductInputProps): JSX.Element {
+export function AddProductInput({ onAdd }: AddProductInputProps) {
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
   const trimmed = text.trim();
