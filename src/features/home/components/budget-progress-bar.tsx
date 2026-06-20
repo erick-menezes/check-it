@@ -7,8 +7,6 @@ import {
   getBudgetStatus,
 } from '../active-list';
 
-const PERCENT = 100;
-
 const STATUS_FILL_CLASS: Record<BudgetStatus, string> = {
   onTrack: 'bg-checkit-primary',
   warning: 'bg-checkit-accent',
@@ -25,18 +23,16 @@ interface BudgetProgressBarProps {
   list: ActiveList;
 }
 
-export function BudgetProgressBar({
-  list,
-}: BudgetProgressBarProps) {
+export function BudgetProgressBar({ list }: BudgetProgressBarProps) {
   const status = getBudgetStatus(list);
   const ratio = getBudgetRatio(list);
-  const fillPercent = Math.round(ratio * PERCENT);
+  const fillPercent = Math.round(ratio * 100);
   return (
     <View
       accessible
       accessibilityRole="progressbar"
       accessibilityLabel={STATUS_LABEL[status]}
-      accessibilityValue={{ now: fillPercent, min: 0, max: PERCENT }}
+      accessibilityValue={{ now: fillPercent, min: 0, max: 100 }}
       testID={`budget-progress-${status}`}
       className="h-2 w-full overflow-hidden rounded bg-checkit-fog-gray"
     >

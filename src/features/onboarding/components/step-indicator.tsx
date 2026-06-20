@@ -6,9 +6,7 @@ interface StepIndicatorProps {
   currentStep: number;
 }
 
-export function StepIndicator({
-  currentStep,
-}: StepIndicatorProps) {
+export function StepIndicator({ currentStep }: StepIndicatorProps) {
   return (
     <Animated.View
       className="flex-row items-center gap-2"

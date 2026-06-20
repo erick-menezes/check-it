@@ -1,10 +1,4 @@
-import {
-  Children,
-  Fragment,
-  isValidElement,
-  type JSX,
-  type ReactNode,
-} from 'react';
+import { Children, Fragment, isValidElement, type ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface SettingsSectionProps {
@@ -12,10 +6,7 @@ interface SettingsSectionProps {
   children: ReactNode;
 }
 
-export function SettingsSection({
-  label,
-  children,
-}: SettingsSectionProps) {
+export function SettingsSection({ label, children }: SettingsSectionProps) {
   const rows = Children.toArray(children);
   return (
     <View className="mt-[26px]">

@@ -34,10 +34,7 @@ interface PermissionDeniedProps {
   onRequest: () => void;
 }
 
-function PermissionDenied({
-  canAskAgain,
-  onRequest,
-}: PermissionDeniedProps) {
+function PermissionDenied({ canAskAgain, onRequest }: PermissionDeniedProps) {
   const handlePress = canAskAgain ? onRequest : () => Linking.openSettings();
   const label = canAskAgain ? 'Permitir câmera' : 'Abrir configurações';
   return (
@@ -59,11 +56,7 @@ function PermissionDenied({
   );
 }
 
-function ScanOverlay({
-  state,
-}: {
-  state: ReceiptScanState;
-}) {
+function ScanOverlay({ state }: { state: ReceiptScanState }) {
   if (state.status === 'capturing' || state.status === 'processing') {
     return (
       <View

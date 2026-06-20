@@ -1,10 +1,9 @@
+import { ArrowDownUp, Camera, ChevronDown } from 'lucide-react-native';
+import { Pressable, Text, View } from 'react-native';
 import {
   getSortLabel,
   type SortOption,
-} from "@/features/shop/use-visible-items";
-import { ArrowDownUp, Camera, ChevronDown } from "lucide-react-native";
-import type { JSX } from "react";
-import { Pressable, Text, View } from "react-native";
+} from '@/features/shop/use-visible-items';
 
 interface ActionRowProps {
   sort: SortOption;
@@ -12,11 +11,7 @@ interface ActionRowProps {
   onOpenReceipt: () => void;
 }
 
-export function ActionRow({
-  sort,
-  onOpenSort,
-  onOpenReceipt,
-}: ActionRowProps) {
+export function ActionRow({ sort, onOpenSort, onOpenReceipt }: ActionRowProps) {
   const label = getSortLabel(sort);
   return (
     <View className="mt-3.5 flex-row gap-2">

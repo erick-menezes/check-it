@@ -26,9 +26,7 @@ function PreviewRow({ label, value }: PreviewRowProps) {
   );
 }
 
-export function SummaryPreviewCard({
-  list,
-}: SummaryPreviewCardProps) {
+export function SummaryPreviewCard({ list }: SummaryPreviewCardProps) {
   const summary = getPendingSummary(list);
   const over = list.totalInCents > list.limitInCents;
   const difference = Math.abs(list.limitInCents - list.totalInCents);

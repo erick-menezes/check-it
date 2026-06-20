@@ -1,10 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { createActiveList } from '@/features/home/active-list';
-import { useActiveListStore } from '@/features/home/active-list-store';
-import { CurrencyHero } from '@/features/limit/components/currency-hero';
-import { PresetPills } from '@/features/limit/components/preset-pills';
-import { useLimitInput } from '@/features/limit/use-limit-input';
-import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 import { router, Stack } from 'expo-router';
 import { X } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
@@ -13,6 +6,13 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { Button } from '@/components/ui/button';
+import { createActiveList } from '@/features/home/active-list';
+import { useActiveListStore } from '@/features/home/active-list-store';
+import { CurrencyHero } from '@/features/limit/components/currency-hero';
+import { PresetPills } from '@/features/limit/components/preset-pills';
+import { useLimitInput } from '@/features/limit/use-limit-input';
+import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 
 const SCREEN_ANIMATION_DURATION = 320;
 

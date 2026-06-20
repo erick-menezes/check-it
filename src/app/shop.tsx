@@ -1,25 +1,25 @@
-import { useActiveListStore } from "@/features/home/active-list-store";
-import { ActionRow } from "@/features/shop/components/action-row";
-import { AddProductInput } from "@/features/shop/components/add-product-input";
-import { DeleteListButton } from "@/features/shop/components/delete-list-button";
-import { EditItemSheet } from "@/features/shop/components/edit-item-sheet";
-import { EmptyState } from "@/features/shop/components/empty-state";
-import { ItemRow } from "@/features/shop/components/item-row";
-import { MarkAllRow } from "@/features/shop/components/mark-all-row";
-import { ReceiptSheet } from "@/features/shop/components/receipt-sheet";
-import { SearchField } from "@/features/shop/components/search-field";
-import { ShopHeader } from "@/features/shop/components/shop-header";
-import { SortSheet } from "@/features/shop/components/sort-sheet";
-import { SummaryPreviewCard } from "@/features/shop/components/summary-preview-card";
-import type { ListItem } from "@/features/shop/list-item";
+import { router, Stack } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList, type ListRenderItem, Text, View } from 'react-native';
+import { useActiveListStore } from '@/features/home/active-list-store';
+import { ActionRow } from '@/features/shop/components/action-row';
+import { AddProductInput } from '@/features/shop/components/add-product-input';
+import { DeleteListButton } from '@/features/shop/components/delete-list-button';
+import { EditItemSheet } from '@/features/shop/components/edit-item-sheet';
+import { EmptyState } from '@/features/shop/components/empty-state';
+import { ItemRow } from '@/features/shop/components/item-row';
+import { MarkAllRow } from '@/features/shop/components/mark-all-row';
+import { ReceiptSheet } from '@/features/shop/components/receipt-sheet';
+import { SearchField } from '@/features/shop/components/search-field';
+import { ShopHeader } from '@/features/shop/components/shop-header';
+import { SortSheet } from '@/features/shop/components/sort-sheet';
+import { SummaryPreviewCard } from '@/features/shop/components/summary-preview-card';
+import type { ListItem } from '@/features/shop/list-item';
 import {
   DEFAULT_SORT,
   type SortOption,
   useVisibleItems,
-} from "@/features/shop/use-visible-items";
-import { router, Stack } from "expo-router";
-import { useCallback, useMemo, useState } from "react";
-import { FlatList, type ListRenderItem, Text, View } from "react-native";
+} from '@/features/shop/use-visible-items';
 
 const SCREEN_ANIMATION_DURATION = 320;
 
@@ -37,7 +37,7 @@ export default function ShopScreen() {
   } = useActiveListStore((state) => state);
   const [receiptVisible, setReceiptVisible] = useState(false);
   const [editingItem, setEditingItem] = useState<ListItem | null>(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortOption>(DEFAULT_SORT);
   const [sortVisible, setSortVisible] = useState(false);
   const items = activeList?.items ?? [];
@@ -59,7 +59,7 @@ export default function ShopScreen() {
   );
   const handleDelete = useCallback(() => {
     deleteList();
-    router.replace("/home");
+    router.replace('/home');
   }, [deleteList]);
   if (!activeList) return null;
   const hasItems = items.length > 0;
@@ -67,7 +67,7 @@ export default function ShopScreen() {
     <View testID="shop-screen" className="flex-1 bg-white">
       <Stack.Screen
         options={{
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
           animationDuration: SCREEN_ANIMATION_DURATION,
         }}
       />

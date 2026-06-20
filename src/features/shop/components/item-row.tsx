@@ -1,36 +1,36 @@
-import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import {
-  getCategoryTile,
-  getCategoryTintClass,
-  getLineTotalInCents,
-  type ListItem,
-} from "@/features/shop/list-item";
-import { formatBRL } from "@/lib/currency";
-import { cn } from "@/lib/utils";
-import { Check, Pencil, Trash2 } from "lucide-react-native";
-import { memo, useCallback, useState } from "react";
+import { Check, Pencil, Trash2 } from 'lucide-react-native';
+import { memo, useCallback, useState } from 'react';
 import {
   type AccessibilityActionEvent,
   Dimensions,
   Pressable,
   Text,
   View,
-} from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+} from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import {
+  getCategoryTile,
+  getCategoryTintClass,
+  getLineTotalInCents,
+  type ListItem,
+} from '@/features/shop/list-item';
+import { formatBRL } from '@/lib/currency';
+import { cn } from '@/lib/utils';
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 const DELETE_THRESHOLD = SCREEN_WIDTH * 0.45;
 const REVEAL_REST = 96;
 const HORIZONTAL_ACTIVATION = 15;
 const VERTICAL_FAIL = 10;
 const SETTLE_DURATION = 160;
-const DELETE_ACTION = "delete";
+const DELETE_ACTION = 'delete';
 
 interface ItemRowProps {
   item: ListItem;
@@ -45,16 +45,11 @@ function formatSubtitle(item: ListItem): string {
 }
 
 function formatLineTotal(item: ListItem): string {
-  if (item.unitPriceInCents === null) return "—";
+  if (item.unitPriceInCents === null) return '—';
   return formatBRL(getLineTotalInCents(item));
 }
 
-function ItemRowComponent({
-  item,
-  onToggle,
-  onEdit,
-  onRemove,
-}: ItemRowProps) {
+function ItemRowComponent({ item, onToggle, onEdit, onRemove }: ItemRowProps) {
   const tile = getCategoryTile(item.category);
   const TileIcon = tile.icon;
   const isPriceless = item.unitPriceInCents === null;
@@ -111,7 +106,7 @@ function ItemRowComponent({
           <Animated.View
             style={rowStyle}
             testID={`shop-item-row-${item.id}`}
-            accessibilityActions={[{ name: DELETE_ACTION, label: "Excluir" }]}
+            accessibilityActions={[{ name: DELETE_ACTION, label: 'Excluir' }]}
             onAccessibilityAction={handleAccessibilityAction}
           >
             <View className="flex-row items-center gap-3 rounded-[14px] border-hairline border-checkit-mist-border bg-white p-3">
@@ -122,7 +117,7 @@ function ItemRowComponent({
                 accessibilityLabel={`Marcar ${item.name}`}
                 hitSlop={8}
                 testID={`shop-item-checkbox-${item.id}`}
-                className={`h-[22px] w-[22px] items-center justify-center rounded-md border-2 ${item.checked ? "border-checkit-primary bg-checkit-primary" : "border-checkit-mist-border"}`}
+                className={`h-[22px] w-[22px] items-center justify-center rounded-md border-2 ${item.checked ? 'border-checkit-primary bg-checkit-primary' : 'border-checkit-mist-border'}`}
               >
                 {item.checked && (
                   <Check size={14} color="#ffffff" strokeWidth={3} />
@@ -137,7 +132,7 @@ function ItemRowComponent({
               >
                 <View
                   className={cn(
-                    "h-8 w-8 items-center justify-center rounded-[9px]",
+                    'h-8 w-8 items-center justify-center rounded-[9px]',
                     getCategoryTintClass(item.category),
                   )}
                 >
@@ -146,7 +141,7 @@ function ItemRowComponent({
                 <View className="min-w-0 flex-1">
                   <Text
                     numberOfLines={1}
-                    className={`text-sm font-bold ${item.checked ? "text-checkit-pebble-gray line-through opacity-55" : "text-checkit-charcoal-ink"}`}
+                    className={`text-sm font-bold ${item.checked ? 'text-checkit-pebble-gray line-through opacity-55' : 'text-checkit-charcoal-ink'}`}
                   >
                     {item.name}
                   </Text>
@@ -155,7 +150,7 @@ function ItemRowComponent({
                   </Text>
                 </View>
                 <Text
-                  className={`text-sm font-bold tabular-nums ${isPriceless ? "text-checkit-pebble-gray" : "text-checkit-charcoal-ink"}`}
+                  className={`text-sm font-bold tabular-nums ${isPriceless ? 'text-checkit-pebble-gray' : 'text-checkit-charcoal-ink'}`}
                 >
                   {formatLineTotal(item)}
                 </Text>

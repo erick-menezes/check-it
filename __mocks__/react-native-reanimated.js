@@ -1,4 +1,4 @@
-const { View, Text, Image, Animated } = require('react-native');
+const { View, Text, Image } = require('react-native');
 
 const NOOP = () => {};
 const ID = (t) => t;
@@ -75,7 +75,7 @@ module.exports = {
   LinearTransition: createAnimation(),
   Layout: createAnimation(),
   useSharedValue: (value) => ({ value }),
-  useAnimatedStyle: (fn) => ({}),
+  useAnimatedStyle: (_fn) => ({}),
   useAnimatedRef: () => ({ current: null }),
   useDerivedValue: (fn) => ({ value: fn() }),
   useAnimatedScrollHandler: NOOP,
@@ -96,8 +96,8 @@ module.exports = {
   cancelAnimation: NOOP,
   runOnJS: (fn) => fn,
   runOnUI: (fn) => fn,
-  interpolate: (value, inputRange, outputRange) => outputRange[0],
-  interpolateColor: (value, inputRange, outputRange) => outputRange[0],
+  interpolate: (_value, _inputRange, outputRange) => outputRange[0],
+  interpolateColor: (_value, _inputRange, outputRange) => outputRange[0],
   Easing: {
     bezier: () => ID,
     linear: ID,

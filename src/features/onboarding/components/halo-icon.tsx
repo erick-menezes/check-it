@@ -1,7 +1,6 @@
-import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
-import type { LucideIcon } from "lucide-react-native";
-import type { JSX } from "react";
-import { View } from "react-native";
+import { GlassView, isGlassEffectAPIAvailable } from 'expo-glass-effect';
+import type { LucideIcon } from 'lucide-react-native';
+import { View } from 'react-native';
 
 interface HaloIconProps {
   Icon: LucideIcon;

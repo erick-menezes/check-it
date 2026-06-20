@@ -1,12 +1,11 @@
-import { formatBRL } from "@/lib/currency";
-import { cn } from "@/lib/utils";
-import type { JSX } from "react";
-import { Pressable, Text, View } from "react-native";
-import { type ActiveList, getBudgetStatus } from "../active-list";
-import { BudgetProgressBar } from "./budget-progress-bar";
+import { Pressable, Text, View } from 'react-native';
+import { formatBRL } from '@/lib/currency';
+import { cn } from '@/lib/utils';
+import { type ActiveList, getBudgetStatus } from '../active-list';
+import { BudgetProgressBar } from './budget-progress-bar';
 
 function formatItemCount(count: number): string {
-  const unit = count === 1 ? "item" : "itens";
+  const unit = count === 1 ? 'item' : 'itens';
   return `${count} ${unit}`;
 }
 
@@ -20,10 +19,10 @@ function isSameDay(date: Date, reference: Date): boolean {
 
 function formatDateLabel(iso: string): string {
   const date = new Date(iso);
-  if (isSameDay(date, new Date())) return "Iniciada hoje";
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "short",
+  if (isSameDay(date, new Date())) return 'Iniciada hoje';
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: 'numeric',
+    month: 'short',
   }).format(date);
 }
 
@@ -32,11 +31,8 @@ interface ActiveListCardProps {
   onOpen: () => void;
 }
 
-export function ActiveListCard({
-  list,
-  onOpen,
-}: ActiveListCardProps) {
-  const isOverBudget = getBudgetStatus(list) === "overBudget";
+export function ActiveListCard({ list, onOpen }: ActiveListCardProps) {
+  const isOverBudget = getBudgetStatus(list) === 'overBudget';
   return (
     <Pressable
       onPress={onOpen}
@@ -45,7 +41,7 @@ export function ActiveListCard({
       testID="active-list-card"
       style={({ pressed }) => [
         {
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: { width: 0, height: 4 },
           shadowOpacity: 0.06,
           shadowRadius: 14,
@@ -80,10 +76,10 @@ export function ActiveListCard({
         <View className="items-end">
           <Text
             className={cn(
-              "text-base font-bold tabular-nums tracking-tight",
+              'text-base font-bold tabular-nums tracking-tight',
               isOverBudget
-                ? "text-checkit-danger"
-                : "text-checkit-charcoal-ink",
+                ? 'text-checkit-danger'
+                : 'text-checkit-charcoal-ink',
             )}
           >
             {formatBRL(list.totalInCents)}

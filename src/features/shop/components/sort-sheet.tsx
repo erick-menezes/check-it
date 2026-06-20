@@ -16,9 +16,6 @@ import {
 } from '@/features/shop/use-visible-items';
 import { cn } from '@/lib/utils';
 
-const OPTION_ICON_SIZE = 18;
-const CHECK_ICON_SIZE = 18;
-
 const SORT_ICONS: Readonly<Record<SortOption, LucideIcon>> = {
   recent: Clock,
   oldest: History,
@@ -71,7 +68,7 @@ export function SortSheet({
               )}
             >
               <OptionIcon
-                size={OPTION_ICON_SIZE}
+                size={18}
                 color={selected ? '#58AB6A' : '#8A8A8A'}
                 strokeWidth={2}
               />
@@ -79,11 +76,7 @@ export function SortSheet({
                 {option.label}
               </Text>
               {selected && (
-                <Check
-                  size={CHECK_ICON_SIZE}
-                  color="#58AB6A"
-                  strokeWidth={2.5}
-                />
+                <Check size={18} color="#58AB6A" strokeWidth={2.5} />
               )}
             </Pressable>
           );

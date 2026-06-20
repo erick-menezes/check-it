@@ -11,11 +11,7 @@ interface FaqSectionProps {
   onToggle: (id: HelpSectionId) => void;
 }
 
-export function FaqSection({
-  section,
-  isOpen,
-  onToggle,
-}: FaqSectionProps) {
+export function FaqSection({ section, isOpen, onToggle }: FaqSectionProps) {
   const contentColor = isOpen ? '#FFFFFF' : '#1B1B1B';
   const Indicator = isOpen ? Minus : Plus;
   const { Icon } = section;

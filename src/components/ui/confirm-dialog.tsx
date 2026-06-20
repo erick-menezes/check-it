@@ -1,9 +1,8 @@
-import { cn } from "@/lib/utils";
-import type { LucideIcon } from "lucide-react-native";
-import type { JSX } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import type { LucideIcon } from 'lucide-react-native';
+import { Modal, Pressable, Text, View } from 'react-native';
+import { cn } from '@/lib/utils';
 
-type DialogTone = "primary" | "danger";
+type DialogTone = 'primary' | 'danger';
 
 interface ConfirmDialogProps {
   visible: boolean;
@@ -19,24 +18,24 @@ interface ConfirmDialogProps {
 }
 
 const TONE_COLOR: Record<DialogTone, string> = {
-  primary: "#58AB6A",
-  danger: "#E13E3E",
+  primary: '#58AB6A',
+  danger: '#E13E3E',
 };
 
 const TONE_TINT_BG: Record<DialogTone, string> = {
-  primary: "bg-checkit-primary/[0.16]",
-  danger: "bg-checkit-danger/[0.16]",
+  primary: 'bg-checkit-primary/[0.16]',
+  danger: 'bg-checkit-danger/[0.16]',
 };
 
 const TONE_CONFIRM_BG: Record<DialogTone, string> = {
-  primary: "bg-checkit-primary",
-  danger: "bg-checkit-danger",
+  primary: 'bg-checkit-primary',
+  danger: 'bg-checkit-danger',
 };
 
 export function ConfirmDialog({
   visible,
   icon: Icon,
-  tone = "primary",
+  tone = 'primary',
   title,
   message,
   confirmLabel,
@@ -64,7 +63,7 @@ export function ConfirmDialog({
         <View className="mx-6 w-full max-w-[320px] rounded-[20px] bg-white p-[22px]">
           <View
             className={cn(
-              "mb-3.5 h-[52px] w-[52px] items-center justify-center rounded-[14px]",
+              'mb-3.5 h-[52px] w-[52px] items-center justify-center rounded-[14px]',
               TONE_TINT_BG[tone],
             )}
           >
@@ -94,7 +93,7 @@ export function ConfirmDialog({
               testID={testID ? `${testID}-confirm` : undefined}
               onPress={onConfirm}
               className={cn(
-                "h-11 flex-1 items-center justify-center rounded-xl",
+                'h-11 flex-1 items-center justify-center rounded-xl',
                 TONE_CONFIRM_BG[tone],
               )}
             >

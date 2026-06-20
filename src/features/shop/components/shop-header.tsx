@@ -1,31 +1,28 @@
-import {
-  type ActiveList,
-  type BudgetStatus,
-  getBudgetRatio,
-  getBudgetStatus,
-} from "@/features/home/active-list";
-import { getLineTotalInCents } from "@/features/shop/list-item";
-import { formatBRL } from "@/lib/currency";
-import { Pencil, X } from "lucide-react-native";
-import { useEffect, useMemo, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pencil, X } from 'lucide-react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  type ActiveList,
+  type BudgetStatus,
+  getBudgetRatio,
+  getBudgetStatus,
+} from '@/features/home/active-list';
+import { getLineTotalInCents } from '@/features/shop/list-item';
+import { formatBRL } from '@/lib/currency';
 
-const CLOSE_ICON_SIZE = 24;
-const TITLE_EDIT_ICON_SIZE = 14;
-const PERCENT = 100;
 const BAR_ANIMATION_DURATION = 300;
 
 const STATUS_FILL_COLOR: Record<BudgetStatus, string> = {
-  onTrack: "#ffffff",
-  warning: "#F2B807",
-  overBudget: "#E13E3E",
+  onTrack: '#ffffff',
+  warning: '#F2B807',
+  overBudget: '#E13E3E',
 };
 
 const STATUS_INDEX: Record<BudgetStatus, number> = {
@@ -97,7 +94,7 @@ function getPendingCount(list: ActiveList): number {
 }
 
 function buildStatusLine(list: ActiveList, status: BudgetStatus): string {
-  if (status === "overBudget") {
+  if (status === 'overBudget') {
     return `Excedeu em ${formatBRL(list.totalInCents - list.limitInCents)}`;
   }
   const pendingTotal = getPendingPricedTotalInCents(list);
@@ -151,7 +148,7 @@ function EditableTitle({
         {name}
       </Text>
       <Pencil
-        size={TITLE_EDIT_ICON_SIZE}
+        size={14}
         color="#ffffff"
         strokeWidth={2}
         className="opacity-70"
@@ -160,19 +157,15 @@ function EditableTitle({
   );
 }
 
-export function ShopHeader({
-  list,
-  onRename,
-  onClose,
-}: ShopHeaderProps) {
+export function ShopHeader({ list, onRename, onClose }: ShopHeaderProps) {
   const status = getBudgetStatus(list);
   const statusLine = useMemo(
     () => buildStatusLine(list, status),
     [list, status],
   );
-  const fillPercent = Math.round(getBudgetRatio(list) * PERCENT);
+  const fillPercent = Math.round(getBudgetRatio(list) * 100);
   return (
-    <SafeAreaView edges={["top"]} className="bg-checkit-primary">
+    <SafeAreaView edges={['top']} className="bg-checkit-primary">
       <View className="px-[22px] pb-[18px] pt-1">
         <Pressable
           onPress={onClose}
@@ -181,7 +174,7 @@ export function ShopHeader({
           testID="shop-close"
           className="-ml-1 h-11 w-11 items-center justify-center rounded-full"
         >
-          <X size={CLOSE_ICON_SIZE} color="#ffffff" strokeWidth={2} />
+          <X size={24} color="#ffffff" strokeWidth={2} />
         </Pressable>
         <View className="mt-2.5">
           <EditableTitle name={list.name} onRename={onRename} />
@@ -213,7 +206,7 @@ export function ShopHeader({
           <View
             accessible
             accessibilityRole="progressbar"
-            accessibilityValue={{ now: fillPercent, min: 0, max: PERCENT }}
+            accessibilityValue={{ now: fillPercent, min: 0, max: 100 }}
             testID={`shop-progress-${status}`}
             className="mt-2.5 h-[5px] w-full overflow-hidden rounded bg-white/[0.18]"
           >

@@ -1,6 +1,5 @@
-import { Camera, PlusCircle } from "lucide-react-native";
-import type { JSX } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Camera, PlusCircle } from 'lucide-react-native';
+import { Pressable, Text, View } from 'react-native';
 
 interface EmptyStateProps {
   onScanReceipt: () => void;

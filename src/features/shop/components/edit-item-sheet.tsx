@@ -1,20 +1,20 @@
-import { BottomSheet } from "@/components/ui/bottom-sheet";
-import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Minus, Plus, Trash2, X } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
+import { BottomSheet } from '@/components/ui/bottom-sheet';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import {
   CATEGORIES,
-  type Category,
   CATEGORY_META,
+  type Category,
   getCategoryBackgroundClass,
   type ListItem,
   MIN_QUANTITY,
   type UpdateItemChanges,
-} from "@/features/shop/list-item";
-import { usePriceInput } from "@/features/shop/use-price-input";
-import { formatBRL, formatBRLAmount } from "@/lib/currency";
-import { cn } from "@/lib/utils";
-import { Minus, Plus, Trash2, X } from "lucide-react-native";
-import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+} from '@/features/shop/list-item';
+import { usePriceInput } from '@/features/shop/use-price-input';
+import { formatBRL, formatBRLAmount } from '@/lib/currency';
+import { cn } from '@/lib/utils';
 
 interface EditItemSheetProps {
   item: ListItem | null;
@@ -30,12 +30,7 @@ interface EditItemFormProps {
   onRemove: (itemId: string) => void;
 }
 
-function EditItemForm({
-  item,
-  onClose,
-  onSave,
-  onRemove,
-}: EditItemFormProps) {
+function EditItemForm({ item, onClose, onSave, onRemove }: EditItemFormProps) {
   const [name, setName] = useState(item.name);
   const [quantity, setQuantity] = useState(item.quantity);
   const [category, setCategory] = useState<Category | null>(item.category);
@@ -99,7 +94,7 @@ function EditItemForm({
             R$
           </Text>
           <TextInput
-            value={price.hasPrice ? formatBRLAmount(price.cents) : ""}
+            value={price.hasPrice ? formatBRLAmount(price.cents) : ''}
             onChangeText={price.setDigits}
             keyboardType="number-pad"
             placeholder="0,00"
@@ -120,7 +115,7 @@ function EditItemForm({
                 testID="edit-total"
                 className="mt-1 text-xs text-checkit-pebble-gray"
               >
-                Total:{" "}
+                Total:{' '}
                 <Text className="font-bold tabular-nums text-checkit-charcoal-ink">
                   {formatBRL(price.cents * quantity)}
                 </Text>
@@ -173,22 +168,22 @@ function EditItemForm({
               accessibilityLabel={meta.label}
               testID={`edit-category-${option}`}
               className={cn(
-                "h-[30px] flex-row items-center gap-2 rounded-full px-3",
+                'h-[30px] flex-row items-center gap-2 rounded-full px-3',
                 selected
                   ? getCategoryBackgroundClass(option)
-                  : "border-hairline border-checkit-mist-border bg-checkit-linen-cream",
+                  : 'border-hairline border-checkit-mist-border bg-checkit-linen-cream',
               )}
             >
               <View
                 className={cn(
-                  "h-1.5 w-1.5 rounded-full",
-                  selected ? "bg-white" : getCategoryBackgroundClass(option),
+                  'h-1.5 w-1.5 rounded-full',
+                  selected ? 'bg-white' : getCategoryBackgroundClass(option),
                 )}
               />
               <Text
                 className={cn(
-                  "text-xs font-semibold",
-                  selected ? "text-white" : "text-checkit-pebble-gray",
+                  'text-xs font-semibold',
+                  selected ? 'text-white' : 'text-checkit-pebble-gray',
                 )}
               >
                 {meta.label}

@@ -1,17 +1,15 @@
-import { cn } from "@/lib/utils";
-import { Check, Plus } from "lucide-react-native";
-import { useState } from "react";
-import { Pressable, TextInput, View } from "react-native";
-import { SuggestionsBox } from "./suggestions-box";
-
-const CONFIRM_HIT_SLOP = 3;
+import { Check, Plus } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable, TextInput, View } from 'react-native';
+import { cn } from '@/lib/utils';
+import { SuggestionsBox } from './suggestions-box';
 
 interface AddProductInputProps {
   onAdd: (name: string) => void;
 }
 
 export function AddProductInput({ onAdd }: AddProductInputProps) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [focused, setFocused] = useState(false);
   const trimmed = text.trim();
   const canAdd = trimmed.length > 0;
@@ -19,11 +17,11 @@ export function AddProductInput({ onAdd }: AddProductInputProps) {
   function confirm(): void {
     if (!canAdd) return;
     onAdd(trimmed);
-    setText("");
+    setText('');
   }
   function selectSuggestion(name: string): void {
     onAdd(name);
-    setText("");
+    setText('');
   }
   return (
     <View>
@@ -50,16 +48,16 @@ export function AddProductInput({ onAdd }: AddProductInputProps) {
           accessibilityRole="button"
           accessibilityLabel="Confirmar produto"
           accessibilityState={{ disabled: !canAdd }}
-          hitSlop={CONFIRM_HIT_SLOP}
+          hitSlop={3}
           testID="shop-add-confirm"
           className={cn(
-            "h-[38px] w-[38px] items-center justify-center rounded-[10px]",
-            canAdd ? "bg-checkit-primary" : "bg-checkit-fog-gray",
+            'h-[38px] w-[38px] items-center justify-center rounded-[10px]',
+            canAdd ? 'bg-checkit-primary' : 'bg-checkit-fog-gray',
           )}
         >
           <Check
             size={18}
-            color={canAdd ? "#ffffff" : "#8A8A8A"}
+            color={canAdd ? '#ffffff' : '#8A8A8A'}
             strokeWidth={2.5}
           />
         </Pressable>

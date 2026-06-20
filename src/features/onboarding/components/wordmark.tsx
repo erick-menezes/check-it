@@ -5,10 +5,7 @@ interface WordmarkProps {
   color?: string;
 }
 
-export function Wordmark({
-  size = 22,
-  color = 'inherit',
-}: WordmarkProps) {
+export function Wordmark({ size = 22, color = 'inherit' }: WordmarkProps) {
   return (
     <Text
       testID="wordmark"

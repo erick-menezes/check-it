@@ -1,6 +1,5 @@
-import { BottomTabBar, VISIBLE_TABS } from "@/components/ui/bottom-tab-bar";
-import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
-import type { JSX } from "react";
+import { TabList, TabSlot, Tabs, TabTrigger } from 'expo-router/ui';
+import { BottomTabBar, VISIBLE_TABS } from '@/components/ui/bottom-tab-bar';
 
 export default function TabsLayout() {
   return (

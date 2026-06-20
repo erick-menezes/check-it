@@ -1,17 +1,16 @@
+import { router, Stack } from 'expo-router';
+import { ChevronLeft } from 'lucide-react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   getCategoryBreakdown,
   getListTotalInCents,
   getTopItems,
-} from "@/features/home/active-list";
-import { useActiveListStore } from "@/features/home/active-list-store";
-import { StackedCategoryBar } from "@/features/summary/components/stacked-category-bar";
-import { SummaryTotalTile } from "@/features/summary/components/summary-total-tile";
-import { TopItemsList } from "@/features/summary/components/top-items-list";
-import { router, Stack } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
-import type { JSX } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from '@/features/home/active-list';
+import { useActiveListStore } from '@/features/home/active-list-store';
+import { StackedCategoryBar } from '@/features/summary/components/stacked-category-bar';
+import { SummaryTotalTile } from '@/features/summary/components/summary-total-tile';
+import { TopItemsList } from '@/features/summary/components/top-items-list';
 
 const SCREEN_ANIMATION_DURATION = 320;
 
@@ -25,11 +24,11 @@ export default function SummaryScreen() {
     <View testID="summary-screen" className="flex-1 bg-white">
       <Stack.Screen
         options={{
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
           animationDuration: SCREEN_ANIMATION_DURATION,
         }}
       />
-      <SafeAreaView edges={["top"]} className="bg-checkit-primary">
+      <SafeAreaView edges={['top']} className="bg-checkit-primary">
         <View className="flex-row items-center px-2.5 pb-3.5 pt-1">
           <Pressable
             onPress={() => router.back()}

@@ -1,9 +1,8 @@
-import { Toggle } from "@/components/ui/toggle";
-import { Bell } from "lucide-react-native";
-import type { JSX } from "react";
-import { Text, View } from "react-native";
-import { useSettingsStore } from "../settings-store";
-import { SettingIconTile } from "./setting-icon-tile";
+import { Bell } from 'lucide-react-native';
+import { Text, View } from 'react-native';
+import { Toggle } from '@/components/ui/toggle';
+import { useSettingsStore } from '../settings-store';
+import { SettingIconTile } from './setting-icon-tile';
 
 export function NotificationRow() {
   const budgetAlertsEnabled = useSettingsStore(

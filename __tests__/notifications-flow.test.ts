@@ -36,7 +36,10 @@ describe('notifications flow', () => {
       budgetThresholdLatch: {},
       hasHydrated: false,
     });
-    useSettingsStore.setState({ budgetAlertsEnabled: true, hasHydrated: false });
+    useSettingsStore.setState({
+      budgetAlertsEnabled: true,
+      hasHydrated: false,
+    });
     stopTracking = startBudgetAlertTracking();
   });
 

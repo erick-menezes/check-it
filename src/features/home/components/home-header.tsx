@@ -13,12 +13,7 @@ interface HeaderActionProps {
   onPress: () => void;
 }
 
-function HeaderAction({
-  Icon,
-  label,
-  testID,
-  onPress,
-}: HeaderActionProps) {
+function HeaderAction({ Icon, label, testID, onPress }: HeaderActionProps) {
   return (
     <Pressable
       onPress={onPress}
