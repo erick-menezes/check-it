@@ -1,10 +1,11 @@
 import { Mail } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 import { openSupportEmail, SUPPORT_EMAIL } from '@/lib/open-support-email';
 
 export function SupportBlock() {
   return (
-    <View className="mt-6">
+    <Animated.View layout={LinearTransition.duration(200)} className="mt-6">
       <Text className="text-[18px] font-bold tracking-tight text-checkit-charcoal-ink">
         Não achou sua dúvida?
       </Text>
@@ -23,6 +24,6 @@ export function SupportBlock() {
           {SUPPORT_EMAIL}
         </Text>
       </Pressable>
-    </View>
+    </Animated.View>
   );
 }
