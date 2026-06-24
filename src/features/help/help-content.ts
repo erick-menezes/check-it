@@ -33,12 +33,12 @@ export const HELP_SECTIONS: readonly HelpSection[] = [
       {
         question: 'Posso editar uma lista salva?',
         answer:
-          'Sim, abra a lista em "Listas" e edite cada item. Suas alterações ficam sincronizadas.',
+          'Sim, abra a lista em "Listas" e edite cada item quando quiser.',
       },
       {
         question: 'Como compartilhar com alguém?',
         answer:
-          'Dentro da lista, toque no ícone de compartilhar para gerar um link ou convidar por e-mail.',
+          'O compartilhamento de listas está a caminho. Por enquanto, suas listas ficam salvas no seu aparelho.',
       },
     ],
   },
@@ -65,14 +65,14 @@ export const HELP_SECTIONS: readonly HelpSection[] = [
     Icon: Receipt,
     items: [
       {
-        question: 'Como ver gastos por mês?',
+        question: 'Como vejo o resumo de uma lista?',
         answer:
-          'Vá em "Resumo" para ver gráficos, médias e itens que mais subiram de preço.',
+          'Toque em "Resumo" para ver o total, a divisão por categoria e os itens mais caros.',
       },
       {
         question: 'O app guarda meus preços?',
         answer:
-          'Sim. Comparamos preços entre listas, mostrando se um produto está mais caro.',
+          'Sim. Os preços ficam salvos em cada lista, e o resumo destaca os itens mais caros.',
       },
     ],
   },

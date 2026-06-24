@@ -97,7 +97,7 @@ export const PRIVACY_SECTIONS: readonly PrivacySection[] = [
   {
     Icon: ChartColumn,
     title: 'Como seus dados são usados',
-    body: 'Seus dados são usados apenas dentro do app, no próprio aparelho, para organizar listas e gerar seus gráficos de gastos. Nada é transmitido para fora do dispositivo. Recursos de conta e sincronização entre dispositivos estão a caminho — quando chegarem, atualizaremos esta política antes de ativá-los.',
+    body: 'Seus dados são usados apenas dentro do app, no próprio aparelho, para organizar listas e calcular seus totais de gastos. Nada é transmitido para fora do dispositivo. Recursos de conta e sincronização entre dispositivos estão a caminho — quando chegarem, atualizaremos esta política antes de ativá-los.',
   },
   {
     Icon: Users,
