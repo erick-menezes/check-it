@@ -1,19 +1,24 @@
 import { renderHook } from '@testing-library/react-native';
-import { type EmitterSubscription, Keyboard } from 'react-native';
+import {
+  type EmitterSubscription,
+  Keyboard,
+  type KeyboardEvent,
+} from 'react-native';
 import { useKeyboardHeight } from '@/lib/use-keyboard-height';
 
-type Handler = (event: {
-  endCoordinates: { height: number };
-  duration?: number;
-}) => void;
+type KeyboardListener = (event: KeyboardEvent) => void;
 
-const handlers = new Map<string, Handler>();
+const handlers = new Map<string, KeyboardListener>();
 
-function getHandler(needle: string): Handler {
+function getHandler(needle: string): KeyboardListener {
   for (const [event, handler] of handlers) {
     if (event.includes(needle)) return handler;
   }
   throw new Error(`No keyboard listener registered for "${needle}"`);
+}
+
+function emitKeyboardEvent(height: number, duration: number): KeyboardEvent {
+  return { endCoordinates: { height }, duration } as unknown as KeyboardEvent;
 }
 
 describe('useKeyboardHeight', () => {
@@ -21,7 +26,7 @@ describe('useKeyboardHeight', () => {
     handlers.clear();
     jest
       .spyOn(Keyboard, 'addListener')
-      .mockImplementation((event: string, handler: Handler) => {
+      .mockImplementation((event: string, handler: KeyboardListener) => {
         handlers.set(event, handler);
         return { remove: jest.fn() } as unknown as EmitterSubscription;
       });
@@ -38,9 +43,9 @@ describe('useKeyboardHeight', () => {
 
   it('tracks the keyboard height when it shows and resets when it hides', () => {
     const { result } = renderHook(() => useKeyboardHeight());
-    getHandler('Show')({ endCoordinates: { height: 320 }, duration: 250 });
+    getHandler('Show')(emitKeyboardEvent(320, 250));
     expect(result.current.value).toBe(320);
-    getHandler('Hide')({ endCoordinates: { height: 0 }, duration: 250 });
+    getHandler('Hide')(emitKeyboardEvent(0, 250));
     expect(result.current.value).toBe(0);
   });
 

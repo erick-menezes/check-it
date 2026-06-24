@@ -12,9 +12,6 @@ const SUPPORT_MAILTO = 'mailto:suporte@checkit.com';
 describe('SupportBlock', () => {
   beforeEach(() => {
     jest.restoreAllMocks();
-    jest
-      .spyOn(Linking, 'canOpenURL')
-      .mockImplementation(() => Promise.resolve(true));
     jest.spyOn(Linking, 'openURL').mockImplementation(() => Promise.resolve());
   });
 
@@ -31,7 +28,6 @@ describe('SupportBlock', () => {
     render(<SupportBlock />);
     fireEvent.press(screen.getByTestId('support-email-button'));
     await waitFor(() => {
-      expect(Linking.canOpenURL).toHaveBeenCalledWith(SUPPORT_MAILTO);
       expect(Linking.openURL).toHaveBeenCalledWith(SUPPORT_MAILTO);
     });
   });

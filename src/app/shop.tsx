@@ -78,10 +78,7 @@ export default function ShopScreen() {
           <AddProductInput onAdd={addItem} />
           {hasItems && (
             <>
-              <ActionRow
-                sort={sort}
-                onOpenSort={() => setSortVisible(true)}
-              />
+              <ActionRow sort={sort} onOpenSort={() => setSortVisible(true)} />
               <SearchField value={search} onChange={setSearch} />
             </>
           )}
