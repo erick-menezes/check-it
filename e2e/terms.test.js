@@ -49,7 +49,9 @@ describe('Check.it Terms & Privacy / Termos e privacidade screen', () => {
     await expect(
       element(by.text('O essencial sobre privacidade')),
     ).toBeVisible();
-    await expect(element(by.text('Dados que coletamos'))).toBeVisible();
+    await expect(
+      element(by.text('Dados que ficam no seu aparelho')),
+    ).toBeVisible();
   });
 
   it('closes and returns to Settings without a dead end', async () => {
