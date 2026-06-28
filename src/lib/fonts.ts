@@ -15,6 +15,9 @@ export const FONT_MAP = {
   'PlusJakartaSans-ExtraBold': PlusJakartaSans_800ExtraBold,
 } as const;
 
+export const DEFAULT_FONT_FAMILY =
+  'PlusJakartaSans-Regular' satisfies keyof typeof FONT_MAP;
+
 interface AppFontsResult {
   fontsLoaded: boolean;
 }
