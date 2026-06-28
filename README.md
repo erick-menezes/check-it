@@ -141,7 +141,8 @@ git status            # arvore tem que estar limpa
 eas build --platform android --profile production
 
 # 3. Enviar para a trilha de teste fechado (alpha) automaticamente
-eas submit --platform android --profile production
+#    --latest e obrigatorio em modo nao-interativo (escolhe o ultimo build)
+eas submit --platform android --profile production --latest
 ```
 
 O `versionName` vem do `version` em `app.json`; o `versionCode` é gerido remoto
