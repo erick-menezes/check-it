@@ -125,3 +125,43 @@ Ajuste o device em `.detoxrc.js` (`devices.simulator.device.type`) para um
 simulador instalado (`xcrun simctl list devices`) e o `avdName` para um AVD
 existente. Os diretórios `ios/` e `android/` são gerados sob demanda e estão no
 `.gitignore` (workflow managed / CNG).
+
+## Deploy / Publicação (EAS + Play Console)
+
+App publicado no Google Play em **teste fechado** (trilha `alpha`). Configuração
+em `eas.json` (perfil `production` com `autoIncrement` + `appVersionSource: remote`).
+
+### Lançar um novo release (Android)
+
+```bash
+# 1. Commitar tudo (o EAS Build usa o estado commitado do git)
+git status            # arvore tem que estar limpa
+
+# 2. Gerar o AAB na nuvem (autoIncrement sobe o versionCode sozinho)
+eas build --platform android --profile production
+
+# 3. Enviar para a trilha de teste fechado (alpha) automaticamente
+eas submit --platform android --profile production
+```
+
+O `versionName` vem do `version` em `app.json`; o `versionCode` é gerido remoto
+pelo EAS (`appVersionSource: remote`). Bump o `version` em `app.json` quando
+quiser mudar o nome da versão exibido.
+
+### Credencial do `eas submit`
+
+`eas submit` autentica na Play Developer API com uma chave de **service account**
+do Google Cloud. O caminho está em `eas.json` → `submit.production.android.serviceAccountKeyPath`:
+
+```
+./google-play-service-account.json   # raiz do projeto, IGNORADO pelo git
+```
+
+- O arquivo **nunca** é commitado (`.gitignore` cobre o nome exato).
+- A service account precisa da permissão **"Liberar apps para as faixas de teste"**
+  no Play Console (Usuários e permissões).
+- Em outra máquina, baixe a chave do Google Cloud e coloque-a nesse caminho.
+
+> O **primeiro** release de um app tem que ser enviado **manualmente** pelo Play
+> Console (a Play Developer API não cria o primeiro release). A partir do segundo,
+> `eas submit` cobre o envio.
