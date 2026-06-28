@@ -78,7 +78,7 @@ Not applicable — no backend, no network calls. The only external interaction i
 ## Integration points
 
 - **Expo Router** — `src/app/help.tsx` is already a registered route; the Home header already calls `router.push('/help')`. The screen inherits the root `Stack` (`headerShown: false`, slide-from-right default). The close (X) calls `router.back()`, falling back to `router.replace('/(tabs)/home')` when `router.canGoBack()` is false (defensive; deep-linking is out of scope).
-- **`expo-linking` (existing dependency)** — `openSupportEmail()` builds `mailto:suporte@checkit.com`, calls `Linking.canOpenURL(url)` and, only when supported, `Linking.openURL(url)`. Failures are caught and swallowed (optionally `console.warn`) so a device without a configured mail client never crashes the screen. No `ios.infoPlist` scheme allow-list change is needed for the `mailto:` scheme.
+- **`expo-linking` (existing dependency)** — `openSupportEmail()` builds `mailto:contact@erickmenezesdev.com`, calls `Linking.canOpenURL(url)` and, only when supported, `Linking.openURL(url)`. Failures are caught and swallowed (optionally `console.warn`) so a device without a configured mail client never crashes the screen. No `ios.infoPlist` scheme allow-list change is needed for the `mailto:` scheme.
 - **`react-native-safe-area-context`** — `useSafeAreaInsets()` for the header top padding, consistent with `home-header.tsx`; no hardcoded status-bar offsets.
 
 ## Testing approach

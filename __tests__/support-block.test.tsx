@@ -1,13 +1,13 @@
+import { SupportBlock } from '@/features/help/components/support-block';
 import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
 } from '@testing-library/react-native';
 import { Linking } from 'react-native';
-import { SupportBlock } from '@/features/help/components/support-block';
 
-const SUPPORT_MAILTO = 'mailto:suporte@checkit.com';
+const SUPPORT_MAILTO = 'mailto:contact@erickmenezesdev.com';
 
 describe('SupportBlock', () => {
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('SupportBlock', () => {
     expect(
       screen.getByText('Manda pra gente que respondemos assim que possível.'),
     ).toBeOnTheScreen();
-    expect(screen.getByText('suporte@checkit.com')).toBeOnTheScreen();
+    expect(screen.getByText('contact@erickmenezesdev.com')).toBeOnTheScreen();
   });
 
   it('opens the support email when the button is pressed', async () => {

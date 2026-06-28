@@ -19,7 +19,7 @@ Two architecture decisions shape the work: (1) the segmented control is built as
 - **`src/features/terms/components/document-content.tsx`** (new): the per-tab scrollable body — last-updated line, summary card, section list, and contact footer — wrapped in a Reanimated view with `entering={FadeIn.duration(250)}`. Receives the active document's content as props; remounted via `key={activeTab}` so the `ScrollView` scroll position resets natively on tab switch (PRD 2.4).
 - **`src/features/terms/components/document-section.tsx`** (new): one section row — 28 px leading tile (8 px radius, Linen Cream, Mist Border) holding either the section number (terms) or a 14 px icon (privacy), 14 px / 700 title, 13 px Slate Ink body at ~1.55 line height, 20 px bottom margin. One component for both documents (number vs. icon discriminated by props), matching the handoff's single `TermSection`.
 - **`src/features/terms/components/contact-footer.tsx`** (new): dashed Mist Border block (14 px radius, center-aligned) with the support copy and a small soft-variant button (envelope icon + "Falar com o suporte") that calls `openSupportEmail()`.
-- **`src/lib/open-support-email.ts`** (moved from `src/features/help/open-support-email.ts`): unchanged mailto helper (`suporte@checkit.com` via `Linking`). `SupportBlock` (help) and `ContactFooter` (terms) both import from the new location.
+- **`src/lib/open-support-email.ts`** (moved from `src/features/help/open-support-email.ts`): unchanged mailto helper (`contact@erickmenezesdev.com` via `Linking`). `SupportBlock` (help) and `ContactFooter` (terms) both import from the new location.
 - **`src/components/ui/button.tsx`** (modified): gains a **`soft` variant** (Linen Cream fill, Charcoal Ink label) and a leading-icon slot, needed by the contact footer (DESIGN.md "Soft" button; current variants are `accent | onPrimary | ghost` with only a trailing arrow icon). If extending the icon API proves invasive, the fallback is a bespoke `Pressable` inside `ContactFooter` styled per DESIGN.md (as `SupportBlock` already does); decide at implementation time, preferring the `Button` extension.
 
 **Data flow:** `terms.tsx` holds `activeTab` → passes segments + selected index to `SegmentedControl` (controlled component, fires `onChange(id)`) → selects the matching document model from `terms-content.ts` → renders `DocumentContent key={activeTab}` → static props flow down to `DocumentSection` rows and `ContactFooter`. No global state, no persistence, no I/O besides the mailto intent.
@@ -49,7 +49,7 @@ export function SegmentedControl<T extends string>(
 
 ```typescript
 // src/lib/open-support-email.ts (moved, unchanged contract)
-export const SUPPORT_EMAIL = "suporte@checkit.com";
+export const SUPPORT_EMAIL = "contact@erickmenezesdev.com";
 export async function openSupportEmail(): Promise<void>;
 ```
 

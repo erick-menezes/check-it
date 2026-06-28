@@ -40,8 +40,8 @@ E2E flow are owned by Task 3.0.
   (`rgba(255,255,255,.16)`), question emphasized above the full answer in white.
 - **Support block (PRD §5):** "Não achou sua dúvida?" title + caption "Manda pra
   gente que respondemos assim que possível."; full-width ghost button with envelope
-  icon and label "suporte@checkit.com"; press triggers `openSupportEmail()`.
-- **`openSupportEmail`** builds `mailto:suporte@checkit.com`, guards with
+  icon and label "contact@erickmenezesdev.com"; press triggers `openSupportEmail()`.
+- **`openSupportEmail`** builds `mailto:contact@erickmenezesdev.com`, guards with
   `Linking.canOpenURL`, opens only when supported, and swallows failures.
 - **Accessibility (PRD):** PT-BR `accessibilityLabel` / `accessibilityRole` on
   section headers and support button; `accessibilityState.expanded` reflects state;

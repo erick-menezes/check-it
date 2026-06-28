@@ -144,7 +144,7 @@ Functional requirements:
 sua dúvida?"** with the supporting line **"Manda pra gente que respondemos assim
 que possível."**  
 5.2. The block MUST present a full-width **ghost button** carrying an envelope
-icon and the label **"suporte@checkit.com"**, per DESIGN.md's ghost-button style.  
+icon and the label **"contact@erickmenezesdev.com"**, per DESIGN.md's ghost-button style.  
 5.3. Activating the support button SHOULD initiate contacting support via the
 displayed email address.
 

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 
 jest.mock('@/lib/open-support-email', () => ({
   openSupportEmail: jest.fn(),
-  SUPPORT_EMAIL: 'suporte@checkit.com',
+  SUPPORT_EMAIL: 'contact@erickmenezesdev.com',
 }));
 
 import { ContactFooter } from '@/features/terms/components/contact-footer';

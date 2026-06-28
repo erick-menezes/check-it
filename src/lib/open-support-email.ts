@@ -1,6 +1,6 @@
 import { Linking } from 'react-native';
 
-export const SUPPORT_EMAIL = 'suporte@checkit.com';
+export const SUPPORT_EMAIL = 'contact@erickmenezesdev.com';
 
 const SUPPORT_MAILTO = `mailto:${SUPPORT_EMAIL}`;
 
