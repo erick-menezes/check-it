@@ -5,6 +5,13 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
+    // Weight is expressed through the font-family utilities below (each Plus
+    // Jakarta weight is a separate loaded family). Disable the default
+    // fontWeight scale so utilities like `font-bold` don't ALSO emit
+    // `fontWeight: 700` — on Android that makes the OS look for a bold-styled
+    // variant of the (normal-style) loaded font, fail, and fall back to the
+    // system/forced font.
+    fontWeight: {},
     extend: {
       fontFamily: {
         sans: ['PlusJakartaSans-Regular'],
