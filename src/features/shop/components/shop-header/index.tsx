@@ -1,7 +1,8 @@
 import { X } from 'lucide-react-native';
 import { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
 import {
   type ActiveList,
   getBudgetRatio,

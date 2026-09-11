@@ -1,7 +1,8 @@
 import { Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { Text } from '@/components/ui/text';
 
 interface DeleteListButtonProps {
   listName: string;

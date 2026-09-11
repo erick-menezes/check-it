@@ -1,5 +1,6 @@
 import { ChevronRight, type LucideIcon } from 'lucide-react-native';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { SettingIconTile } from './setting-icon-tile';
 
 interface NavigationRowProps {

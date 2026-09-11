@@ -4,7 +4,6 @@ import {
   type AccessibilityActionEvent,
   Dimensions,
   Pressable,
-  Text,
   View,
 } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -15,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { Text } from '@/components/ui/text';
 import {
   getCategoryTile,
   getCategoryTintClass,

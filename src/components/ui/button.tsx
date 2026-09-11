@@ -1,12 +1,7 @@
 import { ArrowRight, type LucideIcon } from 'lucide-react-native';
 import { useRef } from 'react';
-import {
-  Animated,
-  Pressable,
-  type PressableProps,
-  Text,
-  View,
-} from 'react-native';
+import { Animated, Pressable, type PressableProps, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 type ButtonVariant = 'accent' | 'onPrimary' | 'ghost' | 'soft';

@@ -1,7 +1,8 @@
 import { router, Stack } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
 import {
   getCategoryBreakdown,
   getListTotalInCents,

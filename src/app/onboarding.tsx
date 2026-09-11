@@ -6,10 +6,10 @@ import {
   type NativeSyntheticEvent,
   Pressable,
   ScrollView,
-  Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
 import { OnboardingFooter } from '@/features/onboarding/components/onboarding-footer';
 import { OnboardingStep } from '@/features/onboarding/components/onboarding-step';
 import { ONBOARDING_STEPS } from '@/features/onboarding/onboarding-steps';

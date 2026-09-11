@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import { Bell, CircleHelp } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
 import { useUnreadNotifications } from '@/features/notifications/use-unread-notifications';
 import { useGreeting } from '../../use-greeting';
 import { CreateListCta } from '../create-list-cta';

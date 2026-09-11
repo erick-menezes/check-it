@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react-native';
-import { TextInput, View } from 'react-native';
+import { View } from 'react-native';
+import { TextInput } from '@/components/ui/text';
 
 interface SearchFieldProps {
   value: string;

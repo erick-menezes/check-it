@@ -28,9 +28,34 @@
       "recommended": true,
       "suspicious": {
         "noUnknownAtRules": "off"
+      },
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "react-native": {
+                "importNames": ["Text", "TextInput"],
+                "message": "Import Text/TextInput from '@/components/ui/text' so Plus Jakarta Sans is enforced regardless of the device font. Other react-native components are fine."
+              }
+            }
+          }
+        }
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["src/components/ui/text.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "single",

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { Text } from 'react-native';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
+import { Text } from '@/components/ui/text';
 
 describe('BottomSheet', () => {
   it('renders its children while visible', () => {

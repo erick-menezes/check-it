@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import { Text } from '@/components/ui/text';
 import { getSuggestions } from '@/features/shop/suggestions';
 
 const APPEAR_DURATION = 180;

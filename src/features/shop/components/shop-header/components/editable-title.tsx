@@ -1,6 +1,7 @@
 import { Pencil } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, TextInput } from 'react-native';
+import { Pressable } from 'react-native';
+import { Text, TextInput } from '@/components/ui/text';
 
 export function EditableTitle({
   name,

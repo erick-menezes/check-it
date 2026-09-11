@@ -1,12 +1,13 @@
 import { router, Stack } from 'expo-router';
 import { X } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { createActiveList } from '@/features/home/active-list';
 import { useActiveListStore } from '@/features/home/active-list-store';
 import { CurrencyHero } from '@/features/limit/components/currency-hero';

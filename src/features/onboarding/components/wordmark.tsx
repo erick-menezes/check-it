@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 interface WordmarkProps {
   size?: number;

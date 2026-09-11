@@ -1,5 +1,6 @@
 import { Bell } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { Toggle } from '@/components/ui/toggle';
 import { useSettingsStore } from '../settings-store';
 import { SettingIconTile } from './setting-icon-tile';

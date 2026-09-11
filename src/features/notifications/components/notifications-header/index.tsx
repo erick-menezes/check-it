@@ -1,6 +1,7 @@
 import { X } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text } from '@/components/ui/text';
 import { useNotificationsStore } from '../../notifications-store';
 import { useUnreadNotifications } from '../../use-unread-notifications';
 import { handleClose } from './helpers';

@@ -1,11 +1,11 @@
-import { SupportBlock } from '@/features/help/components/support-block';
 import {
-    fireEvent,
-    render,
-    screen,
-    waitFor,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
 } from '@testing-library/react-native';
 import { Linking } from 'react-native';
+import { SupportBlock } from '@/features/help/components/support-block';
 
 const SUPPORT_MAILTO = 'mailto:contact@erickmenezesdev.com';
 

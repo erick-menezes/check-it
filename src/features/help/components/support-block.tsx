@@ -1,6 +1,7 @@
 import { Mail } from 'lucide-react-native';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { Text } from '@/components/ui/text';
 import { openSupportEmail, SUPPORT_EMAIL } from '@/lib/open-support-email';
 
 export function SupportBlock() {

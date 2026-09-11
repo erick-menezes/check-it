@@ -1,6 +1,7 @@
 import { router, Stack } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, type ListRenderItem, Text, View } from 'react-native';
+import { FlatList, type ListRenderItem, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { useActiveListStore } from '@/features/home/active-list-store';
 import { ActionRow } from '@/features/shop/components/action-row';
 import { AddProductInput } from '@/features/shop/components/add-product-input';

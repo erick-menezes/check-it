@@ -1,5 +1,6 @@
 import { Children, Fragment, isValidElement, type ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 
 interface SettingsSectionProps {
   label: string;

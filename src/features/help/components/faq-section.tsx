@@ -1,6 +1,7 @@
 import { Minus, Plus } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import type { HelpSection, HelpSectionId } from '../help-content';
 import { FaqTile } from './faq-tile';

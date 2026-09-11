@@ -1,6 +1,7 @@
 import { Mail } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import { openSupportEmail } from '@/lib/open-support-email';
 
 export function ContactFooter() {

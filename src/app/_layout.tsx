@@ -12,10 +12,8 @@ import { useNotificationsStore } from '@/features/notifications/notifications-st
 import { useOnboardingStore } from '@/features/onboarding/onboarding-store';
 import { useSettingsStore } from '@/features/settings/settings-store';
 import { useAppFonts } from '@/lib/fonts';
-import { applyGlobalTextDefaults } from '@/lib/text-defaults';
 
 SplashScreen.preventAutoHideAsync();
-applyGlobalTextDefaults();
 
 export { ErrorBoundary } from 'expo-router';
 

@@ -1,6 +1,7 @@
 import { Pencil } from 'lucide-react-native';
 import { useRef } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { Text, TextInput } from '@/components/ui/text';
 import { formatBRL, formatBRLAmount } from '@/lib/currency';
 import { cn } from '@/lib/utils';
 

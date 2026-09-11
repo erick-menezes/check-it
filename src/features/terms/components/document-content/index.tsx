@@ -1,6 +1,7 @@
 import { Clock } from 'lucide-react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import { Text } from '@/components/ui/text';
 import { ContactFooter } from '@/features/terms/components/contact-footer';
 import {
   LAST_UPDATED_LABEL,

@@ -1,7 +1,8 @@
 import { Minus, Plus, Trash2, X } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { Text, TextInput } from '@/components/ui/text';
 import {
   CATEGORIES,
   CATEGORY_META,

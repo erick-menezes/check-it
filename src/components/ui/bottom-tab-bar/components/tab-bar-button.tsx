@@ -1,7 +1,8 @@
 import type { TabTriggerSlotProps } from 'expo-router/ui';
 import type { LucideIcon } from 'lucide-react-native';
 import { useRef } from 'react';
-import { Animated, Pressable, Text } from 'react-native';
+import { Animated, Pressable } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 interface TabBarButtonProps extends TabTriggerSlotProps {

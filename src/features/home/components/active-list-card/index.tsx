@@ -1,4 +1,5 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
 import { type ActiveList, getBudgetStatus } from '../../active-list';

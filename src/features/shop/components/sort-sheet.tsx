@@ -8,8 +8,9 @@ import {
   type LucideIcon,
   Tag,
 } from 'lucide-react-native';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { BottomSheet } from '@/components/ui/bottom-sheet';
+import { Text } from '@/components/ui/text';
 import {
   SORT_OPTIONS,
   type SortOption,

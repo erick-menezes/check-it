@@ -26,8 +26,12 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 
+# This project uses pnpm; never commit or upload an npm lockfile
+package-lock.json
+
 # macOS
 .DS_Store
+._*
 *.pem
 
 # local env files

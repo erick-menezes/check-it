@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { formatBRL } from '@/lib/currency';
 import { cn } from '@/lib/utils';
 

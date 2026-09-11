@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react-native';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, View } from 'react-native';
+import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
 type DialogTone = 'primary' | 'danger';
