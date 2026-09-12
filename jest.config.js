@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'jest-expo',
   // Detox E2E specs run via `detox test` with e2e/jest.config.js, not here.
-  testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/', '/\\._'],
   setupFiles: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
