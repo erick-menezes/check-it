@@ -34,6 +34,10 @@ export function getSortLabel(sort: SortOption): string {
   return SORT_OPTIONS.find((option) => option.id === sort)?.label ?? '';
 }
 
+export function isSortOption(value: unknown): value is SortOption {
+  return SORT_OPTIONS.some((option) => option.id === value);
+}
+
 interface UseVisibleItemsParams {
   readonly items: readonly ListItem[];
   readonly search: string;

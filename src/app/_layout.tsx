@@ -11,6 +11,7 @@ import { startBudgetAlertTracking } from '@/features/notifications/budget-alerts
 import { useNotificationsStore } from '@/features/notifications/notifications-store';
 import { useOnboardingStore } from '@/features/onboarding/onboarding-store';
 import { useSettingsStore } from '@/features/settings/settings-store';
+import { useSortPreferenceStore } from '@/features/shop/sort-preference-store';
 import { useAppFonts } from '@/lib/fonts';
 
 SplashScreen.preventAutoHideAsync();
@@ -23,12 +24,14 @@ export default function RootLayout() {
   const activeListHydrated = useActiveListStore((s) => s.hasHydrated);
   const settingsHydrated = useSettingsStore((s) => s.hasHydrated);
   const notificationsHydrated = useNotificationsStore((s) => s.hasHydrated);
+  const sortPreferenceHydrated = useSortPreferenceStore((s) => s.hasHydrated);
   const isReady =
     fontsLoaded &&
     onboardingHydrated &&
     activeListHydrated &&
     settingsHydrated &&
-    notificationsHydrated;
+    notificationsHydrated &&
+    sortPreferenceHydrated;
 
   useEffect(() => {
     if (isReady) {

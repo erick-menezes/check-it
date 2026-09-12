@@ -165,17 +165,18 @@ changes there require a **native rebuild**, a JS reload is not enough.
 
 ## State + persistence (Zustand + AsyncStorage)
 
-Four persisted stores, all in the same shape:
+Five persisted stores, all in the same shape:
 
-| Store                   | Key                     | Holds                                   |
-| ----------------------- | ----------------------- | --------------------------------------- |
-| `useActiveListStore`    | `checkit:active-list`   | the active list (v1, migrated from v0)  |
-| `useOnboardingStore`    | `checkit:onboarding`    | `hasSeenOnboarding`                     |
-| `useSettingsStore`      | `checkit:settings`      | `budgetAlertsEnabled`                   |
-| `useNotificationsStore` | `checkit:notifications` | notifications + the budget latch        |
+| Store                    | Key                     | Holds                                  |
+| ------------------------ | ----------------------- | -------------------------------------- |
+| `useActiveListStore`     | `checkit:active-list`   | the active list (v1, migrated from v0) |
+| `useOnboardingStore`     | `checkit:onboarding`    | `hasSeenOnboarding`                    |
+| `useSettingsStore`       | `checkit:settings`      | `budgetAlertsEnabled`                  |
+| `useNotificationsStore`  | `checkit:notifications` | notifications + the budget latch       |
+| `useSortPreferenceStore` | `checkit:shop-sort`     | the shop list's sort option            |
 
 Every store exposes `hasHydrated` (set in `onRehydrateStorage`). `_layout.tsx`
-renders `null` until the fonts have loaded **and** all four stores have
+renders `null` until the fonts have loaded **and** every store has
 hydrated, and only then hides the splash. A new store must follow this pattern
 and join that gate — otherwise the app flashes default state on launch.
 

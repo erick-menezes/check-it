@@ -12,6 +12,8 @@ import ShopScreen from '@/app/shop';
 import { createActiveList } from '@/features/home/active-list';
 import { useActiveListStore } from '@/features/home/active-list-store';
 import { ActiveListCard } from '@/features/home/components/active-list-card';
+import { useSortPreferenceStore } from '@/features/shop/sort-preference-store';
+import { DEFAULT_SORT } from '@/features/shop/use-visible-items';
 
 function seedList(limitInCents = 10000): void {
   act(() => {
@@ -26,11 +28,28 @@ function firstItemId(): string {
   return useActiveListStore.getState().activeList?.items[0]?.id ?? '';
 }
 
+function addProduct(name: string): void {
+  fireEvent.changeText(screen.getByTestId('shop-add-input'), name);
+  fireEvent.press(screen.getByTestId('shop-add-confirm'));
+}
+
+function renderedItemNames(): string[] {
+  const items = useActiveListStore.getState().activeList?.items ?? [];
+  return screen.getAllByTestId(/^shop-item-row-/).map((row) => {
+    const id = String(row.props.testID).replace('shop-item-row-', '');
+    return items.find((item) => item.id === id)?.name ?? '';
+  });
+}
+
 describe('Shop list integration', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     act(() => {
       useActiveListStore.setState({ activeList: null, hasHydrated: true });
+      useSortPreferenceStore.setState({
+        sort: DEFAULT_SORT,
+        hasHydrated: true,
+      });
     });
   });
 
@@ -112,5 +131,23 @@ describe('Shop list integration', () => {
     render(<ActiveListCard list={list} onOpen={jest.fn()} />);
     expect(screen.getByText(/2 itens/)).toBeOnTheScreen();
     expect(screen.getByText('R$ 30,00')).toBeOnTheScreen();
+  });
+
+  it('keeps the chosen sort after leaving and reopening the screen', () => {
+    seedList();
+    const firstRender = render(<ShopScreen />);
+    addProduct('Uva');
+    addProduct('Arroz');
+    addProduct('Manteiga');
+    fireEvent.press(screen.getByTestId('shop-sort-button'));
+    fireEvent.press(screen.getByTestId('sort-option-name'));
+    expect(useSortPreferenceStore.getState().sort).toBe('name');
+    firstRender.unmount();
+    render(<ShopScreen />);
+    expect(renderedItemNames()).toEqual(['Arroz', 'Manteiga', 'Uva']);
+    fireEvent.press(screen.getByTestId('shop-sort-button'));
+    expect(
+      screen.getByTestId('sort-option-name').props.accessibilityState.selected,
+    ).toBe(true);
   });
 });

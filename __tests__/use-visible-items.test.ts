@@ -6,6 +6,7 @@ import {
 } from '@/features/shop/list-item';
 import {
   getSortLabel,
+  isSortOption,
   useVisibleItems,
 } from '@/features/shop/use-visible-items';
 
@@ -139,5 +140,21 @@ describe('useVisibleItems', () => {
     expect(getSortLabel('oldest')).toBe('Mais antigos primeiro');
     expect(getSortLabel('price-desc')).toBe('Maior preço primeiro');
     expect(getSortLabel('category')).toBe('Por categoria');
+  });
+});
+
+describe('isSortOption', () => {
+  it('accepts every known sort option', () => {
+    expect(isSortOption('recent')).toBe(true);
+    expect(isSortOption('name')).toBe(true);
+    expect(isSortOption('category')).toBe(true);
+  });
+
+  it('rejects unknown, malformed or missing values', () => {
+    expect(isSortOption('by-vibes')).toBe(false);
+    expect(isSortOption('')).toBe(false);
+    expect(isSortOption(null)).toBe(false);
+    expect(isSortOption(undefined)).toBe(false);
+    expect(isSortOption(3)).toBe(false);
   });
 });

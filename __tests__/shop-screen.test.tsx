@@ -22,6 +22,8 @@ import { router } from 'expo-router';
 import ShopScreen from '@/app/shop';
 import { createActiveList } from '@/features/home/active-list';
 import { useActiveListStore } from '@/features/home/active-list-store';
+import { useSortPreferenceStore } from '@/features/shop/sort-preference-store';
+import { DEFAULT_SORT } from '@/features/shop/use-visible-items';
 
 function seedList(limitInCents = 10000): void {
   useActiveListStore.setState({
@@ -34,6 +36,7 @@ describe('Shop screen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useActiveListStore.setState({ activeList: null, hasHydrated: true });
+    useSortPreferenceStore.setState({ sort: DEFAULT_SORT, hasHydrated: true });
   });
 
   it('renders the empty state when the list has no items', () => {

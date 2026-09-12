@@ -95,6 +95,24 @@ describe('Check.it Shop list (full loop)', () => {
       .withTimeout(VISIBLE_TIMEOUT);
   });
 
+  it('keeps the chosen sort after leaving and reopening the list', async () => {
+    // The sort button encodes the active sort in its accessibility label.
+    await expect(
+      element(by.label('Ordenar lista, Maior preço primeiro')),
+    ).toBeVisible();
+    await element(by.id('shop-close')).tap();
+    await waitFor(element(by.id('home-screen')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.id('active-list-card')).tap();
+    await waitFor(element(by.id('shop-screen')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(
+      element(by.label('Ordenar lista, Maior preço primeiro')),
+    ).toBeVisible();
+  });
+
   it('filters the list with the search field', async () => {
     await element(by.id('shop-search-input')).tap();
     await element(by.id('shop-search-input')).typeText('Arroz');
@@ -131,6 +149,9 @@ describe('Check.it Shop list (full loop)', () => {
       .toBeVisible()
       .withTimeout(VISIBLE_TIMEOUT);
     await expect(element(by.label('Marcar Arroz'))).toBeVisible();
+    await expect(
+      element(by.label('Ordenar lista, Maior preço primeiro')),
+    ).toBeVisible();
   });
 
   it('renames the list title', async () => {

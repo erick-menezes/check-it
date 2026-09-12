@@ -15,11 +15,8 @@ import { ShopHeader } from '@/features/shop/components/shop-header';
 import { SortSheet } from '@/features/shop/components/sort-sheet';
 import { SummaryPreviewCard } from '@/features/shop/components/summary-preview-card';
 import type { ListItem } from '@/features/shop/list-item';
-import {
-  DEFAULT_SORT,
-  type SortOption,
-  useVisibleItems,
-} from '@/features/shop/use-visible-items';
+import { useSortPreferenceStore } from '@/features/shop/sort-preference-store';
+import { useVisibleItems } from '@/features/shop/use-visible-items';
 
 const SCREEN_ANIMATION_DURATION = 320;
 
@@ -36,7 +33,8 @@ export default function ShopScreen() {
   } = useActiveListStore((state) => state);
   const [editingItem, setEditingItem] = useState<ListItem | null>(null);
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<SortOption>(DEFAULT_SORT);
+  const sort = useSortPreferenceStore((state) => state.sort);
+  const setSort = useSortPreferenceStore((state) => state.setSort);
   const [sortVisible, setSortVisible] = useState(false);
   const items = activeList?.items ?? [];
   const checkedCount = useMemo(

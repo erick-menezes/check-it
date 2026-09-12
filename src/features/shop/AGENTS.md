@@ -30,7 +30,13 @@ Screen behavior:
 - `components/add-product-input.tsx` + `suggestions.ts` — typing adds an item;
   focusing the empty field shows 5 random suggestions from a fixed pt-BR pool.
 - `use-visible-items.ts` — search + the six sort options (`SORT_OPTIONS`,
-  default `recent`). Pure derivation over the store's items.
+  default `recent`), plus the `isSortOption` guard. Pure derivation over the
+  store's items; it holds no state of its own.
+- `sort-preference-store.ts` — the chosen sort, persisted under
+  `checkit:shop-sort` and joined to the root hydration gate. It is a **global**
+  preference, not per-list: it survives leaving the screen, deleting the list
+  and restarting the app. `merge` falls back to `DEFAULT_SORT` when the stored
+  value is not a known option. The search query, by contrast, stays ephemeral.
 - `components/item-row/` — check, swipe/remove (with confirm), tap to edit.
 - `components/edit-item-sheet/` — name, price (`use-price-input.ts`, the same
   cents-fill mechanic as Limit), quantity, category.

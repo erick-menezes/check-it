@@ -136,7 +136,7 @@ the shop feature owns the item-level model (`@/features/shop/list-item`).
 
 ### State and persistence
 
-Four persisted Zustand stores, all following the same shape:
+Five persisted Zustand stores, all following the same shape:
 
 | Store | Key | Holds |
 | --- | --- | --- |
@@ -144,9 +144,10 @@ Four persisted Zustand stores, all following the same shape:
 | `useOnboardingStore` | `checkit:onboarding` | `hasSeenOnboarding` |
 | `useSettingsStore` | `checkit:settings` | `budgetAlertsEnabled` |
 | `useNotificationsStore` | `checkit:notifications` | notifications + the budget-threshold latch |
+| `useSortPreferenceStore` | `checkit:shop-sort` | the shop list's sort option |
 
 Every store exposes **`hasHydrated`**, set in `onRehydrateStorage`. The root
-layout renders `null` until fonts are loaded *and* all four stores have
+layout renders `null` until fonts are loaded *and* every store has
 hydrated, then hides the splash screen. **Any new persisted store must follow
 this pattern and be added to the gate in `src/app/_layout.tsx`** — otherwise the
 app flashes default state on cold start.
