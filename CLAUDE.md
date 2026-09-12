@@ -1,3 +1,10 @@
+# Project context
+
+Read @AGENTS.md for what Check.it is, its domain vocabulary, architecture and
+conventions. Each feature folder has its own `src/features/<feature>/AGENTS.md`
+with that feature's intent and invariants — read the one closest to the code you
+are touching.
+
 # Expo HAS CHANGED
 
 Read the exact versioned docs at https://docs.expo.dev/versions/v56.0.0/ before writing any code.
