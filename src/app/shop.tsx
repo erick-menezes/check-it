@@ -1,5 +1,5 @@
 import { router, Stack } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, type ListRenderItem, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { useActiveListStore } from '@/features/home/active-list-store';
@@ -33,6 +33,7 @@ export default function ShopScreen() {
   } = useActiveListStore((state) => state);
   const [editingItem, setEditingItem] = useState<ListItem | null>(null);
   const [search, setSearch] = useState('');
+  const listRef = useRef<FlatList<ListItem>>(null);
   const sort = useSortPreferenceStore((state) => state.sort);
   const setSort = useSortPreferenceStore((state) => state.setSort);
   const [sortVisible, setSortVisible] = useState(false);
@@ -53,6 +54,10 @@ export default function ShopScreen() {
     ),
     [toggleItem, removeItem],
   );
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, []);
   const handleDelete = useCallback(() => {
     deleteList();
     router.replace('/home');
@@ -78,7 +83,7 @@ export default function ShopScreen() {
           {hasItems && (
             <>
               <ActionRow sort={sort} onOpenSort={() => setSortVisible(true)} />
-              <SearchField value={search} onChange={setSearch} />
+              <SearchField value={search} onChange={handleSearchChange} />
             </>
           )}
         </View>
@@ -91,6 +96,7 @@ export default function ShopScreen() {
         )}
       </View>
       <FlatList
+        ref={listRef}
         testID="shop-list"
         className="flex-1"
         data={visibleItems}

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import { FlatList } from 'react-native';
 
 jest.mock('expo-router', () =>
   require('../test-utils/mocks').createExpoRouterMock(),
@@ -85,5 +86,15 @@ describe('Shop screen', () => {
     render(<ShopScreen />);
     fireEvent.press(screen.getByTestId('shop-close'));
     expect(router.back).toHaveBeenCalledTimes(1);
+  });
+  it('scrolls the list back to the top when the search changes', () => {
+    seedList();
+    const scrollToOffset = jest.spyOn(FlatList.prototype, 'scrollToOffset');
+    render(<ShopScreen />);
+    fireEvent.changeText(screen.getByTestId('shop-add-input'), 'Arroz');
+    fireEvent.press(screen.getByTestId('shop-add-confirm'));
+    fireEvent.changeText(screen.getByTestId('shop-search-input'), 'Arr');
+    expect(scrollToOffset).toHaveBeenCalledWith({ offset: 0, animated: false });
+    scrollToOffset.mockRestore();
   });
 });
