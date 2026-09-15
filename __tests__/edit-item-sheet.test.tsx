@@ -234,6 +234,104 @@ describe('EditItemSheet', () => {
     expect(screen.getByTestId('edit-total')).toHaveTextContent(/R\$ 24,82/);
   });
 
+  it('shows the parts editor after tapping Somar vários', () => {
+    const item = makeItem({ unitPriceInCents: null });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    expect(screen.getByTestId('edit-parts-disable')).toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-price-input')).not.toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-unit-kg')).not.toBeOnTheScreen();
+  });
+
+  it('disables save while a part is missing a price and shows the hint', () => {
+    const item = makeItem();
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    expect(screen.getByTestId('edit-save')).toBeDisabled();
+    expect(screen.getByTestId('edit-save-hint')).toBeOnTheScreen();
+  });
+
+  it('composes a conjunto, saves it, then collapses it back to a single price', () => {
+    const onSave = jest.fn();
+    const item = makeItem({ name: 'Biscoitos', unitPriceInCents: null });
+    const { rerender } = render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={onSave}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    fireEvent.press(screen.getByTestId('edit-part-add'));
+    const partIds = screen
+      .getAllByTestId(/^edit-part-row-/)
+      .map((row) => String(row.props.testID).replace('edit-part-row-', ''));
+    expect(partIds).toHaveLength(3);
+    for (const partId of partIds) {
+      fireEvent.changeText(
+        screen.getByTestId(`edit-part-price-${partId}`),
+        '399',
+      );
+    }
+    fireEvent.press(screen.getByTestId('edit-save'));
+    expect(onSave).toHaveBeenCalledWith(
+      item.id,
+      expect.objectContaining({
+        parts: [
+          expect.objectContaining({ unitPriceInCents: 399 }),
+          expect.objectContaining({ unitPriceInCents: 399 }),
+          expect.objectContaining({ unitPriceInCents: 399 }),
+        ],
+      }),
+    );
+    const savedItem = {
+      ...item,
+      unit: 'unit' as const,
+      quantity: 1,
+      unitPriceInCents: 1197,
+      parts: [
+        { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+        { id: 'b', label: null, unitPriceInCents: 399, quantity: 1 },
+        { id: 'c', label: null, unitPriceInCents: 399, quantity: 1 },
+      ],
+    };
+    rerender(
+      <EditItemSheet
+        item={null}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    rerender(
+      <EditItemSheet
+        item={savedItem}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getAllByTestId(/^edit-part-row-/)).toHaveLength(3);
+    fireEvent.press(screen.getByTestId('edit-parts-disable'));
+    expect(screen.getByTestId('edit-price-input').props.value).toBe('11,97');
+    expect(screen.getByTestId('edit-unit-unit')).not.toBeDisabled();
+  });
+
   it('removes the item only after confirming the dialog', () => {
     const onRemove = jest.fn();
     const onClose = jest.fn();

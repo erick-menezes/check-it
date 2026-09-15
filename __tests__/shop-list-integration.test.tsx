@@ -131,6 +131,33 @@ describe('Shop list integration', () => {
     expect(useActiveListStore.getState().activeList?.totalInCents).toBe(2482);
   });
 
+  it('composes a conjunto and reflects the summed total in the row and header', () => {
+    seedList();
+    render(<ShopScreen />);
+    addProduct('Biscoitos');
+    const itemId = firstItemId();
+    fireEvent.press(screen.getByTestId(`shop-item-${itemId}`));
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    const partIds = screen
+      .getAllByTestId(/^edit-part-row-/)
+      .map((row) => String(row.props.testID).replace('edit-part-row-', ''));
+    for (const partId of partIds) {
+      fireEvent.changeText(
+        screen.getByTestId(`edit-part-price-${partId}`),
+        '399',
+      );
+    }
+    fireEvent.press(screen.getByTestId('edit-save'));
+    const edited = useActiveListStore.getState().activeList?.items[0];
+    expect(edited?.unit).toBe('unit');
+    expect(edited?.quantity).toBe(1);
+    expect(edited?.unitPriceInCents).toBe(798);
+    expect(edited?.parts).toHaveLength(2);
+    expect(screen.getByText('2 itens · R$ 7,98')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${itemId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(798);
+  });
+
   it('marks every item at once and reflects the total in the budget chip', () => {
     seedList();
     act(() => {

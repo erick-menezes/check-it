@@ -6,4 +6,4 @@
 - [x] 2.0 Total previsto: projection derivations and Shop header line
 - [x] 3.0 Generic digits hook and edit sheet refactor (no behavior change)
 - [x] 4.0 Unidade por kg in the edit sheet and item row
-- [ ] 5.0 Conjunto (price composition) in the edit sheet and item row
+- [x] 5.0 Conjunto (price composition) in the edit sheet and item row

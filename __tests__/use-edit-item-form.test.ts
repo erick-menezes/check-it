@@ -155,6 +155,247 @@ describe('useEditItemForm', () => {
     );
   });
 
+  describe('parts', () => {
+    it('starts simple, with no parts editor engaged', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      expect(result.current.parts).toBeNull();
+    });
+
+    it('pre-fills the first part with the current price and adds one empty row', () => {
+      const item = makeItem({ unitPriceInCents: 690 });
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      expect(result.current.parts).toHaveLength(2);
+      expect(result.current.parts?.[0].priceDigits).toBe('690');
+      expect(result.current.parts?.[1].priceDigits).toBe('');
+    });
+
+    it('starts with two empty rows when the item had no price', () => {
+      const item = makeItem({ unitPriceInCents: null });
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      expect(result.current.parts).toEqual([
+        expect.objectContaining({ priceDigits: '' }),
+        expect.objectContaining({ priceDigits: '' }),
+      ]);
+    });
+
+    it('disables the unit toggle while parts exist', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      expect(result.current.canSelectUnit).toBe(true);
+      act(() => {
+        result.current.enableParts();
+      });
+      expect(result.current.canSelectUnit).toBe(false);
+    });
+
+    it('adds a part, up to the cap', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.addPart();
+      });
+      expect(result.current.parts).toHaveLength(3);
+      expect(result.current.canAddPart).toBe(true);
+    });
+
+    it('stops allowing new parts at MAX_PRICE_PARTS', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      for (let index = 0; index < 15; index += 1) {
+        act(() => {
+          result.current.addPart();
+        });
+      }
+      expect(result.current.parts).toHaveLength(12);
+      expect(result.current.canAddPart).toBe(false);
+    });
+
+    it('removes a part by id', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      const [first, second] = result.current.parts ?? [];
+      act(() => {
+        result.current.removePart(first.id);
+      });
+      expect(result.current.parts).toEqual([
+        expect.objectContaining({ id: second.id }),
+      ]);
+    });
+
+    it('updates a part label and price digits', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      const [first] = result.current.parts ?? [];
+      act(() => {
+        result.current.updatePart(first.id, { label: 'Biscoito' });
+      });
+      act(() => {
+        result.current.updatePart(first.id, { priceDigits: '399' });
+      });
+      expect(result.current.parts?.[0]).toEqual(
+        expect.objectContaining({ label: 'Biscoito', priceDigits: '399' }),
+      );
+    });
+
+    it('increments and decrements a part quantity with a floor of one', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      const [first] = result.current.parts ?? [];
+      act(() => {
+        result.current.decrementPartQuantity(first.id);
+      });
+      expect(result.current.parts?.[0].quantity).toBe(1);
+      act(() => {
+        result.current.incrementPartQuantity(first.id);
+      });
+      expect(result.current.parts?.[0].quantity).toBe(2);
+    });
+
+    it('cannot save while a part lacks a price, and shows a hint', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          label: 'Biscoito',
+        });
+      });
+      expect(result.current.canSave).toBe(false);
+      expect(result.current.saveHint).not.toBeNull();
+    });
+
+    it('can save once every meaningful part has a price', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[1].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      expect(result.current.canSave).toBe(true);
+      expect(result.current.saveHint).toBeNull();
+    });
+
+    it('drops a blank row (no label, no price) from buildChanges silently', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      const changes = result.current.buildChanges();
+      expect(changes.parts).toHaveLength(1);
+    });
+
+    it('computes the live total as the sum of price times quantity', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          priceDigits: '399',
+          quantity: 2,
+        });
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[1].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      expect(result.current.totalInCents).toBe(399 * 2 + 399);
+    });
+
+    it('buildChanges emits the sum as parts, quantity 1, unit unit', () => {
+      const item = makeItem({ unit: 'unit', quantity: 1 });
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[1].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      const changes = result.current.buildChanges();
+      expect(changes.parts).toEqual([
+        expect.objectContaining({ unitPriceInCents: 399 }),
+        expect.objectContaining({ unitPriceInCents: 399 }),
+      ]);
+      expect(changes.name).toBe('Arroz');
+      expect(changes.category).toBeNull();
+    });
+
+    it('keeps the sum as a plain price when disabling parts', () => {
+      const item = makeItem();
+      const { result } = renderHook(() => useEditItemForm(item));
+      act(() => {
+        result.current.enableParts();
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[0].id ?? '', {
+          priceDigits: '399',
+        });
+      });
+      act(() => {
+        result.current.updatePart(result.current.parts?.[1].id ?? '', {
+          priceDigits: '798',
+        });
+      });
+      act(() => {
+        result.current.disableParts();
+      });
+      expect(result.current.parts).toBeNull();
+      expect(result.current.canSelectUnit).toBe(true);
+      expect(result.current.price.cents).toBe(1197);
+      expect(result.current.buildChanges()).toEqual(
+        expect.objectContaining({ unitPriceInCents: 1197 }),
+      );
+    });
+  });
+
   describe('buildChanges', () => {
     it('builds changes from the current draft', () => {
       const item = makeItem({ name: 'Arroz', quantity: 1, category: null });

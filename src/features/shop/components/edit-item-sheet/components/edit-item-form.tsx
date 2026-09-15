@@ -64,9 +64,18 @@ export function EditItemForm({
         weight={form.weight}
         quantity={form.quantity}
         totalInCents={form.totalInCents}
+        parts={form.parts}
+        canAddPart={form.canAddPart}
         onSelectUnit={form.selectUnit}
         onDecrementQuantity={form.decrementQuantity}
         onIncrementQuantity={form.incrementQuantity}
+        onEnableParts={form.enableParts}
+        onDisableParts={form.disableParts}
+        onAddPart={form.addPart}
+        onRemovePart={form.removePart}
+        onUpdatePart={form.updatePart}
+        onIncrementPartQuantity={form.incrementPartQuantity}
+        onDecrementPartQuantity={form.decrementPartQuantity}
       />
       <CategoryPicker
         category={form.category}
@@ -74,15 +83,25 @@ export function EditItemForm({
       />
       <Pressable
         onPress={save}
+        disabled={!form.canSave}
         accessibilityRole="button"
         accessibilityLabel="Salvar alterações"
+        accessibilityState={{ disabled: !form.canSave }}
         testID="edit-save"
-        className="mt-[22px] h-[52px] items-center justify-center rounded-xl bg-checkit-primary"
+        className="mt-[22px] h-[52px] items-center justify-center rounded-xl bg-checkit-primary disabled:opacity-40"
       >
         <Text className="text-[15px] font-bold text-white">
           Salvar alterações
         </Text>
       </Pressable>
+      {form.saveHint !== null && (
+        <Text
+          testID="edit-save-hint"
+          className="mt-1.5 text-center text-xs text-checkit-danger"
+        >
+          {form.saveHint}
+        </Text>
+      )}
       <Pressable
         onPress={() => setConfirmRemove(true)}
         accessibilityRole="button"

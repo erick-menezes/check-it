@@ -1,9 +1,14 @@
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Text, TextInput } from '@/components/ui/text';
 import type { ItemUnit } from '@/features/shop/list-item';
 import type { PriceInput } from '@/features/shop/use-price-input';
 import type { WeightInput } from '@/features/shop/use-weight-input';
 import { formatBRL, formatBRLAmount } from '@/lib/currency';
+import type {
+  PricePartDraft,
+  PricePartDraftChanges,
+} from '../use-edit-item-form';
+import { PricePartsEditor } from './price-parts-editor';
 import { QuantityStepper } from './quantity-stepper';
 import { UnitToggle } from './unit-toggle';
 import { WeightField } from './weight-field';
@@ -18,7 +23,7 @@ const QUANTITY_LABEL: Readonly<Record<ItemUnit, string>> = {
   kg: 'Peso',
 };
 
-interface PriceQuantityCardProps {
+interface SimplePriceContentProps {
   unit: ItemUnit;
   canSelectUnit: boolean;
   price: PriceInput;
@@ -28,9 +33,10 @@ interface PriceQuantityCardProps {
   onSelectUnit: (unit: ItemUnit) => void;
   onDecrementQuantity: () => void;
   onIncrementQuantity: () => void;
+  onEnableParts: () => void;
 }
 
-export function PriceQuantityCard({
+function SimplePriceContent({
   unit,
   canSelectUnit,
   price,
@@ -40,9 +46,10 @@ export function PriceQuantityCard({
   onSelectUnit,
   onDecrementQuantity,
   onIncrementQuantity,
-}: PriceQuantityCardProps) {
+  onEnableParts,
+}: SimplePriceContentProps) {
   return (
-    <View className="mt-[18px] rounded-[14px] bg-checkit-linen-cream p-4">
+    <>
       <View className="flex-row items-center justify-between">
         <Text className="text-[11px] font-semibold uppercase tracking-[0.06em] text-checkit-pebble-gray">
           {PRICE_LABEL[unit]}
@@ -68,6 +75,17 @@ export function PriceQuantityCard({
           className="flex-1 text-[32px] font-bold tabular-nums tracking-tight text-checkit-charcoal-ink"
         />
       </View>
+      <Pressable
+        onPress={onEnableParts}
+        accessibilityRole="button"
+        accessibilityLabel="Somar vários"
+        testID="edit-parts-enable"
+        className="mt-1.5 h-9 items-start justify-center"
+      >
+        <Text className="text-xs font-bold text-checkit-primary">
+          Somar vários
+        </Text>
+      </Pressable>
       <View className="my-3.5 h-px bg-checkit-mist-border" />
       <View className="flex-row items-center justify-between">
         <View>
@@ -96,6 +114,79 @@ export function PriceQuantityCard({
           />
         )}
       </View>
+    </>
+  );
+}
+
+interface PriceQuantityCardProps {
+  unit: ItemUnit;
+  canSelectUnit: boolean;
+  price: PriceInput;
+  weight: WeightInput;
+  quantity: number;
+  totalInCents: number;
+  parts: readonly PricePartDraft[] | null;
+  canAddPart: boolean;
+  onSelectUnit: (unit: ItemUnit) => void;
+  onDecrementQuantity: () => void;
+  onIncrementQuantity: () => void;
+  onEnableParts: () => void;
+  onDisableParts: () => void;
+  onAddPart: () => void;
+  onRemovePart: (partId: string) => void;
+  onUpdatePart: (partId: string, changes: PricePartDraftChanges) => void;
+  onIncrementPartQuantity: (partId: string) => void;
+  onDecrementPartQuantity: (partId: string) => void;
+}
+
+export function PriceQuantityCard({
+  unit,
+  canSelectUnit,
+  price,
+  weight,
+  quantity,
+  totalInCents,
+  parts,
+  canAddPart,
+  onSelectUnit,
+  onDecrementQuantity,
+  onIncrementQuantity,
+  onEnableParts,
+  onDisableParts,
+  onAddPart,
+  onRemovePart,
+  onUpdatePart,
+  onIncrementPartQuantity,
+  onDecrementPartQuantity,
+}: PriceQuantityCardProps) {
+  return (
+    <View className="mt-[18px] rounded-[14px] bg-checkit-linen-cream p-4">
+      {parts === null ? (
+        <SimplePriceContent
+          unit={unit}
+          canSelectUnit={canSelectUnit}
+          price={price}
+          weight={weight}
+          quantity={quantity}
+          totalInCents={totalInCents}
+          onSelectUnit={onSelectUnit}
+          onDecrementQuantity={onDecrementQuantity}
+          onIncrementQuantity={onIncrementQuantity}
+          onEnableParts={onEnableParts}
+        />
+      ) : (
+        <PricePartsEditor
+          parts={parts}
+          totalInCents={totalInCents}
+          canAddPart={canAddPart}
+          onUpdatePart={onUpdatePart}
+          onIncrementPartQuantity={onIncrementPartQuantity}
+          onDecrementPartQuantity={onDecrementPartQuantity}
+          onAddPart={onAddPart}
+          onRemovePart={onRemovePart}
+          onDisableParts={onDisableParts}
+        />
+      )}
     </View>
   );
 }

@@ -117,4 +117,33 @@ describe('Shop + Summary integration', () => {
       within(screen.getByTestId('summary-top-items')).getByText('R$ 24,82'),
     ).toBeOnTheScreen();
   });
+
+  it('includes a conjunto item in the total, category breakdown and top items', () => {
+    seedList();
+    const { rerender } = render(<SummaryScreen />);
+    act(() => {
+      const itemId =
+        useActiveListStore.getState().activeList?.items[2]?.id ?? '';
+      useActiveListStore.getState().updateItem(itemId, {
+        parts: [
+          { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+          { id: 'b', label: null, unitPriceInCents: 399, quantity: 1 },
+          { id: 'c', label: null, unitPriceInCents: 399, quantity: 1 },
+        ],
+        category: 'grocery',
+      });
+    });
+    rerender(<SummaryScreen />);
+    expect(
+      within(screen.getByTestId('summary-total-tile')).getByText('R$ 76,97'),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-legend-grocery')).getByText(
+        'R$ 11,97',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-top-items')).getByText('R$ 11,97'),
+    ).toBeOnTheScreen();
+  });
 });

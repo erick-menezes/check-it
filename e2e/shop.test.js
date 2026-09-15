@@ -174,6 +174,49 @@ describe('Check.it Shop list (full loop)', () => {
     await expect(element(by.label('Marcar Alcatra'))).not.toBeVisible();
   });
 
+  it('composes a conjunto through Somar vários', async () => {
+    await addProductByInput('Biscoitos');
+    await element(by.label('Editar Biscoitos')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.id('edit-parts-enable')).tap();
+    await element(by.label('Preço da parte')).atIndex(0).tap();
+    await element(by.label('Preço da parte')).atIndex(0).typeText('399');
+    await element(by.label('Preço da parte')).atIndex(1).tap();
+    await element(by.label('Preço da parte')).atIndex(1).typeText('399');
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('2 itens · R$ 7,98'))).toBeVisible();
+  });
+
+  it('reopens the conjunto and reverts it to a single price', async () => {
+    await element(by.label('Editar Biscoitos')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.id('edit-parts-disable'))).toBeVisible();
+    await element(by.id('edit-parts-disable')).tap();
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('1× R$ 7,98'))).toBeVisible();
+  });
+
+  it('removes the conjunto item, leaving only Arroz behind', async () => {
+    await element(by.label('Editar Biscoitos'))
+      .atIndex(0)
+      .swipe('left', 'fast');
+    await waitFor(element(by.label('Excluir Biscoitos')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.label('Excluir Biscoitos')).tap();
+    await expect(element(by.label('Marcar Biscoitos'))).not.toBeVisible();
+  });
+
   it('persists the list across an app restart', async () => {
     // Relaunch without delete: the persisted list must survive the restart.
     await device.launchApp({ newInstance: true });

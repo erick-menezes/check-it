@@ -24,12 +24,12 @@ Add the opt-in parts editor to the Edit Item sheet ("Somar vários" → list of 
 
 ## Subtasks
 
-- [ ] 5.1 Extend `use-edit-item-form.ts` with the `PricePartDraft` list, `enableParts`, `disableParts`, `addPart`, `updatePart`, `removePart`, `canSelectUnit`, `canSave`/`saveHint` rules and `buildChanges()` emitting `parts` (or `parts: null` + sum).
-- [ ] 5.2 Create `components/price-parts-editor.tsx` and `components/price-part-row.tsx`; wire "Somar vários" into the price field area and hide the quantity stepper/unit toggle while parts exist.
-- [ ] 5.3 Update `item-row/helpers/index.ts` `formatSubtitle` for parts (`getPartsCount`, `formatBRL`).
-- [ ] 5.4 Verify keyboard/scroll behavior of `BottomSheet` with ≥ 5 parts on a small device (dev client); adjust with the existing `use-keyboard-height` handling if needed.
-- [ ] 5.5 Update `src/features/shop/AGENTS.md` (edit sheet, item row, invariants) and add the Block 1 note to `ROADMAP.md` open decisions (settled: visual-only projection, units-only parts, quantity-as-grams).
-- [ ] 5.6 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm e2e:build && pnpm e2e:test`.
+- [x] 5.1 Extend `use-edit-item-form.ts` with the `PricePartDraft` list, `enableParts`, `disableParts`, `addPart`, `updatePart`, `removePart`, `incrementPartQuantity`/`decrementPartQuantity`, `canSelectUnit`, `canSave`/`saveHint` rules and `buildChanges()` emitting `parts` (or `parts: null` + sum). `useEditItemForm` itself stays at 41 lines by extracting every rule into a small `resolve*`/`create*`/`build*` helper (per Task 4.0's review lesson).
+- [x] 5.2 Create `components/price-parts-editor.tsx` and `components/price-part-row.tsx`; wire "Somar vários" into the price field area (`price-quantity-card.tsx` swaps its whole body — price+quantity vs. the parts editor — rather than hiding the stepper/unit-toggle inline).
+- [x] 5.3 Update `item-row/helpers/index.ts` `formatSubtitle` for parts (`getPartsCount`, `formatBRL`), checked ahead of the kg branch.
+- [x] 5.4 Verified by code inspection only (no simulator/device here): `BottomSheet` rendered `children` in a plain, non-scrolling `View` — a parts list approaching `MAX_PRICE_PARTS` would have overflowed with no way to reach the lower rows or the Save button. Added a `max-h-[86%]` cap plus an internal `ScrollView` (`keyboardShouldPersistTaps="handled"`) to the shared `BottomSheet` component, benefiting both this sheet and `sort-sheet.tsx` at no visual cost when content already fits.
+- [x] 5.5 Update `src/features/shop/AGENTS.md` (edit sheet, item row, invariants). Skipped the `ROADMAP.md` half: that file is untracked in the main checkout (per the original `git status`) and absent from this worktree — it's the user's personal, uncommitted roadmap draft, not a tracked project doc. Adding/committing it here would fork a file they may still be editing locally, so it's left untouched; the Block 1 open decisions (visual-only projection, units-only parts, quantity-as-grams) are recorded in this PRD's own `prd.md`/`techspec.md` instead.
+- [x] 5.6 Wrote the tests listed under *Task tests*; ran `pnpm typecheck`, `pnpm lint` (via `rtk proxy npx biome check .`), `pnpm test`. Authored `e2e/shop.test.js`'s three new specs but did not run `pnpm e2e:build && pnpm e2e:test` — no iOS simulator/build toolchain in this environment.
 
 ## Implementation design
 
@@ -45,9 +45,9 @@ See `techspec.md` → *Component overview › Edit Item sheet*, *Main interfaces
 
 ## Task tests
 
-- [ ] Unit tests — `__tests__/price-parts-editor.test.tsx` (new), `__tests__/price-part-row.test.tsx` (new), `__tests__/use-edit-item-form.test.ts` (extend: enable pre-fill, add/remove/cap, `canSave` + hint, empty-row drop, disable keeps sum, `canSelectUnit`), `__tests__/edit-item-sheet.test.tsx` (extend: full compose → save → reopen → single price), `__tests__/item-row.test.tsx` (extend: parts subtitle), `__tests__/list-item.test.ts` (verify parts invariants already covered in 1.0).
-- [ ] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: conjunto round-trip through store → row → header), `__tests__/shop-summary-integration.test.tsx` (extend: conjunto contributes its sum to total/breakdown/top items).
-- [ ] E2E tests — `e2e/shop.test.js` spec 3: `edit-parts-enable` → two part prices → save → `2 itens · …` → reopen → `edit-parts-disable` → save → plain subtitle, same total.
+- [x] Unit tests — `__tests__/price-parts-editor.test.tsx` (new), `__tests__/price-part-row.test.tsx` (new), `__tests__/use-edit-item-form.test.ts` (extend: enable pre-fill, add/remove/cap, `canSave` + hint, empty-row drop, disable keeps sum, `canSelectUnit`), `__tests__/edit-item-sheet.test.tsx` (extend: full compose → save → reopen → single price), `__tests__/item-row.test.tsx` (extend: parts subtitle), `__tests__/list-item.test.ts` (verified: parts invariants already covered in 1.0, still green).
+- [x] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: conjunto round-trip through store → row → header), `__tests__/shop-summary-integration.test.tsx` (extend: conjunto contributes its sum to total/breakdown/top items).
+- [x] E2E tests — `e2e/shop.test.js`: three specs added (compose via `edit-parts-enable` → two part prices → save → `2 itens · …`; reopen → `edit-parts-disable` → save → plain subtitle, same total; swipe-to-delete cleanup) — authored only, not executed (no simulator in this environment).
 
 ## Relevant files
 

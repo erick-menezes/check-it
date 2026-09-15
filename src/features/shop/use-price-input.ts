@@ -1,6 +1,6 @@
 import { useDigitsInput } from '@/lib/digits-input';
 
-const MAX_PRICE_DIGITS = 9;
+export const MAX_PRICE_DIGITS = 9;
 
 export interface PriceInput {
   readonly cents: number;

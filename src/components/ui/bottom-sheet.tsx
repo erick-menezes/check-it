@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect } from 'react';
-import { Modal, Pressable, View } from 'react-native';
+import { Modal, Pressable, ScrollView, View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -88,10 +88,16 @@ export function BottomSheet({
             <Animated.View
               accessibilityLabel={accessibilityLabel}
               style={sheetStyle}
-              className="rounded-t-3xl bg-white px-[22px] pb-[30px] pt-3.5"
+              className="max-h-[86%] rounded-t-3xl bg-white px-[22px] pt-3.5"
             >
               <View className="mb-3.5 h-1 w-[38px] self-center rounded-full bg-checkit-mist-border" />
-              {children}
+              <ScrollView
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+                contentContainerClassName="pb-[30px]"
+              >
+                {children}
+              </ScrollView>
             </Animated.View>
           </GestureDetector>
         </View>

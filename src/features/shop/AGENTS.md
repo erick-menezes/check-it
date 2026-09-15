@@ -51,23 +51,35 @@ Screen behavior:
   and restarting the app. `merge` falls back to `DEFAULT_SORT` when the stored
   value is not a known option. The search query, by contrast, stays ephemeral.
 - `components/item-row/` — check, swipe/remove (with confirm), tap to edit.
-  The subtitle branches on `item.unit`: a unit item reads `N× R$ X` (or
-  `N× sem preço`); a kg item reads `0,830 kg × R$ 29,90/kg` (or
-  `0,830 kg × sem preço`) via `formatWeight`. The line total always comes
-  from `getLineTotalInCents` — the row never computes kg rounding itself.
+  The subtitle branches, in order, on `hasParts(item)`, then `item.unit`: a
+  conjunto reads `N itens · R$ X` (N = `getPartsCount`); a kg item reads
+  `0,830 kg × R$ 29,90/kg` (or `0,830 kg × sem preço`) via `formatWeight`; a
+  plain unit item reads `N× R$ X` (or `N× sem preço`). The line total always
+  comes from `getLineTotalInCents` — the row never computes kg rounding or
+  the parts sum itself.
 - `components/edit-item-sheet/` — draft state lives in `use-edit-item-form.ts`
-  (`name`, `unit`, `quantity`, the `price`/`weight` digit hooks, `category`),
-  composed by `edit-item-form.tsx` into three sub-components:
-  `price-quantity-card.tsx` (price field + `unit-toggle.tsx`, swapping
-  `quantity-stepper.tsx` for `weight-field.tsx` in kg mode), and
-  `category-picker.tsx`. `use-price-input.ts` and `use-weight-input.ts` are
-  thin wrappers over the generic `@/lib/digits-input` cents-fill mechanic (the
-  same one Limit uses via its own `use-limit-input.ts`). Switching `/un · /kg`
-  defaults the weight to `1,000 kg` unless one was already typed, and always
-  resets the quantity to `1` when switching back — `applyItemChanges`
-  enforces this too, but the sheet pre-computes it so the toggle feels
-  instant. The sheet's live "Total" reuses `getLineTotalInCents` directly
-  (never a second rounding formula) so it can never drift from the row.
+  (`name`, `unit`, `quantity`, the `price`/`weight` digit hooks, `parts`,
+  `category`), composed by `edit-item-form.tsx` into `price-quantity-card.tsx`
+  (price field + `unit-toggle.tsx`, swapping `quantity-stepper.tsx` for
+  `weight-field.tsx` in kg mode — or, once "Somar vários" is tapped,
+  swapping the whole card body for `price-parts-editor.tsx` +
+  `price-part-row.tsx`) and `category-picker.tsx`. `use-price-input.ts` and
+  `use-weight-input.ts` are thin wrappers over the generic
+  `@/lib/digits-input` cents-fill mechanic (the same one Limit uses via its
+  own `use-limit-input.ts`); a `PricePartDraft` row reuses the same pure
+  `sanitizeDigits`/`digitsToInteger` helpers directly — no per-row hook, since
+  rows are presentational and hooks are never called conditionally.
+  Switching `/un · /kg` defaults the weight to `1,000 kg` unless one was
+  already typed, and always resets the quantity to `1` when switching back —
+  `applyItemChanges` enforces this too, but the sheet pre-computes it so the
+  toggle feels instant. The unit toggle is unmounted (not just disabled)
+  while parts exist (`canSelectUnit = parts === null`, tracking the *live*
+  draft, not the original item, so it flips the instant "Somar vários" is
+  tapped). "Salvar alterações" is disabled with a hint
+  (`edit-save-hint`) whenever any non-blank part still lacks a price; a row
+  with neither a label nor a price is dropped silently on save. The sheet's
+  live "Total" reuses `getLineTotalInCents` directly (never a second
+  rounding formula) so it can never drift from the row.
 - `components/shop-header/` — editable list title, total/limit, progress bar and
   the green → yellow (≥85%) → red status shifts. Also renders "Previsto" (the
   projected total) as a second line under "No carrinho" whenever an unchecked
@@ -97,6 +109,17 @@ Screen behavior:
 - A non-null `parts` always wins: it forces `unit: 'unit'`, `quantity: 1` and
   `unitPriceInCents = getPartsTotalInCents(parts)`, overriding any conflicting
   `unit`/`quantity`/`unitPriceInCents` in the same change.
+- **Nothing outside `list-item.ts`, `use-edit-item-form.ts`, the edit-sheet
+  components and `item-row/helpers` may read `parts`.** Summary, sort,
+  search, notifications and the header consume the item's single
+  `unitPriceInCents`/`getLineTotalInCents` only — the same rule already held
+  for `unit`/`quantity` (kg) and is why neither feature needed a single line
+  of code changed in those other screens.
+- A part with neither a label nor a price is a stray empty row, not a real
+  part: it is dropped silently on save, never blocks saving, and never
+  emits a `PricePart`. A part with only a label but no price *does* block
+  saving (`canSave = false`, `saveHint` set) until it is priced or removed —
+  it is not "blank", just incomplete.
 - Deleting the list is destructive and unrecoverable (no history) — it must stay
   behind a confirmation.
 
@@ -105,5 +128,7 @@ Screen behavior:
 `shop-screen`, `shop-header`, `item-row`, `add-product-input`, `search-field`,
 `sort-sheet`, `mark-all-row`, `edit-item-sheet`, `delete-list-button`,
 `shop-empty-state`, `summary-preview-card`, `suggestions`, `use-price-input`,
-`use-visible-items` in `__tests__/`, plus `shop-list-integration.test.tsx` and
-`e2e/shop.test.js`.
+`use-weight-input`, `use-visible-items`, `use-edit-item-form`,
+`quantity-stepper`, `unit-toggle`, `weight-field`, `price-parts-editor`,
+`price-part-row` in `__tests__/`, plus `shop-list-integration.test.tsx`,
+`shop-summary-integration.test.tsx` and `e2e/shop.test.js`.
