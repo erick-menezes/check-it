@@ -22,10 +22,10 @@ Prepare the Edit Item sheet for the kg and conjunto work without changing what t
 
 ## Subtasks
 
-- [ ] 3.1 Create `src/lib/digits-input.ts`; rewrite `use-price-input.ts` as a wrapper; add `src/features/shop/use-weight-input.ts` (formats through `formatWeight`).
-- [ ] 3.2 Create `use-edit-item-form.ts` holding the current draft fields (`name`, `quantity`, `priceDigits`, `category`) plus the placeholders the next tasks fill (`unit`, `grams`, `parts`), with `buildChanges()` producing today's `UpdateItemChanges`.
-- [ ] 3.3 Extract `components/quantity-stepper.tsx`; reduce `edit-item-form.tsx` to composition.
-- [ ] 3.4 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`; confirm `__tests__/edit-item-sheet.test.tsx` and `__tests__/shop-list-integration.test.tsx` pass without edits.
+- [x] 3.1 Create `src/lib/digits-input.ts`; rewrite `use-price-input.ts` as a wrapper; add `src/features/shop/use-weight-input.ts` (formats through `formatWeight`).
+- [x] 3.2 Create `use-edit-item-form.ts` holding today's draft fields (`name`, `quantity`, `category`, plus `price` composing `usePriceInput`), with `buildChanges()` producing today's exact `UpdateItemChanges` shape. Every existing item is already `unit: 'unit'`/`parts: null` (Task 1.0's invariant), so `unit`/`grams`/`parts` are deliberately *not* stubbed as inert draft keys here — Task 4.0 adds `selectUnit`/the weight draft and Task 5.0 adds the parts draft, each extending this hook's state and `buildChanges()` when they add real UI for them.
+- [x] 3.3 Extract `components/quantity-stepper.tsx`; reduce `edit-item-form.tsx` to composition. Two further extractions — `price-quantity-card.tsx` and `category-picker.tsx` — were needed to hit the ≤150-line success criterion below (188 lines with only the stepper extracted; 108 with all three).
+- [x] 3.4 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`; confirm `__tests__/edit-item-sheet.test.tsx` and `__tests__/shop-list-integration.test.tsx` pass without edits.
 
 ## Implementation design
 
@@ -40,9 +40,9 @@ See `techspec.md` → *Component overview › Domain (digits-input)*, *Edit Item
 
 ## Task tests
 
-- [ ] Unit tests — `__tests__/digits-input.test.ts` (new: helpers + hook), `__tests__/use-price-input.test.ts` (unchanged, green), `__tests__/use-weight-input.test.ts` (new), `__tests__/use-edit-item-form.test.ts` (new: initial draft from an item, `buildChanges` output for name/price/quantity/category, `canSave` true for today's cases), `__tests__/quantity-stepper.test.tsx` (new: min 1, increments, disabled state), `__tests__/edit-item-sheet.test.tsx` (unchanged, green).
-- [ ] Integration tests — `__tests__/shop-list-integration.test.tsx` (unchanged, green).
-- [ ] E2E tests — `e2e/shop.test.js` existing edit-sheet spec (unchanged, green).
+- [x] Unit tests — `__tests__/digits-input.test.ts` (new: helpers + hook), `__tests__/use-price-input.test.ts` (unchanged, green), `__tests__/use-weight-input.test.ts` (new), `__tests__/use-edit-item-form.test.ts` (new: initial draft from an item, `buildChanges` output for name/price/quantity/category, `canSave` true for today's cases), `__tests__/quantity-stepper.test.tsx` (new: min 1, increments, disabled state), `__tests__/edit-item-sheet.test.tsx` (unchanged, green).
+- [x] Integration tests — `__tests__/shop-list-integration.test.tsx` (unchanged, green).
+- [x] E2E tests — `e2e/shop.test.js` existing edit-sheet spec left untouched by this task (unchanged file, static read-through only; not executed here — no simulator in this environment).
 
 ## Relevant files
 
