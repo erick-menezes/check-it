@@ -90,6 +90,27 @@ describe('Shop list integration', () => {
     expect(useActiveListStore.getState().activeList?.totalInCents).toBe(0);
   });
 
+  it('shows the projection while a priced item is pending and hides it once everything is checked', () => {
+    seedList(10000);
+    act(() => {
+      useActiveListStore.getState().addItems([
+        { name: 'Arroz', quantity: 1, unitPriceInCents: 2000 },
+        { name: 'Feijão', quantity: 1, unitPriceInCents: 3000 },
+      ]);
+    });
+    render(<ShopScreen />);
+    const firstId = firstItemId();
+    const secondId =
+      useActiveListStore.getState().activeList?.items[1]?.id ?? '';
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${firstId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(2000);
+    expect(screen.getByTestId('shop-projection')).toBeOnTheScreen();
+    expect(screen.getByText('Previsto R$ 50,00')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${secondId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(5000);
+    expect(screen.queryByTestId('shop-projection')).not.toBeOnTheScreen();
+  });
+
   it('marks every item at once and reflects the total in the budget chip', () => {
     seedList();
     act(() => {

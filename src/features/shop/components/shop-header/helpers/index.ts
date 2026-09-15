@@ -1,13 +1,12 @@
-import type { ActiveList, BudgetStatus } from '@/features/home/active-list';
-import { getLineTotalInCents } from '@/features/shop/list-item';
+import {
+  type ActiveList,
+  type BudgetStatus,
+  getPendingPricedTotalInCents,
+  getProjectedTotalInCents,
+} from '@/features/home/active-list';
 import { formatBRL } from '@/lib/currency';
 
-export function getPendingPricedTotalInCents(list: ActiveList): number {
-  return list.items.reduce((total, item) => {
-    if (item.checked) return total;
-    return total + getLineTotalInCents(item);
-  }, 0);
-}
+export { getPendingPricedTotalInCents } from '@/features/home/active-list';
 
 export function getPendingCount(list: ActiveList): number {
   return list.items.reduce(
@@ -16,12 +15,26 @@ export function getPendingCount(list: ActiveList): number {
   );
 }
 
+const PROJECTION_TEXT_CLASS: Readonly<Record<BudgetStatus, string>> = {
+  onTrack: 'text-white/90',
+  warning: 'text-checkit-accent',
+  overBudget: 'text-checkit-danger',
+};
+
+export function getProjectionTextClass(status: BudgetStatus): string {
+  return PROJECTION_TEXT_CLASS[status];
+}
+
 export function buildStatusLine(
   list: ActiveList,
   status: BudgetStatus,
 ): string {
   if (status === 'overBudget') {
     return `Excedeu em ${formatBRL(list.totalInCents - list.limitInCents)}`;
+  }
+  const projectedTotal = getProjectedTotalInCents(list);
+  if (projectedTotal > list.limitInCents) {
+    return `Previsto estoura em ${formatBRL(projectedTotal - list.limitInCents)}`;
   }
   const pendingTotal = getPendingPricedTotalInCents(list);
   if (pendingTotal > 0) {

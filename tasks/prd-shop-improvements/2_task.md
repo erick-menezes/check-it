@@ -22,11 +22,11 @@ Add the projected-total derivations to the active-list domain and surface them i
 
 ## Subtasks
 
-- [ ] 2.1 Add the projection derivations and `getStatusForTotal` refactor to `active-list.ts`; re-export `getPendingPricedTotalInCents` from `shop-header/helpers` to keep existing imports working.
-- [ ] 2.2 Extend `buildStatusLine` with the projected-over case and its precedence.
-- [ ] 2.3 Render the "Previsto" line and its status treatment in `shop-header/index.tsx`; extend the chip accessibility label; keep the layout within ~360 px (wrap allowed).
-- [ ] 2.4 Update `src/features/home/AGENTS.md` (derivations list) and `src/features/shop/AGENTS.md` (header behavior).
-- [ ] 2.5 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`.
+- [x] 2.1 Add the projection derivations and `getStatusForTotal` refactor to `active-list.ts`; re-export `getPendingPricedTotalInCents` from `shop-header/helpers` to keep existing imports working.
+- [x] 2.2 Extend `buildStatusLine` with the projected-over case and its precedence.
+- [x] 2.3 Render the "Previsto" line and its status treatment in `shop-header/index.tsx`; extend the chip accessibility label; keep the layout within ~360 px (wrap allowed).
+- [x] 2.4 Update `src/features/home/AGENTS.md` (derivations list) and `src/features/shop/AGENTS.md` (header behavior).
+- [x] 2.5 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`.
 
 ## Implementation design
 
@@ -41,9 +41,9 @@ See `techspec.md` → *Component overview › Shop header*, *Main interfaces* (`
 
 ## Task tests
 
-- [ ] Unit tests — `__tests__/active-list.test.ts` (extend: projection value, equality with `getListTotalInCents`, status thresholds), `__tests__/shop-header.test.ts x` (extend: hidden/shown, `shop-projection-warning`, `shop-projection-overBudget`, status-line precedence, accessibility label), `__tests__/budget-alerts.test.ts` (extend: projection-only crossing emits nothing).
-- [ ] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: add two priced items, check one → projection visible with the right value; check the other → hidden; cart total updates in the same interaction).
-- [ ] E2E tests — `e2e/shop.test.js` spec 1: projection appears after checking one of two priced items and disappears after checking both.
+- [x] Unit tests — `__tests__/active-list.test.ts` (extend: projection value, equality with `getListTotalInCents`, status thresholds), `__tests__/shop-header.test.tsx` (extend: hidden/shown, `shop-projection-warning`, `shop-projection-overBudget`, status-line precedence, accessibility label), `__tests__/budget-alerts.test.ts` (extend: projection-only crossing emits nothing).
+- [x] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: add two priced items, check one → projection visible with the right value; check the other → hidden; cart total updates in the same interaction).
+- [x] E2E tests — `e2e/shop.test.js`: projection is visible while Arroz is priced and pending, and hides once it is checked (adapted to the existing sequential flow, where the second product has no price).
 
 ## Relevant files
 

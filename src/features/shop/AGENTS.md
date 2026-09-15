@@ -54,7 +54,12 @@ Screen behavior:
 - `components/edit-item-sheet/` — name, price (`use-price-input.ts`, the same
   cents-fill mechanic as Limit), quantity, category.
 - `components/shop-header/` — editable list title, total/limit, progress bar and
-  the green → yellow (≥85%) → red status shifts.
+  the green → yellow (≥85%) → red status shifts. Also renders "Previsto" (the
+  projected total) as a second line under "No carrinho" whenever an unchecked
+  priced item exists, with its own warning/over-limit text treatment
+  (`shop-projection` / `shop-projection-{status}`) — this is purely visual;
+  the progress bar, `getBudgetStatus` and every notification stay driven by
+  the checked total only, never the projection.
 - `components/mark-all-row.tsx`, `sort-sheet.tsx`, `search-field.tsx`,
   `summary-preview-card/` (→ `/summary`), `delete-list-button.tsx` (deletes the
   list and `router.replace('/home')`).

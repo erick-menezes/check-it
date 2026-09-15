@@ -83,4 +83,54 @@ describe('ShopHeader', () => {
     fireEvent.press(screen.getByTestId('shop-close'));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+
+  it('hides the projection when there is no unchecked priced item', () => {
+    const list = buildList(10000, [checkedItem(2000), pendingItem(null)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.queryByTestId('shop-projection')).not.toBeOnTheScreen();
+  });
+
+  it('shows the projection as checked plus pending priced totals', () => {
+    const list = buildList(10000, [checkedItem(2000), pendingItem(3000)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.getByTestId('shop-projection-onTrack')).toHaveTextContent(
+      'Previsto R$ 50,00',
+    );
+  });
+
+  it('flags the projection as warning at 85% without changing the status line', () => {
+    const list = buildList(10000, [checkedItem(8000), pendingItem(500)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.getByTestId('shop-progress-onTrack')).toBeOnTheScreen();
+    expect(screen.getByTestId('shop-projection-warning')).toBeOnTheScreen();
+    expect(screen.getByTestId('shop-status-line')).toHaveTextContent(
+      'Faltam 1 • R$ 5,00 a comprar',
+    );
+  });
+
+  it('shows "Previsto estoura em" when the projection passes the limit but the cart stays onTrack', () => {
+    const list = buildList(10000, [checkedItem(8000), pendingItem(3000)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.getByTestId('shop-progress-onTrack')).toBeOnTheScreen();
+    expect(screen.getByTestId('shop-projection-overBudget')).toBeOnTheScreen();
+    expect(screen.getByTestId('shop-status-line')).toHaveTextContent(
+      'Previsto estoura em R$ 10,00',
+    );
+  });
+
+  it('shows the over-budget status line ahead of the projection when the cart itself is over', () => {
+    const list = buildList(10000, [checkedItem(12000), pendingItem(1000)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.getByTestId('shop-status-line')).toHaveTextContent(
+      /^Excedeu em/,
+    );
+  });
+
+  it('includes the projection in the chip accessibility label when shown', () => {
+    const list = buildList(10000, [checkedItem(2000), pendingItem(3000)]);
+    render(<ShopHeader list={list} onRename={jest.fn()} onClose={jest.fn()} />);
+    expect(screen.getByTestId('shop-budget-chip')).toHaveAccessibleName(
+      /Previsto R\$ 50,00 de R\$ 100,00/,
+    );
+  });
 });

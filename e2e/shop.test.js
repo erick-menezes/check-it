@@ -77,11 +77,19 @@ describe('Check.it Shop list (full loop)', () => {
       .withTimeout(VISIBLE_TIMEOUT);
   });
 
-  it('reflects the checked item in the budget status (on track)', async () => {
+  it('shows the projected total while the priced item is still pending', async () => {
+    // Arroz is priced (R$5,00 × 2) and unchecked; Feijão preto has no price,
+    // so it never contributes to the projection.
+    await expect(element(by.id('shop-projection'))).toBeVisible();
+    await expect(element(by.id('shop-projection-onTrack'))).toBeVisible();
+  });
+
+  it('reflects the checked item in the budget status and hides the projection', async () => {
     await element(by.label('Marcar Arroz')).tap();
     await expect(element(by.id('shop-progress-fill-onTrack'))).toBeVisible();
     await expect(element(by.id('shop-status-line'))).toBeVisible();
     await expect(element(by.id('shop-summary-difference'))).toBeVisible();
+    await expect(element(by.id('shop-projection'))).not.toBeVisible();
   });
 
   it('sorts the list by price', async () => {
