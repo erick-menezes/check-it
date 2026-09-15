@@ -111,6 +111,26 @@ describe('Shop list integration', () => {
     expect(screen.queryByTestId('shop-projection')).not.toBeOnTheScreen();
   });
 
+  it('edits an item into a kg item and reflects the rounded total in the row and header', () => {
+    seedList();
+    render(<ShopScreen />);
+    addProduct('Alcatra');
+    const itemId = firstItemId();
+    fireEvent.press(screen.getByTestId(`shop-item-${itemId}`));
+    fireEvent.press(screen.getByTestId('edit-unit-kg'));
+    fireEvent.changeText(screen.getByTestId('edit-weight-input'), '830');
+    fireEvent.changeText(screen.getByTestId('edit-price-input'), '2990');
+    fireEvent.press(screen.getByTestId('edit-save'));
+    const edited = useActiveListStore.getState().activeList?.items[0];
+    expect(edited?.unit).toBe('kg');
+    expect(edited?.quantity).toBe(830);
+    expect(edited?.unitPriceInCents).toBe(2990);
+    expect(screen.getByText('0,830 kg × R$ 29,90/kg')).toBeOnTheScreen();
+    expect(screen.getByText('R$ 24,82')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${itemId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(2482);
+  });
+
   it('marks every item at once and reflects the total in the budget chip', () => {
     seedList();
     act(() => {

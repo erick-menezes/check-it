@@ -22,12 +22,12 @@ Let the user mark a product as sold by kg, type its weight with the cents-fill m
 
 ## Subtasks
 
-- [ ] 4.1 Extend `use-edit-item-form.ts` with `selectUnit`, the grams draft (via `useWeightInput`), unit-aware `totalInCents` and `buildChanges()` emitting `unit` + grams-as-`quantity`.
-- [ ] 4.2 Create `components/unit-toggle.tsx` and `components/weight-field.tsx`; wire them into `edit-item-form.tsx` (stepper ↔ weight field swap, price label).
-- [ ] 4.3 Update `item-row/helpers/index.ts` `formatSubtitle` / `formatLineTotal` for kg items using `formatWeight`.
-- [ ] 4.4 Verify Summary, sort (`price-desc`/`price-asc`), search and the header consume kg items only through `getLineTotalInCents` (no code change expected; add the integration assertions).
-- [ ] 4.5 Update `src/features/shop/AGENTS.md` (edit sheet and item row sections).
-- [ ] 4.6 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`; run the Detox spec.
+- [x] 4.1 Extend `use-edit-item-form.ts` with `selectUnit`, the grams draft (via `useWeightInput`), unit-aware `totalInCents` and `buildChanges()` emitting `unit` + grams-as-`quantity`.
+- [x] 4.2 Create `components/unit-toggle.tsx` and `components/weight-field.tsx`; wire them into `edit-item-form.tsx` (stepper ↔ weight field swap, price label "Preço" ↔ "Preço por kg", incl. the price input's `accessibilityLabel`) via `price-quantity-card.tsx`, which also swaps the "Quantidade" ↔ "Peso" label. `use-edit-item-form.ts` extracts `create*`/`resolve*`/`build*` helpers at module scope so `useEditItemForm` itself stays at 27 lines, under the 50-line rule (the review caught an initial version at ~72 lines).
+- [x] 4.3 Update `item-row/helpers/index.ts` `formatSubtitle` / `formatLineTotal` for kg items using `formatWeight`.
+- [x] 4.4 Verify Summary, sort (`price-desc`/`price-asc`), search and the header consume kg items only through `getLineTotalInCents` (no code change was needed; integration assertions added).
+- [x] 4.5 Update `src/features/shop/AGENTS.md` (edit sheet and item row sections).
+- [x] 4.6 Write the tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`; author the Detox spec (not executed here — no simulator in this environment).
 
 ## Implementation design
 
@@ -43,9 +43,9 @@ See `techspec.md` → *Component overview › Edit Item sheet*, *Main interfaces
 
 ## Task tests
 
-- [ ] Unit tests — `__tests__/unit-toggle.test.tsx` (new), `__tests__/weight-field.test.tsx` (new: digits → display, accessibility value), `__tests__/use-edit-item-form.test.ts` (extend: unit switch defaults, `buildChanges` for kg), `__tests__/edit-item-sheet.test.tsx` (extend: toggle swaps stepper/weight field, label change, live total), `__tests__/item-row.test.tsx` (extend: kg subtitles), `__tests__/use-visible-items.test.ts` (extend: price sort with a kg item).
-- [ ] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: kg round-trip through store → row → header), `__tests__/shop-summary-integration.test.tsx` (extend: kg item in total, category breakdown and top items).
-- [ ] E2E tests — `e2e/shop.test.js` spec 2: kg round-trip (`edit-unit-kg`, `edit-weight-input` `830`, `edit-price-input` `2990`, save, assert subtitle and total).
+- [x] Unit tests — `__tests__/unit-toggle.test.tsx` (new), `__tests__/weight-field.test.tsx` (new: digits → display, accessibility value), `__tests__/use-edit-item-form.test.ts` (extend: unit switch defaults, `buildChanges` for kg), `__tests__/edit-item-sheet.test.tsx` (extend: toggle swaps stepper/weight field, label change, live total), `__tests__/item-row.test.tsx` (extend: kg subtitles), `__tests__/use-visible-items.test.ts` (extend: price sort with a kg item).
+- [x] Integration tests — `__tests__/shop-list-integration.test.tsx` (extend: kg round-trip through store → row → header), `__tests__/shop-summary-integration.test.tsx` (extend: kg item in total, category breakdown and top items).
+- [x] E2E tests — `e2e/shop.test.js`: kg round-trip added (`edit-unit-kg`, `edit-weight-input` `830`, `edit-price-input` `2990`, save, assert subtitle and total, then clean up via swipe-to-delete); authored only, not executed — no simulator in this environment.
 
 ## Relevant files
 

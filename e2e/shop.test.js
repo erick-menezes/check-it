@@ -146,6 +146,34 @@ describe('Check.it Shop list (full loop)', () => {
     await expect(element(by.label('Marcar Feijão preto'))).not.toBeVisible();
   });
 
+  it('adds and edits a kg item through the unit toggle and weight field', async () => {
+    await addProductByInput('Alcatra');
+    await element(by.label('Editar Alcatra')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.id('edit-unit-kg')).tap();
+    await element(by.id('edit-weight-input')).tap();
+    await element(by.id('edit-weight-input')).typeText('830');
+    await element(by.id('edit-price-input')).tap();
+    await element(by.id('edit-price-input')).typeText('2990');
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('0,830 kg × R$ 29,90/kg'))).toBeVisible();
+    await expect(element(by.text('R$ 24,82'))).toBeVisible();
+  });
+
+  it('removes the kg item, leaving only Arroz behind', async () => {
+    await element(by.label('Editar Alcatra')).atIndex(0).swipe('left', 'fast');
+    await waitFor(element(by.label('Excluir Alcatra')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.label('Excluir Alcatra')).tap();
+    await expect(element(by.label('Marcar Alcatra'))).not.toBeVisible();
+  });
+
   it('persists the list across an app restart', async () => {
     // Relaunch without delete: the persisted list must survive the restart.
     await device.launchApp({ newInstance: true });

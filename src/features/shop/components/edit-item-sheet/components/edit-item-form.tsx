@@ -58,9 +58,13 @@ export function EditItemForm({
         </Pressable>
       </View>
       <PriceQuantityCard
+        unit={form.unit}
+        canSelectUnit={form.canSelectUnit}
         price={form.price}
+        weight={form.weight}
         quantity={form.quantity}
         totalInCents={form.totalInCents}
+        onSelectUnit={form.selectUnit}
         onDecrementQuantity={form.decrementQuantity}
         onIncrementQuantity={form.incrementQuantity}
       />

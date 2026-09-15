@@ -51,8 +51,23 @@ Screen behavior:
   and restarting the app. `merge` falls back to `DEFAULT_SORT` when the stored
   value is not a known option. The search query, by contrast, stays ephemeral.
 - `components/item-row/` — check, swipe/remove (with confirm), tap to edit.
-- `components/edit-item-sheet/` — name, price (`use-price-input.ts`, the same
-  cents-fill mechanic as Limit), quantity, category.
+  The subtitle branches on `item.unit`: a unit item reads `N× R$ X` (or
+  `N× sem preço`); a kg item reads `0,830 kg × R$ 29,90/kg` (or
+  `0,830 kg × sem preço`) via `formatWeight`. The line total always comes
+  from `getLineTotalInCents` — the row never computes kg rounding itself.
+- `components/edit-item-sheet/` — draft state lives in `use-edit-item-form.ts`
+  (`name`, `unit`, `quantity`, the `price`/`weight` digit hooks, `category`),
+  composed by `edit-item-form.tsx` into three sub-components:
+  `price-quantity-card.tsx` (price field + `unit-toggle.tsx`, swapping
+  `quantity-stepper.tsx` for `weight-field.tsx` in kg mode), and
+  `category-picker.tsx`. `use-price-input.ts` and `use-weight-input.ts` are
+  thin wrappers over the generic `@/lib/digits-input` cents-fill mechanic (the
+  same one Limit uses via its own `use-limit-input.ts`). Switching `/un · /kg`
+  defaults the weight to `1,000 kg` unless one was already typed, and always
+  resets the quantity to `1` when switching back — `applyItemChanges`
+  enforces this too, but the sheet pre-computes it so the toggle feels
+  instant. The sheet's live "Total" reuses `getLineTotalInCents` directly
+  (never a second rounding formula) so it can never drift from the row.
 - `components/shop-header/` — editable list title, total/limit, progress bar and
   the green → yellow (≥85%) → red status shifts. Also renders "Previsto" (the
   projected total) as a second line under "No carrinho" whenever an unchecked
