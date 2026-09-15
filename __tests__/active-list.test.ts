@@ -7,7 +7,11 @@ import {
   getBudgetStatus,
   getCategoryBreakdown,
   getCheckedTotalInCents,
+  getListTotalInCents,
+  getPendingPricedTotalInCents,
   getPendingSummary,
+  getProjectedBudgetStatus,
+  getProjectedTotalInCents,
   getTopItems,
   recomputeTotals,
   removeItem,
@@ -122,8 +126,10 @@ function makeItem(overrides: Partial<ListItem> = {}): ListItem {
   return {
     id: 'item-1',
     name: 'Arroz',
+    unit: 'unit',
     quantity: 1,
     unitPriceInCents: 1000,
+    parts: null,
     category: null,
     checked: false,
     createdAt: '2026-06-07T10:00:00.000Z',
@@ -150,8 +156,10 @@ describe('item mutations', () => {
     expect(result.items[0]).toEqual<ListItem>({
       id: result.items[0].id,
       name: 'Feijão',
+      unit: 'unit',
       quantity: 1,
       unitPriceInCents: null,
+      parts: null,
       category: null,
       checked: false,
       createdAt: '2026-06-07T10:00:00.000Z',
@@ -299,5 +307,80 @@ describe('list selectors', () => {
     ]);
     const top = getTopItems(list, 2);
     expect(top.map((item) => item.id)).toEqual(['b', 'a']);
+  });
+});
+
+describe('getProjectedTotalInCents', () => {
+  it('sums the checked total and the pending priced total', () => {
+    const list = recomputeTotals(
+      makeListWithItems([
+        makeItem({ id: 'a', checked: true, unitPriceInCents: 1000 }),
+        makeItem({ id: 'b', checked: false, unitPriceInCents: 2000 }),
+      ]),
+    );
+    expect(getProjectedTotalInCents(list)).toBe(3000);
+  });
+
+  it('equals getListTotalInCents regardless of checked state', () => {
+    const list = recomputeTotals(
+      makeListWithItems([
+        makeItem({ id: 'a', checked: true, unitPriceInCents: 1000 }),
+        makeItem({ id: 'b', checked: false, unitPriceInCents: 2000 }),
+        makeItem({ id: 'c', checked: false, unitPriceInCents: null }),
+      ]),
+    );
+    expect(getProjectedTotalInCents(list)).toBe(getListTotalInCents(list));
+  });
+
+  it('equals the checked total when every item is checked', () => {
+    const list = recomputeTotals(
+      makeListWithItems([
+        makeItem({ id: 'a', checked: true, unitPriceInCents: 1000 }),
+        makeItem({ id: 'b', checked: true, unitPriceInCents: 2000 }),
+      ]),
+    );
+    expect(getProjectedTotalInCents(list)).toBe(list.totalInCents);
+    expect(getPendingPricedTotalInCents(list)).toBe(0);
+  });
+});
+
+describe('getProjectedBudgetStatus', () => {
+  function makeProjectionList(
+    checkedInCents: number,
+    pendingInCents: number,
+    limitInCents: number,
+  ): ActiveList {
+    const list = recomputeTotals(
+      makeListWithItems([
+        makeItem({ id: 'a', checked: true, unitPriceInCents: checkedInCents }),
+        makeItem({ id: 'b', checked: false, unitPriceInCents: pendingInCents }),
+      ]),
+    );
+    return { ...list, limitInCents };
+  }
+
+  it('returns onTrack just below 85% of the projected total', () => {
+    const list = makeProjectionList(8000, 490, 10000);
+    expect(getProjectedBudgetStatus(list)).toBe('onTrack');
+  });
+
+  it('returns warning at exactly 85% of the projected total', () => {
+    const list = makeProjectionList(8000, 500, 10000);
+    expect(getProjectedBudgetStatus(list)).toBe('warning');
+  });
+
+  it('returns warning at exactly 100% of the projected total', () => {
+    const list = makeProjectionList(8000, 2000, 10000);
+    expect(getProjectedBudgetStatus(list)).toBe('warning');
+  });
+
+  it('returns overBudget above 100% of the projected total', () => {
+    const list = makeProjectionList(8000, 2001, 10000);
+    expect(getProjectedBudgetStatus(list)).toBe('overBudget');
+  });
+
+  it('treats a non-positive limit as onTrack', () => {
+    const list = makeProjectionList(8000, 5000, 0);
+    expect(getProjectedBudgetStatus(list)).toBe('onTrack');
   });
 });

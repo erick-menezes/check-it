@@ -90,4 +90,60 @@ describe('Shop + Summary integration', () => {
       within(screen.getByTestId('summary-total-tile')).getByText('R$ 95,00'),
     ).toBeOnTheScreen();
   });
+
+  it('includes a kg item in the total, category breakdown and top items', () => {
+    seedList();
+    const { rerender } = render(<SummaryScreen />);
+    act(() => {
+      const itemId =
+        useActiveListStore.getState().activeList?.items[1]?.id ?? '';
+      useActiveListStore.getState().updateItem(itemId, {
+        unit: 'kg',
+        quantity: 830,
+        unitPriceInCents: 2990,
+        category: 'butcher',
+      });
+    });
+    rerender(<SummaryScreen />);
+    expect(
+      within(screen.getByTestId('summary-total-tile')).getByText('R$ 39,82'),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-legend-butcher')).getByText(
+        'R$ 24,82',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-top-items')).getByText('R$ 24,82'),
+    ).toBeOnTheScreen();
+  });
+
+  it('includes a conjunto item in the total, category breakdown and top items', () => {
+    seedList();
+    const { rerender } = render(<SummaryScreen />);
+    act(() => {
+      const itemId =
+        useActiveListStore.getState().activeList?.items[2]?.id ?? '';
+      useActiveListStore.getState().updateItem(itemId, {
+        parts: [
+          { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+          { id: 'b', label: null, unitPriceInCents: 399, quantity: 1 },
+          { id: 'c', label: null, unitPriceInCents: 399, quantity: 1 },
+        ],
+        category: 'grocery',
+      });
+    });
+    rerender(<SummaryScreen />);
+    expect(
+      within(screen.getByTestId('summary-total-tile')).getByText('R$ 76,97'),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-legend-grocery')).getByText(
+        'R$ 11,97',
+      ),
+    ).toBeOnTheScreen();
+    expect(
+      within(screen.getByTestId('summary-top-items')).getByText('R$ 11,97'),
+    ).toBeOnTheScreen();
+  });
 });

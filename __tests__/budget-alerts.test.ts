@@ -139,6 +139,18 @@ describe('budget-alerts engine', () => {
     ).toBeUndefined();
   });
 
+  it('emits nothing when only the projection crosses 85%, not the checked total', () => {
+    useActiveListStore.getState().setActiveList(createActiveList(10000));
+    useActiveListStore.getState().addItems([
+      { name: 'Checked at 30%', quantity: 1, unitPriceInCents: 3000 },
+      { name: 'Pending, would push projection to 90%', unitPriceInCents: 6000 },
+    ]);
+    const checkedId =
+      useActiveListStore.getState().activeList?.items[0].id ?? '';
+    useActiveListStore.getState().toggleItem(checkedId);
+    expect(getNotifications()).toHaveLength(0);
+  });
+
   it('fires warning then exceeded as checked item totals cross the bands', () => {
     useActiveListStore.getState().setActiveList(createActiveList(10000));
     useActiveListStore.getState().addItems([

@@ -70,6 +70,17 @@ export function getListTotalInCents(list: ActiveList): number {
   );
 }
 
+export function getPendingPricedTotalInCents(list: ActiveList): number {
+  return list.items.reduce((total, item) => {
+    if (item.checked) return total;
+    return total + getLineTotalInCents(item);
+  }, 0);
+}
+
+export function getProjectedTotalInCents(list: ActiveList): number {
+  return list.totalInCents + getPendingPricedTotalInCents(list);
+}
+
 export function recomputeTotals(list: ActiveList): ActiveList {
   return {
     ...list,
@@ -175,21 +186,29 @@ const OVER_RATIO = 1;
 const MIN_RATIO = 0;
 const MAX_RATIO = 1;
 
-function computeRatio(list: ActiveList): number {
-  if (list.limitInCents <= 0) return MIN_RATIO;
-  return list.totalInCents / list.limitInCents;
+function computeRatio(total: number, limitInCents: number): number {
+  if (limitInCents <= 0) return MIN_RATIO;
+  return total / limitInCents;
 }
 
-export function getBudgetStatus(list: ActiveList): BudgetStatus {
-  const ratio = computeRatio(list);
+function getStatusForTotal(total: number, limitInCents: number): BudgetStatus {
+  const ratio = computeRatio(total, limitInCents);
   if (ratio > OVER_RATIO) return 'overBudget';
   if (ratio >= WARNING_RATIO) return 'warning';
   return 'onTrack';
 }
 
+export function getBudgetStatus(list: ActiveList): BudgetStatus {
+  return getStatusForTotal(list.totalInCents, list.limitInCents);
+}
+
 export function getBudgetRatio(list: ActiveList): number {
-  const ratio = computeRatio(list);
+  const ratio = computeRatio(list.totalInCents, list.limitInCents);
   if (ratio < MIN_RATIO) return MIN_RATIO;
   if (ratio > MAX_RATIO) return MAX_RATIO;
   return ratio;
+}
+
+export function getProjectedBudgetStatus(list: ActiveList): BudgetStatus {
+  return getStatusForTotal(getProjectedTotalInCents(list), list.limitInCents);
 }

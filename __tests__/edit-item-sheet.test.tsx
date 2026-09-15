@@ -46,6 +46,7 @@ describe('EditItemSheet', () => {
     fireEvent.press(screen.getByTestId('edit-save'));
     expect(onSave).toHaveBeenCalledWith(item.id, {
       name: 'Arroz Integral',
+      unit: 'unit',
       unitPriceInCents: 690,
       quantity: 2,
       category: null,
@@ -134,6 +135,201 @@ describe('EditItemSheet', () => {
     fireEvent.press(screen.getByTestId('edit-close'));
     expect(onSave).not.toHaveBeenCalled();
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows the unit toggle with the price label for a unit item', () => {
+    const item = makeItem({ unit: 'unit' });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getByText('Preço')).toBeOnTheScreen();
+    expect(screen.getByText('Quantidade')).toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-weight-input')).not.toBeOnTheScreen();
+    expect(
+      screen.getByTestId('edit-unit-unit').props.accessibilityState,
+    ).toEqual(expect.objectContaining({ selected: true }));
+  });
+
+  it('swaps the stepper for a weight field and relabels the price when kg is chosen', () => {
+    const item = makeItem({ unit: 'unit', quantity: 3 });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-unit-kg'));
+    expect(screen.getByText('Preço por kg')).toBeOnTheScreen();
+    expect(screen.getByText('Peso')).toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-qty-value')).not.toBeOnTheScreen();
+    expect(screen.getByTestId('edit-weight-input').props.value).toBe(
+      '1,000 kg',
+    );
+  });
+
+  it('resets the quantity to one when switching back from kg to unit', () => {
+    const item = makeItem({ unit: 'kg', quantity: 830 });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-unit-unit'));
+    expect(screen.getByTestId('edit-qty-value')).toHaveTextContent('1');
+  });
+
+  it('saves a kg item with the typed weight and price per kg', () => {
+    const onSave = jest.fn();
+    const item = makeItem({
+      unit: 'unit',
+      quantity: 1,
+      unitPriceInCents: null,
+    });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={onSave}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-unit-kg'));
+    fireEvent.changeText(screen.getByTestId('edit-weight-input'), '830');
+    fireEvent.changeText(screen.getByTestId('edit-price-input'), '2990');
+    fireEvent.press(screen.getByTestId('edit-save'));
+    expect(onSave).toHaveBeenCalledWith(
+      item.id,
+      expect.objectContaining({
+        unit: 'kg',
+        unitPriceInCents: 2990,
+        quantity: 830,
+      }),
+    );
+  });
+
+  it('shows the live total for a kg item using the same rounding as the row', () => {
+    const item = makeItem({
+      unit: 'kg',
+      quantity: 830,
+      unitPriceInCents: 2990,
+    });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getByTestId('edit-total')).toHaveTextContent(/R\$ 24,82/);
+  });
+
+  it('shows the parts editor after tapping Somar vários', () => {
+    const item = makeItem({ unitPriceInCents: null });
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    expect(screen.getByTestId('edit-parts-disable')).toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-price-input')).not.toBeOnTheScreen();
+    expect(screen.queryByTestId('edit-unit-kg')).not.toBeOnTheScreen();
+  });
+
+  it('disables save while a part is missing a price and shows the hint', () => {
+    const item = makeItem();
+    render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    expect(screen.getByTestId('edit-save')).toBeDisabled();
+    expect(screen.getByTestId('edit-save-hint')).toBeOnTheScreen();
+  });
+
+  it('composes a conjunto, saves it, then collapses it back to a single price', () => {
+    const onSave = jest.fn();
+    const item = makeItem({ name: 'Biscoitos', unitPriceInCents: null });
+    const { rerender } = render(
+      <EditItemSheet
+        item={item}
+        onClose={jest.fn()}
+        onSave={onSave}
+        onRemove={jest.fn()}
+      />,
+    );
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    fireEvent.press(screen.getByTestId('edit-part-add'));
+    const partIds = screen
+      .getAllByTestId(/^edit-part-row-/)
+      .map((row) => String(row.props.testID).replace('edit-part-row-', ''));
+    expect(partIds).toHaveLength(3);
+    for (const partId of partIds) {
+      fireEvent.changeText(
+        screen.getByTestId(`edit-part-price-${partId}`),
+        '399',
+      );
+    }
+    fireEvent.press(screen.getByTestId('edit-save'));
+    expect(onSave).toHaveBeenCalledWith(
+      item.id,
+      expect.objectContaining({
+        parts: [
+          expect.objectContaining({ unitPriceInCents: 399 }),
+          expect.objectContaining({ unitPriceInCents: 399 }),
+          expect.objectContaining({ unitPriceInCents: 399 }),
+        ],
+      }),
+    );
+    const savedItem = {
+      ...item,
+      unit: 'unit' as const,
+      quantity: 1,
+      unitPriceInCents: 1197,
+      parts: [
+        { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+        { id: 'b', label: null, unitPriceInCents: 399, quantity: 1 },
+        { id: 'c', label: null, unitPriceInCents: 399, quantity: 1 },
+      ],
+    };
+    rerender(
+      <EditItemSheet
+        item={null}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    rerender(
+      <EditItemSheet
+        item={savedItem}
+        onClose={jest.fn()}
+        onSave={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getAllByTestId(/^edit-part-row-/)).toHaveLength(3);
+    fireEvent.press(screen.getByTestId('edit-parts-disable'));
+    expect(screen.getByTestId('edit-price-input').props.value).toBe('11,97');
+    expect(screen.getByTestId('edit-unit-unit')).not.toBeDisabled();
   });
 
   it('removes the item only after confirming the dialog', () => {

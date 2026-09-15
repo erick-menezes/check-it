@@ -90,6 +90,74 @@ describe('Shop list integration', () => {
     expect(useActiveListStore.getState().activeList?.totalInCents).toBe(0);
   });
 
+  it('shows the projection while a priced item is pending and hides it once everything is checked', () => {
+    seedList(10000);
+    act(() => {
+      useActiveListStore.getState().addItems([
+        { name: 'Arroz', quantity: 1, unitPriceInCents: 2000 },
+        { name: 'Feijão', quantity: 1, unitPriceInCents: 3000 },
+      ]);
+    });
+    render(<ShopScreen />);
+    const firstId = firstItemId();
+    const secondId =
+      useActiveListStore.getState().activeList?.items[1]?.id ?? '';
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${firstId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(2000);
+    expect(screen.getByTestId('shop-projection')).toBeOnTheScreen();
+    expect(screen.getByText('Previsto R$ 50,00')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${secondId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(5000);
+    expect(screen.queryByTestId('shop-projection')).not.toBeOnTheScreen();
+  });
+
+  it('edits an item into a kg item and reflects the rounded total in the row and header', () => {
+    seedList();
+    render(<ShopScreen />);
+    addProduct('Alcatra');
+    const itemId = firstItemId();
+    fireEvent.press(screen.getByTestId(`shop-item-${itemId}`));
+    fireEvent.press(screen.getByTestId('edit-unit-kg'));
+    fireEvent.changeText(screen.getByTestId('edit-weight-input'), '830');
+    fireEvent.changeText(screen.getByTestId('edit-price-input'), '2990');
+    fireEvent.press(screen.getByTestId('edit-save'));
+    const edited = useActiveListStore.getState().activeList?.items[0];
+    expect(edited?.unit).toBe('kg');
+    expect(edited?.quantity).toBe(830);
+    expect(edited?.unitPriceInCents).toBe(2990);
+    expect(screen.getByText('0,830 kg × R$ 29,90/kg')).toBeOnTheScreen();
+    expect(screen.getByText('R$ 24,82')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${itemId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(2482);
+  });
+
+  it('composes a conjunto and reflects the summed total in the row and header', () => {
+    seedList();
+    render(<ShopScreen />);
+    addProduct('Biscoitos');
+    const itemId = firstItemId();
+    fireEvent.press(screen.getByTestId(`shop-item-${itemId}`));
+    fireEvent.press(screen.getByTestId('edit-parts-enable'));
+    const partIds = screen
+      .getAllByTestId(/^edit-part-row-/)
+      .map((row) => String(row.props.testID).replace('edit-part-row-', ''));
+    for (const partId of partIds) {
+      fireEvent.changeText(
+        screen.getByTestId(`edit-part-price-${partId}`),
+        '399',
+      );
+    }
+    fireEvent.press(screen.getByTestId('edit-save'));
+    const edited = useActiveListStore.getState().activeList?.items[0];
+    expect(edited?.unit).toBe('unit');
+    expect(edited?.quantity).toBe(1);
+    expect(edited?.unitPriceInCents).toBe(798);
+    expect(edited?.parts).toHaveLength(2);
+    expect(screen.getByText('2 itens · R$ 7,98')).toBeOnTheScreen();
+    fireEvent.press(screen.getByTestId(`shop-item-checkbox-${itemId}`));
+    expect(useActiveListStore.getState().activeList?.totalInCents).toBe(798);
+  });
+
   it('marks every item at once and reflects the total in the budget chip', () => {
     seedList();
     act(() => {

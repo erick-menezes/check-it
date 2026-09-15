@@ -175,6 +175,24 @@ describe('active-list-store item actions', () => {
     expect(useActiveListStore.getState().activeList?.totalInCents).toBe(3000);
   });
 
+  it('updateItem with parts persists the derived price', () => {
+    seedActiveList();
+    act(() => {
+      useActiveListStore.getState().addItem('Biscoitos');
+    });
+    const itemId = getItems()[0].id;
+    act(() => {
+      useActiveListStore.getState().updateItem(itemId, {
+        parts: [
+          { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+          { id: 'b', label: null, unitPriceInCents: 399, quantity: 2 },
+        ],
+      });
+    });
+    expect(getItems()[0].unitPriceInCents).toBe(399 * 3);
+    expect(getItems()[0].quantity).toBe(1);
+  });
+
   it('removeItem drops the item and recomputes the total', () => {
     seedActiveList();
     act(() => {
@@ -227,7 +245,7 @@ describe('active-list-store item actions', () => {
     const stored = await AsyncStorage.getItem('checkit:active-list');
     const parsed = JSON.parse(stored as string);
     expect(parsed.state.activeList.items).toHaveLength(1);
-    expect(parsed.version).toBe(1);
+    expect(parsed.version).toBe(2);
   });
 });
 
@@ -269,6 +287,60 @@ describe('active-list-store migration', () => {
       await useActiveListStore.persist.rehydrate();
     });
     expect(useActiveListStore.getState().activeList).toBeNull();
+    expect(warnSpy).toHaveBeenCalled();
     warnSpy.mockRestore();
+  });
+
+  it('fills unit and parts on every item when migrating a v1 list', async () => {
+    const v1Item = {
+      id: 'item-1',
+      name: 'Arroz',
+      quantity: 2,
+      unitPriceInCents: 1000,
+      category: null,
+      checked: true,
+      createdAt: '2026-06-07T10:00:00.000Z',
+    };
+    const v1List = {
+      id: 'list-1',
+      name: 'Lista antiga',
+      itemCount: 1,
+      createdAt: '2026-06-07T10:00:00.000Z',
+      totalInCents: 2000,
+      limitInCents: 40000,
+      items: [v1Item],
+    };
+    await AsyncStorage.setItem(
+      'checkit:active-list',
+      JSON.stringify({ state: { activeList: v1List }, version: 1 }),
+    );
+    await act(async () => {
+      await useActiveListStore.persist.rehydrate();
+    });
+    const migrated = useActiveListStore.getState().activeList;
+    expect(migrated?.items).toEqual([{ ...v1Item, unit: 'unit', parts: null }]);
+    expect(migrated?.totalInCents).toBe(2000);
+  });
+
+  it('still migrates a v0 list (no items) all the way to v2', async () => {
+    const v0List = {
+      id: 'legacy-2',
+      name: 'Lista bem antiga',
+      itemCount: 0,
+      createdAt: '2026-06-07T10:00:00.000Z',
+      totalInCents: 0,
+      limitInCents: 40000,
+    };
+    await AsyncStorage.setItem(
+      'checkit:active-list',
+      JSON.stringify({ state: { activeList: v0List }, version: 0 }),
+    );
+    await act(async () => {
+      await useActiveListStore.persist.rehydrate();
+    });
+    expect(useActiveListStore.getState().activeList).toEqual({
+      ...v0List,
+      items: [],
+    });
   });
 });

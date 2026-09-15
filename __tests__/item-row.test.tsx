@@ -38,6 +38,64 @@ describe('ItemRow', () => {
     expect(screen.getByText('—')).toBeOnTheScreen();
   });
 
+  it('renders the priced kg subtitle and its rounded line total', () => {
+    const item = makeItem({
+      unit: 'kg',
+      quantity: 830,
+      unitPriceInCents: 2990,
+    });
+    render(
+      <ItemRow
+        item={item}
+        onToggle={jest.fn()}
+        onEdit={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getByText('0,830 kg × R$ 29,90/kg')).toBeOnTheScreen();
+    expect(screen.getByText('R$ 24,82')).toBeOnTheScreen();
+  });
+
+  it('renders the priceless kg subtitle and an em dash total', () => {
+    const item = makeItem({
+      unit: 'kg',
+      quantity: 830,
+      unitPriceInCents: null,
+    });
+    render(
+      <ItemRow
+        item={item}
+        onToggle={jest.fn()}
+        onEdit={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getByText('0,830 kg × sem preço')).toBeOnTheScreen();
+    expect(screen.getByText('—')).toBeOnTheScreen();
+  });
+
+  it('renders the parts subtitle with the item count and the summed price', () => {
+    const item = makeItem({
+      unit: 'unit',
+      quantity: 1,
+      unitPriceInCents: 1197,
+      parts: [
+        { id: 'a', label: null, unitPriceInCents: 399, quantity: 1 },
+        { id: 'b', label: null, unitPriceInCents: 399, quantity: 2 },
+      ],
+    });
+    render(
+      <ItemRow
+        item={item}
+        onToggle={jest.fn()}
+        onEdit={jest.fn()}
+        onRemove={jest.fn()}
+      />,
+    );
+    expect(screen.getByText('3 itens · R$ 11,97')).toBeOnTheScreen();
+    expect(screen.getByText('R$ 11,97')).toBeOnTheScreen();
+  });
+
   it('toggles the item when the checkbox is pressed', () => {
     const onToggle = jest.fn();
     const item = makeItem();

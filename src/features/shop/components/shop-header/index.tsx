@@ -7,11 +7,18 @@ import {
   type ActiveList,
   getBudgetRatio,
   getBudgetStatus,
+  getProjectedBudgetStatus,
+  getProjectedTotalInCents,
 } from '@/features/home/active-list';
 import { formatBRL } from '@/lib/currency';
+import { cn } from '@/lib/utils';
 import { BudgetBarFill } from './components/budget-bar-fill';
 import { EditableTitle } from './components/editable-title';
-import { buildStatusLine } from './helpers';
+import {
+  buildStatusLine,
+  getPendingPricedTotalInCents,
+  getProjectionTextClass,
+} from './helpers';
 
 interface ShopHeaderProps {
   list: ActiveList;
@@ -26,6 +33,12 @@ export function ShopHeader({ list, onRename, onClose }: ShopHeaderProps) {
     [list, status],
   );
   const fillPercent = Math.round(getBudgetRatio(list) * 100);
+  const showProjection = getPendingPricedTotalInCents(list) > 0;
+  const projectedStatus = getProjectedBudgetStatus(list);
+  const projectedTotal = getProjectedTotalInCents(list);
+  const chipAccessibilityLabel = showProjection
+    ? `No carrinho ${formatBRL(list.totalInCents)} de ${formatBRL(list.limitInCents)}. Previsto ${formatBRL(projectedTotal)} de ${formatBRL(list.limitInCents)}`
+    : `No carrinho ${formatBRL(list.totalInCents)} de ${formatBRL(list.limitInCents)}`;
   return (
     <SafeAreaView edges={['top']} className="bg-checkit-primary">
       <View className="px-[22px] pb-[18px] pt-1">
@@ -43,7 +56,7 @@ export function ShopHeader({ list, onRename, onClose }: ShopHeaderProps) {
         </View>
         <View
           accessible
-          accessibilityLabel={`No carrinho ${formatBRL(list.totalInCents)} de ${formatBRL(list.limitInCents)}`}
+          accessibilityLabel={chipAccessibilityLabel}
           testID="shop-budget-chip"
           className="mt-4 rounded-[14px] border border-white/[0.18] bg-white/[0.12] px-3.5 py-3"
         >
@@ -55,6 +68,19 @@ export function ShopHeader({ list, onRename, onClose }: ShopHeaderProps) {
               <Text className="mt-0.5 text-[22px] font-bold tabular-nums text-white">
                 {formatBRL(list.totalInCents)}
               </Text>
+              {showProjection && (
+                <View testID="shop-projection">
+                  <Text
+                    testID={`shop-projection-${projectedStatus}`}
+                    className={cn(
+                      'mt-0.5 text-xs font-semibold tabular-nums',
+                      getProjectionTextClass(projectedStatus),
+                    )}
+                  >
+                    Previsto {formatBRL(projectedTotal)}
+                  </Text>
+                </View>
+              )}
             </View>
             <View className="items-end">
               <Text className="text-[11px] font-semibold uppercase tracking-[0.04em] text-white/85">

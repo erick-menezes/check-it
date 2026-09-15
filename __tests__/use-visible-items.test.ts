@@ -92,6 +92,20 @@ describe('useVisibleItems', () => {
     expect(visibleNames(items, '', 'price-asc')).toEqual(['A', 'C', 'B']);
   });
 
+  it('sorts by rounded line total when a kg item is in the mix', () => {
+    const kgItem: ListItem = {
+      ...makeItem('Alcatra', 2990),
+      unit: 'kg',
+      quantity: 830,
+    };
+    const items = [makeItem('A', 500), kgItem, makeItem('C', 1000)];
+    expect(visibleNames(items, '', 'price-desc')).toEqual([
+      'Alcatra',
+      'C',
+      'A',
+    ]);
+  });
+
   it('sorts by lowest price first, treating priceless items as zero', () => {
     const items = [
       makeItem('A', 500),

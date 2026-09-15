@@ -77,11 +77,19 @@ describe('Check.it Shop list (full loop)', () => {
       .withTimeout(VISIBLE_TIMEOUT);
   });
 
-  it('reflects the checked item in the budget status (on track)', async () => {
+  it('shows the projected total while the priced item is still pending', async () => {
+    // Arroz is priced (R$5,00 × 2) and unchecked; Feijão preto has no price,
+    // so it never contributes to the projection.
+    await expect(element(by.id('shop-projection'))).toBeVisible();
+    await expect(element(by.id('shop-projection-onTrack'))).toBeVisible();
+  });
+
+  it('reflects the checked item in the budget status and hides the projection', async () => {
     await element(by.label('Marcar Arroz')).tap();
     await expect(element(by.id('shop-progress-fill-onTrack'))).toBeVisible();
     await expect(element(by.id('shop-status-line'))).toBeVisible();
     await expect(element(by.id('shop-summary-difference'))).toBeVisible();
+    await expect(element(by.id('shop-projection'))).not.toBeVisible();
   });
 
   it('sorts the list by price', async () => {
@@ -136,6 +144,77 @@ describe('Check.it Shop list (full loop)', () => {
       .withTimeout(VISIBLE_TIMEOUT);
     await element(by.label('Excluir Feijão preto')).tap();
     await expect(element(by.label('Marcar Feijão preto'))).not.toBeVisible();
+  });
+
+  it('adds and edits a kg item through the unit toggle and weight field', async () => {
+    await addProductByInput('Alcatra');
+    await element(by.label('Editar Alcatra')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.id('edit-unit-kg')).tap();
+    await element(by.id('edit-weight-input')).tap();
+    await element(by.id('edit-weight-input')).typeText('830');
+    await element(by.id('edit-price-input')).tap();
+    await element(by.id('edit-price-input')).typeText('2990');
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('0,830 kg × R$ 29,90/kg'))).toBeVisible();
+    await expect(element(by.text('R$ 24,82'))).toBeVisible();
+  });
+
+  it('removes the kg item, leaving only Arroz behind', async () => {
+    await element(by.label('Editar Alcatra')).atIndex(0).swipe('left', 'fast');
+    await waitFor(element(by.label('Excluir Alcatra')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.label('Excluir Alcatra')).tap();
+    await expect(element(by.label('Marcar Alcatra'))).not.toBeVisible();
+  });
+
+  it('composes a conjunto through Somar vários', async () => {
+    await addProductByInput('Biscoitos');
+    await element(by.label('Editar Biscoitos')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.id('edit-parts-enable')).tap();
+    await element(by.label('Preço da parte')).atIndex(0).tap();
+    await element(by.label('Preço da parte')).atIndex(0).typeText('399');
+    await element(by.label('Preço da parte')).atIndex(1).tap();
+    await element(by.label('Preço da parte')).atIndex(1).typeText('399');
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('2 itens · R$ 7,98'))).toBeVisible();
+  });
+
+  it('reopens the conjunto and reverts it to a single price', async () => {
+    await element(by.label('Editar Biscoitos')).atIndex(0).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.id('edit-parts-disable'))).toBeVisible();
+    await element(by.id('edit-parts-disable')).tap();
+    await element(by.id('edit-save')).tap();
+    await waitFor(element(by.id('edit-item-sheet')))
+      .not.toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await expect(element(by.text('1× R$ 7,98'))).toBeVisible();
+  });
+
+  it('removes the conjunto item, leaving only Arroz behind', async () => {
+    await element(by.label('Editar Biscoitos'))
+      .atIndex(0)
+      .swipe('left', 'fast');
+    await waitFor(element(by.label('Excluir Biscoitos')))
+      .toBeVisible()
+      .withTimeout(VISIBLE_TIMEOUT);
+    await element(by.label('Excluir Biscoitos')).tap();
+    await expect(element(by.label('Marcar Biscoitos'))).not.toBeVisible();
   });
 
   it('persists the list across an app restart', async () => {
