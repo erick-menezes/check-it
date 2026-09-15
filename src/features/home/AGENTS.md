@@ -28,8 +28,11 @@ Two states only:
   no React, no storage.
 - `active-list-store.ts` — the only mutable layer. Every action funnels through
   `mutate()` → `recomputeTotals()`, so `itemCount` and `totalInCents` are never
-  updated by hand. Persisted under `checkit:active-list` at version 1, with a
-  `migrate` from the v0 shape that had no `items`.
+  updated by hand. Persisted under `checkit:active-list` at version 2, with a
+  `migrate` chain: v0 (no `items`) → v1 (items without `unit`/`parts`) → v2
+  (every item gets `unit: 'unit'`, `parts: null`). Malformed payloads at any
+  step fall back to `activeList: null` with a `console.warn` naming the stored
+  version.
 
 ## Invariants
 

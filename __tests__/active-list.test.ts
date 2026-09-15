@@ -122,8 +122,10 @@ function makeItem(overrides: Partial<ListItem> = {}): ListItem {
   return {
     id: 'item-1',
     name: 'Arroz',
+    unit: 'unit',
     quantity: 1,
     unitPriceInCents: 1000,
+    parts: null,
     category: null,
     checked: false,
     createdAt: '2026-06-07T10:00:00.000Z',
@@ -150,8 +152,10 @@ describe('item mutations', () => {
     expect(result.items[0]).toEqual<ListItem>({
       id: result.items[0].id,
       name: 'Feijão',
+      unit: 'unit',
       quantity: 1,
       unitPriceInCents: null,
+      parts: null,
       category: null,
       checked: false,
       createdAt: '2026-06-07T10:00:00.000Z',

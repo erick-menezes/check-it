@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type {
+  ListItem,
   NewItemInput,
   UpdateItemChanges,
 } from '@/features/shop/list-item';
@@ -17,7 +18,8 @@ import {
   updateItem,
 } from './active-list';
 
-const PERSIST_VERSION = 1;
+const PERSIST_VERSION = 2;
+const LEGACY_UNVERSIONED = 0;
 
 interface ActiveListStoreState {
   activeList: ActiveList | null;
@@ -51,15 +53,74 @@ function isStoredListV0(value: unknown): value is Omit<ActiveList, 'items'> {
   );
 }
 
-function migrateActiveList(persisted: unknown): PersistedActiveListState {
+function isStoredListV1(
+  value: unknown,
+): value is Omit<ActiveList, 'items'> & { items: readonly unknown[] } {
+  if (typeof value !== 'object' || value === null) return false;
+  if (!('id' in value) || !('limitInCents' in value)) return false;
+  if (!('items' in value)) return false;
+  return Array.isArray(value.items);
+}
+
+function isStoredListItemV1(
+  value: unknown,
+): value is Omit<ListItem, 'unit' | 'parts'> {
+  if (typeof value !== 'object' || value === null) return false;
+  return 'id' in value && 'unitPriceInCents' in value;
+}
+
+function migrateListShapeV0ToV1(stored: unknown): unknown {
+  if (!isStoredListV0(stored)) return stored;
+  return { ...stored, items: [] };
+}
+
+function migrateItemToV2(item: unknown): ListItem | null {
+  if (!isStoredListItemV1(item)) return null;
+  return { ...item, unit: 'unit', parts: null };
+}
+
+function migrateItemsToV2(
+  items: readonly unknown[],
+): readonly ListItem[] | null {
+  const migrated: ListItem[] = [];
+  for (const item of items) {
+    const next = migrateItemToV2(item);
+    if (next === null) return null;
+    migrated.push(next);
+  }
+  return migrated;
+}
+
+function failMigration(
+  version: number,
+  reason: string,
+): PersistedActiveListState {
+  console.warn(
+    `Failed to migrate active-list store from version ${version}: ${reason}`,
+  );
+  return { activeList: null };
+}
+
+function migrateActiveList(
+  persisted: unknown,
+  version: number,
+): PersistedActiveListState {
   try {
     if (!hasActiveListField(persisted)) return { activeList: null };
-    const stored = persisted.activeList;
-    if (!isStoredListV0(stored)) return { activeList: null };
-    return { activeList: { ...stored, items: [] } };
+    const shapeFixed =
+      version === LEGACY_UNVERSIONED
+        ? migrateListShapeV0ToV1(persisted.activeList)
+        : persisted.activeList;
+    if (!isStoredListV1(shapeFixed)) {
+      return failMigration(version, 'unrecognized list shape');
+    }
+    const items = migrateItemsToV2(shapeFixed.items);
+    if (items === null) {
+      return failMigration(version, 'unrecognized item shape');
+    }
+    return { activeList: { ...shapeFixed, items } };
   } catch (error) {
-    console.warn('Failed to migrate active-list store:', error);
-    return { activeList: null };
+    return failMigration(version, String(error));
   }
 }
 

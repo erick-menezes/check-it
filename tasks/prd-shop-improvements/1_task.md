@@ -25,13 +25,13 @@ Extend the pure item model with `unit` and `parts`, encode every new invariant i
 
 ## Subtasks
 
-- [ ] 1.1 Add `ItemUnit`, `PricePart`, the new `ListItem`/`NewItemInput`/`UpdateItemChanges` fields and the named constants to `src/features/shop/list-item.ts`.
-- [ ] 1.2 Update `createListItem` (defaults) and `applyItemChanges` (unit-aware quantity normalization, unit-switch defaults, parts derivation) — split normalization into helpers so each function stays ≤ 50 lines.
-- [ ] 1.3 Implement the kg branch of `getLineTotalInCents`, plus `getPartsTotalInCents`, `getPartsCount`, `isKgItem`, `hasParts`.
-- [ ] 1.4 Create `src/lib/weight.ts` with `formatWeight(grams)` (`0,830 kg`) and `formatWeightForSpeech(grams)` (`0,830 quilos`).
-- [ ] 1.5 Bump `src/features/home/active-list-store.ts` to version 2 with the version-aware migration chain.
-- [ ] 1.6 Update `src/features/shop/AGENTS.md` ("What lives here" and "Invariants") and `src/features/home/AGENTS.md` (store version) to describe `unit`, grams-in-`quantity` and `parts`.
-- [ ] 1.7 Write the unit tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`.
+- [x] 1.1 Add `ItemUnit`, `PricePart`, the new `ListItem`/`NewItemInput`/`UpdateItemChanges` fields and the named constants to `src/features/shop/list-item.ts`.
+- [x] 1.2 Update `createListItem` (defaults) and `applyItemChanges` (unit-aware quantity normalization, unit-switch defaults, parts derivation) — split normalization into helpers so each function stays ≤ 50 lines.
+- [x] 1.3 Implement the kg branch of `getLineTotalInCents`, plus `getPartsTotalInCents`, `getPartsCount`, `isKgItem`, `hasParts`.
+- [x] 1.4 Create `src/lib/weight.ts` with `formatWeight(grams)` (`0,830 kg`) and `formatWeightForSpeech(grams)` (`0,830 quilos`).
+- [x] 1.5 Bump `src/features/home/active-list-store.ts` to version 2 with the version-aware migration chain.
+- [x] 1.6 Update `src/features/shop/AGENTS.md` ("What lives here" and "Invariants") and `src/features/home/AGENTS.md` (store version) to describe `unit`, grams-in-`quantity` and `parts`.
+- [x] 1.7 Write the unit tests listed under *Task tests*; run `pnpm typecheck`, `pnpm lint`, `pnpm test`.
 
 ## Implementation design
 
@@ -47,9 +47,9 @@ See `techspec.md` → *Implementation design › Main interfaces*, *Data models*
 
 ## Task tests
 
-- [ ] Unit tests — `__tests__/list-item.test.ts` (new: defaults, normalization, unit switch, parts derivation, rounding table, helpers), `__tests__/weight.test.ts` (new), `__tests__/active-list-store.test.ts` (extend: v1 → v2 fills `unit`/`parts` on every item with unchanged `totalInCents`; v0 → v2 still works; malformed → `null`; `updateItem` with `parts` persists the derived price), `__tests__/active-list.test.ts` (existing suite stays green).
-- [ ] Integration tests — `__tests__/home-tabs-integration.test.tsx` (verify only: Home card unchanged after migration).
-- [ ] E2E tests — not applicable (no UI change).
+- [x] Unit tests — `__tests__/list-item.test.ts` (new: defaults, normalization, unit switch, parts derivation, rounding table, helpers), `__tests__/weight.test.ts` (new), `__tests__/active-list-store.test.ts` (extend: v1 → v2 fills `unit`/`parts` on every item with unchanged `totalInCents`; v0 → v2 still works; malformed → `null`; `updateItem` with `parts` persists the derived price), `__tests__/active-list.test.ts` (existing suite stays green — fixture updated to carry `unit`/`parts`).
+- [x] Integration tests — `__tests__/home-tabs-integration.test.tsx` (verified: passes unmodified after the migration).
+- [x] E2E tests — not applicable (no UI change).
 
 ## Relevant files
 

@@ -14,10 +14,23 @@ design.
 **This folder owns the item-level model** (`list-item.ts`), which the Home
 aggregate composes:
 
-- `ListItem` — `name`, `quantity` (≥ 1, truncated), `unitPriceInCents | null`,
-  `category | null`, `checked`, `createdAt`.
-- `getLineTotalInCents` — `0` when the item has no price, so priceless items
-  count toward `itemCount` but never toward money.
+- `ListItem` — `name`, `unit` (`'unit' | 'kg'`, default `'unit'`), `quantity`
+  (≥ 1, truncated for unit items; **integer grams** when `unit === 'kg'` — the
+  same field is reinterpreted, there is no separate weight field),
+  `unitPriceInCents | null` (price per unit, or per kg), `parts` (optional
+  price composition, see below), `category | null`, `checked`, `createdAt`.
+- `parts: readonly PricePart[] | null` — an item may be a "conjunto": several
+  `{ label, unitPriceInCents, quantity }` parts whose sum becomes the item's
+  own `unitPriceInCents`. Every invariant lives in `applyItemChanges`: setting
+  non-null `parts` forces `unit: 'unit'`, `quantity: 1` and derives the price —
+  nothing else in the codebase (Summary, sort, search, notifications) ever
+  reads `parts`; they all consume the item's single `unitPriceInCents`.
+- `getLineTotalInCents` — `0` when the item has no price. For a `kg` item it is
+  `unitPriceInCents × grams ÷ 1000`, rounded half-up in integer arithmetic
+  (`Math.floor((price × grams + 500) / 1000)`), never a float division.
+  Priceless items count toward `itemCount` but never toward money.
+- `isKgItem` / `hasParts` — the only sanctioned way to branch on unit/parts;
+  `getPartsTotalInCents` / `getPartsCount` back the parts UI.
 - `CATEGORIES` / `CATEGORY_META` — the seven categories with label, hex and
   Lucide icon, plus the Tailwind class helpers
   (`getCategoryBackgroundClass`, `getCategoryTintClass`, `getCategoryTile`).
@@ -53,9 +66,17 @@ Screen behavior:
   refresh.
 - Mutations go through the store actions, never by editing `activeList` in
   place — `recomputeTotals` runs there.
-- Quantity floors at `MIN_QUANTITY = 1`; price of `null` ≠ price of `0`.
-  `applyItemChanges` distinguishes "field absent" from "explicitly null" using
-  `'field' in changes`.
+- Quantity floors at `MIN_QUANTITY = 1` for unit items; for `kg` items it is
+  clamped to `[MIN_WEIGHT_IN_GRAMS, MAX_WEIGHT_IN_GRAMS]`. Price of `null` ≠
+  price of `0`. `applyItemChanges` distinguishes "field absent" from
+  "explicitly null" using `'field' in changes`.
+- Switching `unit` from `'unit'` to `'kg'` defaults the weight to
+  `DEFAULT_WEIGHT_IN_GRAMS` unless the change carries an explicit quantity;
+  switching back resets it to `MIN_QUANTITY`. The price is preserved across
+  either switch.
+- A non-null `parts` always wins: it forces `unit: 'unit'`, `quantity: 1` and
+  `unitPriceInCents = getPartsTotalInCents(parts)`, overriding any conflicting
+  `unit`/`quantity`/`unitPriceInCents` in the same change.
 - Deleting the list is destructive and unrecoverable (no history) — it must stay
   behind a confirmation.
 
